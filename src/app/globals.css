@@ -18,9 +18,9 @@ h1 {
   @apply text-5xl font-bold text-gray-900 mb-6;
 }
 
-p {
+/* p {
   @apply text-xl text-gray-700 mb-6 text-center max-w-2xl;
-}
+} */
 
 .sidebar {
   @apply w-72 bg-white shadow-md p-4;
@@ -38,9 +38,6 @@ p {
   @apply p-2 cursor-pointer hover:bg-gray-200;
 }
 
-.video-player iframe {
-  @apply w-full h-96;
-}
 
 
 input[type="email"],
@@ -59,4 +56,37 @@ nav {
 
 .container-nav {
   @apply mx-auto px-4 py-2;
+}
+
+.text-content h1 {
+  @apply text-3xl font-bold mb-4 flex justify-center;
+}
+
+.text-content h2 {
+  @apply text-2xl font-bold mb-3 flex justify-center;
+}
+
+.text-content p {
+  @apply text-base mb-3;
+}
+
+.text-content ol {
+  @apply list-decimal list-inside mb-3;
+}
+
+.text-content li {
+  @apply mb-2;
+}
+
+
+footer {
+  @apply bg-black text-white py-8;
+}
+
+footer .container {
+  @apply mx-auto px-4;
+}
+
+footer .text-center {
+  @apply mt-4 text-sm;
 }
