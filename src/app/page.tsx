@@ -21,7 +21,7 @@ const LandingPage: React.FC = () => {
           href="/auth"
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline"
         >
-          Log ig
+          Log in
         </a>
       </div>
     </div>
