@@ -2,38 +2,56 @@
 
 import React from "react";
 import algoliasearch from "algoliasearch/lite";
-import { Hits, InstantSearch, SearchBox } from "react-instantsearch";
+import {
+  Hits,
+  InstantSearch,
+  SearchBox,
+  Highlight,
+  Configure,
+} from "react-instantsearch";
+import { SearchResponse } from "../types";
+
 const indexNameSecret = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string;
 const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APP_ID as string,
   process.env.NEXT_PUBLIC_ALGOLIA_API_KEY as string
 );
-type HitSearch = {
-  keyPhrases: string;
-  objectID: string;
-  videoTitle: string;
-};
 
-type SearchResponse = {
-  hit: HitSearch;
-  sendEvent: any;
-};
-
-function Hit(searchResponse: SearchResponse) {
+const Hit = (searchResponse: SearchResponse) => {
   const { hit } = searchResponse;
-  console.log(searchResponse);
   return (
-    <article>
-      <p>{hit.videoTitle}</p>
+    <article
+      onClick={() => {
+        console.log("clicked!!!");
+      }}
+    >
+      <button>
+        <p>
+          <Highlight attribute="videoTitle" hit={hit} />
+        </p>
+      </button>
     </article>
   );
-}
+};
+const queryHook = (query: string, search: (a: string) => any) => {
+  console.log(query, search);
+  //search(query);
+};
 
 const AlgoliaSearchComponent = () => {
   return (
     <InstantSearch indexName={indexNameSecret} searchClient={searchClient}>
-      <SearchBox placeholder="Busca por temas" />
-      <Hits hitComponent={Hit} />
+      <Configure hitsPerPage={7} />
+      <div className="p-4 ">
+        <SearchBox
+          queryHook={queryHook}
+          placeholder="Busca por temas"
+          className="text-black w-full p-2 m-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <div className="mt-4">
+          <Hits hitComponent={Hit} />
+        </div>
+      </div>
     </InstantSearch>
   );
 };
