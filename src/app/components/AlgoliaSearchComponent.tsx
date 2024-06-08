@@ -10,14 +10,13 @@ import {
   Configure,
 } from "react-instantsearch";
 import { SearchResponse } from "../types";
+console.log("enmviropnement", process.env.ALGOLIA_APP_ID);
 
-const indexNameSecret = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string;
+const indexNameSecret = process.env.ALGOLIA_INDEX_NAME as string;
 const searchClient = algoliasearch(
-  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID as string,
-  process.env.NEXT_PUBLIC_ALGOLIA_API_KEY as string
+  process.env.ALGOLIA_APP_ID as string,
+  process.env.ALGOLIA_API_KEY as string
 );
-
-console.log("enmviropnement", process.env.NEXT_PUBLIC_ALGOLIA_APP_ID);
 
 const Hit = (searchResponse: SearchResponse) => {
   const { hit } = searchResponse;
