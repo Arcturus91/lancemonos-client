@@ -17,6 +17,8 @@ const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_API_KEY as string
 );
 
+console.log("enmviropnement", process.env.NEXT_PUBLIC_ALGOLIA_APP_ID);
+
 const Hit = (searchResponse: SearchResponse) => {
   const { hit } = searchResponse;
   return (
