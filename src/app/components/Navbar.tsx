@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import AlgoliaSearchComponent from "./AlgoliaSearchComponent";
 
 const Navbar: React.FC = () => {
   return (
@@ -23,14 +24,7 @@ const Navbar: React.FC = () => {
             Log In
           </Link>
           <div className="relative">
-            <input
-              type="text"
-              placeholder="Search"
-              className="px-2 py-1 rounded-l border-2 border-gray-400 text-black"
-            />
-            <button className="bg-white text-black px-2 py-1 border-2 border-gray-400 border-l-0 rounded-r">
-              🔍
-            </button>
+            <AlgoliaSearchComponent />
           </div>
         </div>
       </div>
