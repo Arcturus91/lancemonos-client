@@ -12,7 +12,7 @@ const LandingPage: React.FC = () => {
       </p>
       <div className="flex items-center justify-between">
         <a
-          href="/programa"
+          href="/courses"
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline"
         >
           Go to Program
