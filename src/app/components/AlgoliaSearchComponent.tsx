@@ -2,12 +2,11 @@ import React, {
   useRef,
   useEffect,
   useState,
-  MouseEvent,
   ChangeEvent,
+  MouseEvent as ReactMouseEvent,
 } from "react";
 import algoliasearch from "algoliasearch/lite";
-
-import { HitSearch } from "../types"; // Adjust the type imports as necessary
+import { HitSearch } from "../types";
 import SuggestionsListComponent from "./Autocomplete";
 
 const indexNameSecret = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string;
@@ -22,12 +21,26 @@ const AlgoliaSearchComponent = () => {
   const [input, setInput] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [availableToResearch, setAvailableToResearch] = useState<boolean>(true);
+  const newRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!availableToResearch) return;
-    if (input.length < 3) return;
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (newRef.current && !newRef.current.contains(event.target as Node)) {
+        if (showSuggestions) setShowSuggestions(false);
+        setAvailableToResearch(true);
+        setInput("");
+      }
+    };
 
-    console.log("ALOGLI REACHED");
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [showSuggestions]);
+
+  useEffect(() => {
+    if (!availableToResearch || input.length < 3) return;
+
     setShowSuggestions(true);
     index.search(input).then(({ hits }) => {
       const arraySuggestions: string[] = hits.map(
@@ -46,25 +59,6 @@ const AlgoliaSearchComponent = () => {
     setInput(suggestion);
     setShowSuggestions(false);
     setAvailableToResearch(false);
-  };
-
-  const newRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  });
-
-  const handleOutsideClick = (e: any) => {
-    console.log("click", e, newRef);
-    if (newRef.current && !newRef.current.contains(e.target)) {
-      console.log("Outside click");
-      if (showSuggestions) setShowSuggestions(false);
-      setAvailableToResearch(true);
-      setInput("");
-    }
   };
 
   return (
