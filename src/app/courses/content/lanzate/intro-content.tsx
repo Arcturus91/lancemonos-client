@@ -55,3 +55,17 @@ export const introVideoUrls: { [key: string]: string } = {
   "NO OBLIGATORIO: Cómo Implementar el 'Darlo Todo'":
     "https://df38qf2tnpcai.cloudfront.net/como-implementar-el-darlo-todo.mp4",
 };
+
+const titleList = [
+  "1. Introduction",
+  "2. El Marco",
+  "3. Sitema N.O.M.A.S.",
+  "4. Sistema Lancémonos",
+  "5. Círculos Sociales",
+  "6. Citas",
+  "7. Chats y Apps de Citas",
+  "8. Relaciones",
+  "9. Sesiones de Análisis de Interacciones",
+  "10. Sesiones de Juegos de Roles",
+  "11. Sesiones de Mentalidad",
+];

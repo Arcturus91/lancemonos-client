@@ -18,12 +18,8 @@ h1 {
   @apply text-5xl font-bold text-gray-900 mb-6;
 }
 
-/* p {
-  @apply text-xl text-gray-700 mb-6 text-center max-w-2xl;
-} */
-
 .sidebar {
-  @apply w-72 bg-white shadow-md p-4;
+  @apply w-1/4 bg-white shadow-md p-4;
 }
 
 .main-content {
