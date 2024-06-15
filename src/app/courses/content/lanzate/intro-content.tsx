@@ -32,26 +32,3 @@ export const present24hrsHTML = `
   <li>¿Cuáles fueron las actividades que no te dieron ninguna gana hacer enfocado?</li>
 </ol>
 `;
-
-export const introContent = [
-  "siete-reglas-mentoria",
-  "estructura-programa-lanzate",
-  "estar-presente-darlo-todo",
-  "texto-estar-presente-por-24-horas",
-  "construir-rutina-habitos",
-  "como-implementar-el-darlo-todo",
-];
-
-const titleList = [
-  "1. Introduction",
-  "2. El Marco",
-  "3. Sitema N.O.M.A.S.",
-  "4. Sistema Lancémonos",
-  "5. Círculos Sociales",
-  "6. Citas",
-  "7. Chats y Apps de Citas",
-  "8. Relaciones",
-  "9. Sesiones de Análisis de Interacciones",
-  "10. Sesiones de Juegos de Roles",
-  "11. Sesiones de Mentalidad",
-];

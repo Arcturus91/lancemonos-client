@@ -4,7 +4,7 @@ const sectionOneContentList = [
   "siete-reglas-mentoria",
   "estructura-programa-lanzate",
   "estar-presente-darlo-todo",
-  "texto-estar-presente-por-24-horas",
+  "text-estar-presente-por-24-horas",
   "construir-rutina-habitos",
   "como-implementar-el-darlo-todo",
 ];
@@ -47,7 +47,7 @@ export const allVideoUrls: { [key: string]: string } = {
     "https://df38qf2tnpcai.cloudfront.net/estructura-programa-lanzate.mp4",
   "estar-presente-darlo-todo":
     "https://df38qf2tnpcai.cloudfront.net/estar-presente-darlo-todo.mov",
-  "texto-estar-presente-por-24-horas": present24hrsHTML,
+  "text-estar-presente-por-24-horas": present24hrsHTML,
   "construir-rutina-habitos":
     "https://df38qf2tnpcai.cloudfront.net/construir-rutina-habitos.MOV",
   "como-implementar-el-darlo-todo":

@@ -4,17 +4,14 @@ import React, { useState, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import VideoPlayer from "./components/VideoPlayer";
-import {
-  introContent,
-  present24hrsHTML,
-} from "./content/lanzate/intro-content";
+import { present24hrsHTML } from "./content/lanzate/intro-content";
 import TextContent from "./components/TextContent";
 import CollapsibleContentList from "./components/CollapsibleContentList";
 import { allVideoUrls, contentList } from "./content/lanzate/ContentList";
 
 const LanzateProgramPage: React.FC = () => {
   const [contentType, setContentType] = useState("video");
-  const [selectedItem, setSelectedItem] = useState(introContent[0]);
+  const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -23,7 +20,7 @@ const LanzateProgramPage: React.FC = () => {
     setSelectedItem(item);
     console.log("selected from page", item);
     router.push(`courses/?item=${item}`);
-    if (item.includes("(T)")) {
+    if (item.includes("text")) {
       setContentType("text");
     } else {
       setContentType("video");
@@ -34,6 +31,8 @@ const LanzateProgramPage: React.FC = () => {
     const item = searchParams.get("item");
     if (item && typeof item === "string") {
       setSelectedItem(item);
+    } else if (!item) {
+      setSelectedItem("");
     }
   }, [pathname, searchParams]);
 
@@ -46,10 +45,14 @@ const LanzateProgramPage: React.FC = () => {
         />
       </div>
       <div className="main-content ml-4">
-        {contentType === "video" ? (
-          <VideoPlayer videoUrl={allVideoUrls[selectedItem]} />
-        ) : (
-          <TextContent htmlContent={present24hrsHTML} />
+        {selectedItem &&
+          (contentType === "video" ? (
+            <VideoPlayer videoUrl={allVideoUrls[selectedItem]} />
+          ) : (
+            <TextContent htmlContent={present24hrsHTML} />
+          ))}
+        {!selectedItem && (
+          <h1 className="text-center">Bienvenido al programa</h1>
         )}
       </div>
     </div>
