@@ -8,6 +8,7 @@ import React, {
 import algoliasearch from "algoliasearch/lite";
 import { HitSearch } from "../types";
 import SuggestionsListComponent from "./Autocomplete";
+import { useRouter } from "next/navigation";
 
 const indexNameSecret = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string;
 const searchClient = algoliasearch(
@@ -22,6 +23,7 @@ const AlgoliaSearchComponent = () => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [availableToResearch, setAvailableToResearch] = useState<boolean>(true);
   const newRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -56,6 +58,8 @@ const AlgoliaSearchComponent = () => {
   };
 
   const onClick = (index: number, suggestion: string) => {
+    console.log("suiggestion algoli", suggestion);
+    router.push(`courses/?item=${suggestion}`);
     setInput(suggestion);
     setShowSuggestions(false);
     setAvailableToResearch(false);

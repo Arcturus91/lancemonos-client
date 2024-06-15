@@ -1,10 +1,12 @@
+import { present24hrsHTML } from "./intro-content";
+
 const sectionOneContentList = [
-  "7 Reglas De Nuestra Mentoría",
-  "Estructura del Programa Lánzate",
-  "Estar Presente es Darlo Todo",
-  "(T)Estar Presente por 24 horas",
-  "Construir una Rutina de Hábitos",
-  "NO OBLIGATORIO: Cómo Implementar el 'Darlo Todo'",
+  "siete-reglas-mentoria",
+  "estructura-programa-lanzate",
+  "estar-presente-darlo-todo",
+  "texto-estar-presente-por-24-horas",
+  "construir-rutina-habitos",
+  "como-implementar-el-darlo-todo",
 ];
 const sectionTwoContentList = [""];
 const sectionThreeContentList = [""];
@@ -36,4 +38,18 @@ export const contentList = {
   "9. Sesiones de Análisis de Interacciones": sectionNineContentList,
   "10. Sesiones de Juegos de Roles": sectionTenContentList,
   "11. Sesiones de Mentalidad": sectionElevenContentList,
+};
+
+export const allVideoUrls: { [key: string]: string } = {
+  "siete-reglas-mentoria":
+    "https://df38qf2tnpcai.cloudfront.net/siete-reglas-mentoria.MOV",
+  "estructura-programa-lanzate":
+    "https://df38qf2tnpcai.cloudfront.net/estructura-programa-lanzate.mp4",
+  "estar-presente-darlo-todo":
+    "https://df38qf2tnpcai.cloudfront.net/estar-presente-darlo-todo.mov",
+  "texto-estar-presente-por-24-horas": present24hrsHTML,
+  "construir-rutina-habitos":
+    "https://df38qf2tnpcai.cloudfront.net/construir-rutina-habitos.MOV",
+  "como-implementar-el-darlo-todo":
+    "https://df38qf2tnpcai.cloudfront.net/como-implementar-el-darlo-todo.mp4",
 };

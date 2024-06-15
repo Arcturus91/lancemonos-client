@@ -34,27 +34,13 @@ export const present24hrsHTML = `
 `;
 
 export const introContent = [
-  "7 Reglas De Nuestra Mentoría",
-  "Estructura del Programa Lánzate",
-  "Estar Presente es Darlo Todo",
-  "(T)Estar Presente por 24 horas",
-  "Construir una Rutina de Hábitos",
-  "NO OBLIGATORIO: Cómo Implementar el 'Darlo Todo'",
+  "siete-reglas-mentoria",
+  "estructura-programa-lanzate",
+  "estar-presente-darlo-todo",
+  "texto-estar-presente-por-24-horas",
+  "construir-rutina-habitos",
+  "como-implementar-el-darlo-todo",
 ];
-
-export const introVideoUrls: { [key: string]: string } = {
-  "7 Reglas De Nuestra Mentoría":
-    "https://df38qf2tnpcai.cloudfront.net/siete-reglas-mentoria.MOV",
-  "Estructura del Programa Lánzate":
-    "https://df38qf2tnpcai.cloudfront.net/estructura-programa-lanzate.mp4",
-  "Estar Presente es Darlo Todo":
-    "https://df38qf2tnpcai.cloudfront.net/estar-presente-darlo-todo.mov",
-  "(T)Estar Presente por 24 horas": present24hrsHTML,
-  "Construir una Rutina de Hábitos":
-    "https://df38qf2tnpcai.cloudfront.net/construir-rutina-habitos.MOV",
-  "NO OBLIGATORIO: Cómo Implementar el 'Darlo Todo'":
-    "https://df38qf2tnpcai.cloudfront.net/como-implementar-el-darlo-todo.mp4",
-};
 
 const titleList = [
   "1. Introduction",

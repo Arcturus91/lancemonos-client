@@ -3,10 +3,12 @@ import { useState } from "react";
 
 type ContentListProps = {
   contentList: { [key: string]: string[] };
+  handleSelectItem: (item: string) => void;
 };
 
 const CollapsibleContentList: React.FC<ContentListProps> = ({
   contentList,
+  handleSelectItem,
 }) => {
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>(
     {}
@@ -17,6 +19,11 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
       ...prevState,
       [key]: !prevState[key],
     }));
+  };
+
+  const selectVideo = (item: string) => {
+    console.log("item ckiekc", item);
+    handleSelectItem(item);
   };
 
   return (
@@ -32,7 +39,11 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
           {openSections[category] && (
             <ul className="pl-4 mt-2 space-y-1">
               {contentList[category].map((item, index) => (
-                <li className="text-sm ms-2 py-1" key={index}>
+                <li
+                  className="text-sm ms-2 py-1"
+                  key={index}
+                  onClick={() => selectVideo(item)}
+                >
                   {item}{" "}
                 </li>
               ))}
