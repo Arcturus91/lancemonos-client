@@ -43,13 +43,19 @@ const AlgoliaSearchComponent = () => {
   useEffect(() => {
     if (!availableToResearch || input.length < 3) return;
 
-    setShowSuggestions(true);
-    index.search(input).then(({ hits }) => {
-      const arraySuggestions: string[] = hits.map(
-        (h: Partial<HitSearch>) => h.videoTitle ?? "video no encontrado"
-      );
-      setSuggestions(arraySuggestions);
-    });
+    const fetchSuggestions = async () => {
+      try {
+        setShowSuggestions(true);
+        const { hits } = await index.search(input);
+        const arraySuggestions: string[] = hits.map(
+          (h: Partial<HitSearch>) => h.videoTitle ?? "video no encontrado"
+        );
+        setSuggestions(arraySuggestions);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchSuggestions();
   }, [input, availableToResearch]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
