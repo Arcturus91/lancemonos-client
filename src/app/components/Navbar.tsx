@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 import Autocomplete from "./Autocomplete";
 const Navbar: React.FC = () => {
   const path = usePathname();
-  console.log(path);
 
   return (
     <nav className="bg-black text-white">

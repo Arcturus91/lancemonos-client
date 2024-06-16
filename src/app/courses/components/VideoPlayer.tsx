@@ -5,7 +5,6 @@ type VideoPlayerProps = {
 };
 
 const VideoPlayer: React.FC<any> = ({ videoUrl }) => {
-  console.log("url video sent", videoUrl);
   return (
     <div className="video-player flex justify-center">
       <p>video loaded {videoUrl}</p>

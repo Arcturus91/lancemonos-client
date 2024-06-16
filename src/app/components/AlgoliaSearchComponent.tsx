@@ -66,7 +66,6 @@ const AlgoliaSearchComponent = () => {
   };
 
   const onClick = (index: number, suggestion: string) => {
-    console.log("suiggestion algoli", suggestion);
     router.push(`courses/?item=${suggestion}`);
     setInput(suggestion);
     setShowSuggestions(false);

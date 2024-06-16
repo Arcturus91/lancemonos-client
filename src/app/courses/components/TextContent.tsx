@@ -5,7 +5,6 @@ type TextContentProps = {
 };
 
 const TextContent: React.FC<TextContentProps> = ({ htmlContent }) => {
-  console.log(`TextContent`);
   return (
     <div
       className="text-content"

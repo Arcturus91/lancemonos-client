@@ -22,7 +22,6 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
   };
 
   const selectVideo = (item: string) => {
-    console.log("item ckiekc", item);
     handleSelectItem(item);
   };
 
