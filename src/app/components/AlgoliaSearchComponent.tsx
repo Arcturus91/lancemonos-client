@@ -5,17 +5,10 @@ import React, {
   ChangeEvent,
   MouseEvent as ReactMouseEvent,
 } from "react";
-import algoliasearch from "algoliasearch/lite";
+
 import { HitSearch } from "../types";
 import SuggestionsListComponent from "./Autocomplete";
 import { useRouter } from "next/navigation";
-
-const indexNameSecret = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string;
-const searchClient = algoliasearch(
-  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID as string,
-  process.env.NEXT_PUBLIC_ALGOLIA_API_KEY as string
-);
-const index = searchClient.initIndex(indexNameSecret);
 
 const AlgoliaSearchComponent = () => {
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -46,7 +39,16 @@ const AlgoliaSearchComponent = () => {
     const fetchSuggestions = async () => {
       try {
         setShowSuggestions(true);
-        const { hits } = await index.search(input);
+
+        const algoliaResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/algolia?query=${input}`
+        );
+
+        if (!algoliaResponse.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const { hits } = await algoliaResponse.json();
         const arraySuggestions: string[] = hits.map(
           (h: Partial<HitSearch>) => h.videoTitle ?? "video no encontrado"
         );
