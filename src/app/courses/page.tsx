@@ -18,7 +18,7 @@ const LanzateProgramPage: React.FC = () => {
 
   const handleSelectItem = (item: string) => {
     setSelectedItem(item);
-    console.log("selected from page", item);
+    console.log("selected from pagee", item);
     router.push(`courses/?item=${item}`);
     if (item.includes("text")) {
       setContentType("text");
