@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 
 const VideoKeyphrases = () => {
-  const [keyPhrases, setKeyPhrases] = useState<string[]>([""]);
+  const [keyPhrases, setKeyPhrases] = useState<string[]>([]);
+  const [editedKeyPhrases, setEditedKeyPhrases] = useState<string[]>([]);
+
   useEffect(() => {
     const getKeyPhrasesArray = async () => {
       const response = await fetch(
@@ -16,7 +18,7 @@ const VideoKeyphrases = () => {
       );
 
       if (!response.ok) {
-        console.error("error fetching", response);
+        console.error("Error fetching", response);
       }
       const data = await response.json();
       return data.keyphrases;
@@ -26,7 +28,8 @@ const VideoKeyphrases = () => {
       try {
         const keyPhrasesArray = await getKeyPhrasesArray();
         setKeyPhrases(keyPhrasesArray);
-        console.log("keyphrases array", keyPhrasesArray);
+        setEditedKeyPhrases(keyPhrasesArray);
+        console.log("Keyphrases array", keyPhrasesArray);
       } catch (error) {
         console.error("Error fetching key phrases:", error);
       }
@@ -35,15 +38,59 @@ const VideoKeyphrases = () => {
     fetchAndSetKeyPhrases();
   }, []);
 
+  const handleEdit = (index: number, value: string) => {
+    const newKeyPhrases = [...editedKeyPhrases];
+    newKeyPhrases[index] = value;
+    setEditedKeyPhrases(newKeyPhrases);
+  };
+
+  const handleSave = () => {
+    console.log("Saved key phrases:", editedKeyPhrases);
+    // TODO: Implement API call to save edited key phrases
+  };
+
   return (
-    <div>
-      <h1>Video Keyphrases</h1>
-      {keyPhrases.length > 0 && (
-        <ul>
-          {keyPhrases.map((keyPhrase, index) => (
-            <li key={index}>{keyPhrase}</li>
-          ))}
-        </ul>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+      <h1 className="text-2xl font-bold mb-4">Video Keyphrases</h1>
+      {editedKeyPhrases.length > 0 && (
+        <div className="w-full max-w-md bg-white shadow-md rounded-lg p-4">
+          <table className="min-w-full border-collapse">
+            <thead>
+              <tr>
+                <th className="text-left p-2 border-b">Key Phrase</th>
+                <th className="text-left p-2 border-b">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {editedKeyPhrases.map((keyPhrase, index) => (
+                <tr key={index}>
+                  <td className="p-2 border-b">
+                    <input
+                      type="text"
+                      value={keyPhrase}
+                      onChange={(e) => handleEdit(index, e.target.value)}
+                      className="w-full p-1 border rounded"
+                    />
+                  </td>
+                  <td className="p-2 border-b">
+                    <button
+                      onClick={() => handleEdit(index, "")}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button
+            onClick={handleSave}
+            className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          >
+            Save
+          </button>
+        </div>
       )}
     </div>
   );
