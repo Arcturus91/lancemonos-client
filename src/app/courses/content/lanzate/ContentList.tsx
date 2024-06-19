@@ -42,14 +42,14 @@ export const contentList = {
 
 export const allVideoUrls: { [key: string]: string } = {
   "siete-reglas-mentoria":
-    "https://df38qf2tnpcai.cloudfront.net/siete-reglas-mentoria.MOV",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/siete-reglas-mentoria.MOV",
   "estructura-programa-lanzate":
-    "https://df38qf2tnpcai.cloudfront.net/estructura-programa-lanzate.mp4",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/estructura-programa-lanzate.mp4",
   "estar-presente-darlo-todo":
-    "https://df38qf2tnpcai.cloudfront.net/estar-presente-darlo-todo.mov",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/estar-presente-darlo-todo.mov",
   "text-estar-presente-por-24-horas": present24hrsHTML,
   "construir-rutina-habitos":
-    "https://df38qf2tnpcai.cloudfront.net/construir-rutina-habitos.MOV",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/construir-rutina-habitos.MOV",
   "como-implementar-el-darlo-todo":
-    "https://df38qf2tnpcai.cloudfront.net/como-implementar-el-darlo-todo.mp4",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/como-implementar-el-darlo-todo.mp4",
 };
