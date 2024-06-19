@@ -14,7 +14,7 @@ export async function GET(request: Request) {
 
   const params = {
     Bucket: "lancemonos-video-keyphrases",
-    Key: "keyphrases-171881387520.json",
+    Key: "keyphrases-1718813875206.json",
   };
 
   try {
