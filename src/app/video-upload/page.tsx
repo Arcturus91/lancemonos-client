@@ -15,7 +15,7 @@ export default function Page() {
     }
 
     setUploading(true);
-
+    console.log("pre fetch");
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_BASE_URL + "/upload",
       {
@@ -26,7 +26,7 @@ export default function Page() {
         body: JSON.stringify({ filename: file.name, contentType: file.type }),
       }
     );
-
+    console.log("post fetch");
     if (response.ok) {
       const { url, fields } = await response.json();
 

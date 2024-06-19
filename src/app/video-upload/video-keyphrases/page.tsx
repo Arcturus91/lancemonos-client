@@ -7,8 +7,10 @@ const VideoKeyphrases = () => {
 
   useEffect(() => {
     const getKeyPhrasesArray = async () => {
+      const videoName = "cosas-esenciales-primera-cita";
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_BASE_URL + "/video-keyphrases",
+        process.env.NEXT_PUBLIC_API_BASE_URL +
+          `/video-keyphrases?video-name=${videoName}`,
         {
           method: "GET",
           headers: {

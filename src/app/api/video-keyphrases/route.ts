@@ -1,20 +1,15 @@
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { Readable } from "stream";
-
-const streamToString = (stream: Readable): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    stream.on("data", (chunk) => chunks.push(chunk));
-    stream.on("error", reject);
-    stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
-  });
+import { streamToString } from "../utils/streamToString";
 
 export async function GET(request: Request) {
   const s3Client = new S3Client({ region: process.env.AWS_REGION });
-
+  const { searchParams } = new URL(request.url);
+  const videoName = searchParams.get("video-name");
+  console.log("video-name", videoName);
   const params = {
     Bucket: "lancemonos-video-keyphrases",
-    Key: "keyphrases-1718813875206.json",
+    Key: `keyphrases-${videoName}.json`,
   };
 
   try {
