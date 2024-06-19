@@ -6,7 +6,7 @@ import React, {
   MouseEvent as ReactMouseEvent,
 } from "react";
 
-import { HitSearch } from "../types";
+import { HitSearch } from "../../types";
 import SuggestionsListComponent from "./Autocomplete";
 import { useRouter } from "next/navigation";
 

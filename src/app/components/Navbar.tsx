@@ -2,10 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import Autocomplete from "./Autocomplete";
-import AlgoliaSearchComponent from "./AlgoliaSearchComponent";
+import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent";
 const Navbar: React.FC = () => {
   const path = usePathname();
 
