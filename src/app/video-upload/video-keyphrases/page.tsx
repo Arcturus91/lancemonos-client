@@ -47,7 +47,8 @@ const VideoKeyphrases = () => {
   };
 
   const handleSave = () => {
-    console.log("Saved key phrases:", editedKeyPhrases);
+    const finalKeyPhrases = editedKeyPhrases.filter((key) => key.length > 3);
+    console.log("Saved key phrases:", finalKeyPhrases);
     // TODO: Implement API call to save edited key phrases
   };
 
