@@ -27,6 +27,9 @@ const Navbar: React.FC = () => {
           <Link href="/auth" className="text-white hover:text-gray-400">
             Log In
           </Link>
+          <Link href="/video-upload" className="text-white hover:text-gray-400">
+            Video Upload
+          </Link>
           {path === "/courses" && (
             <div className="p-4 text-black">
               <AlgoliaSearchComponent />

@@ -24,7 +24,7 @@ const VideoUpload = () => {
         body: JSON.stringify({ filename: file.name, contentType: file.type }),
       }
     );
-    console.log("post fetch");
+    console.log("post fetch", response.json());
     if (response.ok) {
       const { url, fields } = await response.json();
 

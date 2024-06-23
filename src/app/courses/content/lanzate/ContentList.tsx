@@ -9,14 +9,14 @@ const sectionOneContentList = [
   "como-implementar-el-darlo-todo",
 ];
 const sectionTwoContentList = [""];
-const sectionThreeContentList = [""];
+const sectionThreeContentList = ["sistema-lancemonos-nomas"];
 const sectionFourContentList = [""];
 const sectionFiveContentList = [""];
 const sectionSixContentList = [
   "cosas-esenciales-primera-cita",
   "ANÁLISIS. Cita exitosa",
   "ANÁLISIS: Cita Instantanea exitosa",
-  "ANÁLISIS: Cita con Problemas de Escalada",
+  "analisis-cita-con-problemas-de-escalada",
   "ANÁLISIS: Cita Instantanea Leonardo",
   "Citas Con Final Feliz con Jean Carlos Sánchez",
 ];
@@ -54,4 +54,8 @@ export const allVideoUrls: { [key: string]: string } = {
     "https://df38qf2tnpcai.cloudfront.net/introduccion/como-implementar-el-darlo-todo.mp4",
   "cosas-esenciales-primera-cita":
     "https://df38qf2tnpcai.cloudfront.net/citas/cosas-esenciales-primera-cita.mp4",
+  "analisis-cita-con-problemas-de-escalada":
+    "https://df38qf2tnpcai.cloudfront.net/citas/analisis-cita-con-problemas-de-escalada.mp4",
+  "sistema-lancemonos-nomas":
+    "https://df38qf2tnpcai.cloudfront.net/sistema/sistema-lancemonos-nomas.mp4",
 };

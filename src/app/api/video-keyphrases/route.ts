@@ -18,9 +18,8 @@ export async function GET(request: Request) {
     const contentS3 = JSON.parse(bodyContents);
     console.log("contentS3", contentS3);
     return new Response(JSON.stringify(contentS3));
-  } catch (err: any) {
-    console.log("Error reading JSON from S3:", err);
-    const errorMessage = { errorReason: err?.name };
-    return new Response(JSON.stringify(errorMessage));
+  } catch (error: any) {
+    console.log("Error reading JSON from S3:", error);
+    return new Response(JSON.stringify(error));
   }
 }
