@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import VideoUpload from "./components/VideoUpload";
 import VideoSearchKeyphrases from "./components/VideoSearchKeyphrases";
 
