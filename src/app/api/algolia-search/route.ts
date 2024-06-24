@@ -9,13 +9,14 @@ const index = searchClient.initIndex(indexNameSecret);
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
+    const { searchParams } = new URL(request?.url);
     const query = searchParams.get("query");
     if (!query) return;
     const algoliaData = await index.search(query);
 
     return new Response(JSON.stringify(algoliaData));
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
+    return Response.json({ error });
   }
 }

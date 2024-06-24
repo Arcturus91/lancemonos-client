@@ -24,5 +24,6 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify(algoliaData));
   } catch (error) {
     console.log("error fetching", error);
+    return Response.json({ error });
   }
 }
