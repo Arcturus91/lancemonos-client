@@ -9,12 +9,11 @@ const VideoSearchKeyphrases = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("handleSubmit", videoName);
+
     router.push(`/video-upload/video-keyphrases/?video-name=${videoName}`);
   };
 
   const handleInputTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("text", e.target.value);
     setVideoName(e.target.value);
   };
 

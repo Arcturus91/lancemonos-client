@@ -66,7 +66,6 @@ const VideoKeyphrases = () => {
   const handleSave = () => {
     const videoName = searchParams.get("video-name");
     const finalKeyPhrases = editedKeyPhrases.filter((key) => key.length > 3);
-    console.log("Saved key phrases:", finalKeyPhrases);
     //!SI modificamos los keyphrases, estos deberían ir tmb al s3 bucket tal qe si quieres  modificar de nuevo, comienzas desde la última modificación
     const saveKeyPhrasesInAlgolia = async (finalKeyPhrases: string[]) => {
       const response = await fetch(
