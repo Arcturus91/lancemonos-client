@@ -9,6 +9,10 @@ import TextContent from "./components/TextContent";
 import CollapsibleContentList from "./components/CollapsibleContentList";
 import { allVideoUrls, contentList } from "./content/lanzate/ContentList";
 
+function FallBack() {
+  return <h2 className="text-red-500">Cargando...</h2>;
+}
+
 const LanzateProgramPage: React.FC = () => {
   const [contentType, setContentType] = useState("video");
   const [selectedItem, setSelectedItem] = useState("");
@@ -36,25 +40,29 @@ const LanzateProgramPage: React.FC = () => {
   }, [pathname, searchParams]);
 
   return (
-    <div className="container-programa flex">
-      <div className="sidebar">
-        <CollapsibleContentList
-          contentList={contentList}
-          handleSelectItem={handleSelectItem}
-        />
-      </div>
-      <div className="main-content ml-4">
-        {selectedItem &&
-          (contentType === "video" ? (
-            <VideoPlayer videoUrl={allVideoUrls[selectedItem]} />
-          ) : (
-            <TextContent htmlContent={present24hrsHTML} />
-          ))}
-        {!selectedItem && (
-          <h1 className="text-center">Bienvenido al programa</h1>
-        )}
-      </div>
-    </div>
+    <>
+      <Suspense fallback={<FallBack />}>
+        <div className="container-programa flex">
+          <div className="sidebar">
+            <CollapsibleContentList
+              contentList={contentList}
+              handleSelectItem={handleSelectItem}
+            />
+          </div>
+          <div className="main-content ml-4">
+            {selectedItem &&
+              (contentType === "video" ? (
+                <VideoPlayer videoUrl={allVideoUrls[selectedItem]} />
+              ) : (
+                <TextContent htmlContent={present24hrsHTML} />
+              ))}
+            {!selectedItem && (
+              <h1 className="text-center">Bienvenido al programa</h1>
+            )}
+          </div>
+        </div>
+      </Suspense>
+    </>
   );
 };
 

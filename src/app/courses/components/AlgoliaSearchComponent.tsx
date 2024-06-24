@@ -6,7 +6,7 @@ import React, {
   MouseEvent as ReactMouseEvent,
 } from "react";
 
-import { HitSearch } from "../types";
+import { HitSearch } from "../../types";
 import SuggestionsListComponent from "./Autocomplete";
 import { useRouter } from "next/navigation";
 
@@ -41,7 +41,7 @@ const AlgoliaSearchComponent = () => {
         setShowSuggestions(true);
 
         const algoliaResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/algolia?query=${input}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/algolia-search?query=${input}`
         );
 
         if (!algoliaResponse.ok) {

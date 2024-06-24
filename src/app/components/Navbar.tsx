@@ -2,10 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import AlgoliaSearchComponent from "./AlgoliaSearchComponent";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import Autocomplete from "./Autocomplete";
+import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent";
 const Navbar: React.FC = () => {
   const path = usePathname();
 
@@ -28,6 +26,9 @@ const Navbar: React.FC = () => {
         <div className="flex items-center space-x-4">
           <Link href="/auth" className="text-white hover:text-gray-400">
             Log In
+          </Link>
+          <Link href="/video-upload" className="text-white hover:text-gray-400">
+            Video Upload
           </Link>
           {path === "/courses" && (
             <div className="p-4 text-black">

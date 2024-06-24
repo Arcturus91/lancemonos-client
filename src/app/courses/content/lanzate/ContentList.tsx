@@ -9,14 +9,14 @@ const sectionOneContentList = [
   "como-implementar-el-darlo-todo",
 ];
 const sectionTwoContentList = [""];
-const sectionThreeContentList = [""];
+const sectionThreeContentList = ["sistema-lancemonos-nomas"];
 const sectionFourContentList = [""];
 const sectionFiveContentList = [""];
 const sectionSixContentList = [
-  "Cosas Esenciales de la Primera Cita",
+  "cosas-esenciales-primera-cita",
   "ANÁLISIS. Cita exitosa",
   "ANÁLISIS: Cita Instantanea exitosa",
-  "ANÁLISIS: Cita con Problemas de Escalada",
+  "analisis-cita-con-problemas-de-escalada",
   "ANÁLISIS: Cita Instantanea Leonardo",
   "Citas Con Final Feliz con Jean Carlos Sánchez",
 ];
@@ -42,14 +42,20 @@ export const contentList = {
 
 export const allVideoUrls: { [key: string]: string } = {
   "siete-reglas-mentoria":
-    "https://df38qf2tnpcai.cloudfront.net/siete-reglas-mentoria.MOV",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/siete-reglas-mentoria.MOV",
   "estructura-programa-lanzate":
-    "https://df38qf2tnpcai.cloudfront.net/estructura-programa-lanzate.mp4",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/estructura-programa-lanzate.mp4",
   "estar-presente-darlo-todo":
-    "https://df38qf2tnpcai.cloudfront.net/estar-presente-darlo-todo.mov",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/estar-presente-darlo-todo.mov",
   "text-estar-presente-por-24-horas": present24hrsHTML,
   "construir-rutina-habitos":
-    "https://df38qf2tnpcai.cloudfront.net/construir-rutina-habitos.MOV",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/construir-rutina-habitos.MOV",
   "como-implementar-el-darlo-todo":
-    "https://df38qf2tnpcai.cloudfront.net/como-implementar-el-darlo-todo.mp4",
+    "https://df38qf2tnpcai.cloudfront.net/introduccion/como-implementar-el-darlo-todo.mp4",
+  "cosas-esenciales-primera-cita":
+    "https://df38qf2tnpcai.cloudfront.net/citas/cosas-esenciales-primera-cita.mp4",
+  "analisis-cita-con-problemas-de-escalada":
+    "https://df38qf2tnpcai.cloudfront.net/citas/analisis-cita-con-problemas-de-escalada.mp4",
+  "sistema-lancemonos-nomas":
+    "https://df38qf2tnpcai.cloudfront.net/sistema/sistema-lancemonos-nomas.mp4",
 };
