@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 //import { useAuth } from "../../context/AuthContext";
 
@@ -7,9 +8,42 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const router = useRouter();
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // login(email, password);
+    console.log("Login data", e, email, password);
+
+    try {
+      const apiGatewayResponse = await fetch(
+        "https://q8k8prlpy5.execute-api.sa-east-1.amazonaws.com/prod/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.NEXT_PUBLIC_API_GATEWAY_KEY as string,
+          },
+          body: JSON.stringify({ email, password }),
+          credentials: "include", // This is crucial for receiving and sending cookies
+        }
+      );
+
+      if (!apiGatewayResponse.ok) {
+        throw new Error(`HTTP error! status: ${apiGatewayResponse.status}`);
+      }
+
+      const responseData = await apiGatewayResponse.json();
+      console.log("API Gateway response:", responseData);
+
+      if (responseData.message === "cookieTokenAdded") {
+        router.push("/courses");
+      }
+
+      return responseData;
+    } catch (error) {
+      console.error("Login error:", error);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
   };
 
   return (
