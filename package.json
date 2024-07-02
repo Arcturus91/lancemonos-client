@@ -13,6 +13,7 @@
     "@aws-sdk/s3-presigned-post": "^3.598.0",
     "algoliasearch": "^4.23.3",
     "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",

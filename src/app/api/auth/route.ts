@@ -1,5 +1,10 @@
 import { cookies } from "next/headers";
 
+const ONE_SECOND = 1000;
+const ONE_MINUTE = ONE_SECOND * 60;
+const ONE_HOUR = ONE_MINUTE * 60;
+const ONE_DAY = ONE_HOUR * 24;
+
 export async function POST(request: Request) {
   const { email, password } = await request.json();
   console.log("pre post api gateway", email, password);
@@ -22,7 +27,7 @@ export async function POST(request: Request) {
 
     const user = body.user;
     console.log(body);
-    const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const expires = new Date(Date.now() + ONE_HOUR);
     cookies().set({
       name: "auth-token",
       value: token,
