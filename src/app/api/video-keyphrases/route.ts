@@ -1,6 +1,6 @@
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { Readable } from "stream";
-import { streamToString } from "../utils/streamToString";
+import { streamToString } from "../utils-serverSide/streamToString";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
