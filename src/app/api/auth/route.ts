@@ -27,13 +27,15 @@ export async function POST(request: Request) {
 
     const user = body.user;
     console.log(body);
-    const expires = new Date(Date.now() + ONE_HOUR);
+    const maxAge = 60 * 60;
     cookies().set({
       name: "auth-token",
       value: token,
       httpOnly: true,
       path: "/",
-      expires,
+      maxAge,
+      secure: process.env.NODE_ENV === "production", // Use secure in production
+      sameSite: "strict",
     });
 
     console.log("api gateway login response:", apiGatewayLogin);
