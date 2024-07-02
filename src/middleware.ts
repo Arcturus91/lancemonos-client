@@ -1,8 +1,16 @@
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const session = cookies().get("auth-token")?.value;
+
   console.log("session", session);
-  return null;
+  if (!session) {
+    return NextResponse.redirect(new URL("/auth", request.url));
+  }
 }
+
+export const config = {
+  matcher: ["/courses/:path*", "/video-upload/:path*"],
+};

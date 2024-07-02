@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { apiGatewayResponse } from "../lib/actions";
+
 //import { useAuth } from "../../context/AuthContext";
 
 const LoginPage: React.FC = () => {
@@ -13,10 +13,17 @@ const LoginPage: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login data", e, email, password);
+    console.log("Login data", e);
 
     try {
-      const response = await apiGatewayResponse(email, password);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth`,
+        {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
       if (!response.ok) {
         throw new Error(JSON.stringify(await response.json()));
       }
@@ -24,7 +31,7 @@ const LoginPage: React.FC = () => {
       const responseData = await response.json();
       console.log("API Gateway response:", responseData);
 
-      if (responseData.message === "cookieTokenAdded") {
+      if (responseData.message === "tokenAdded") {
         router.push("/courses");
       }
 
