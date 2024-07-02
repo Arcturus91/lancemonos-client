@@ -18,7 +18,7 @@ const LoginPage: React.FC = () => {
     try {
       const response = await apiGatewayResponse(email, password);
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(JSON.stringify(await response.json()));
       }
 
       const responseData = await response.json();
@@ -29,8 +29,8 @@ const LoginPage: React.FC = () => {
       }
 
       return responseData;
-    } catch (error) {
-      console.error("Login error:", error);
+    } catch (error: any) {
+      console.log("error ====>", error.message);
       //! Handle the error appropriately (e.g., show an error message to the user)
     }
   };

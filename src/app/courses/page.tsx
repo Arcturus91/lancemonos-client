@@ -8,14 +8,12 @@ import { present24hrsHTML } from "./content/lanzate/intro-content";
 import TextContent from "./components/TextContent";
 import CollapsibleContentList from "./components/CollapsibleContentList";
 import { allVideoUrls, contentList } from "./content/lanzate/ContentList";
-import useAuthVerification from "../hooks/useAuthVerification";
 
 function FallBack() {
   return <h2 className="text-red-500">Cargando...</h2>;
 }
 
 const LanzateProgramPage: React.FC = () => {
-  const isVerified = useAuthVerification(); // Use the custom hook
   const [contentType, setContentType] = useState("video");
   const [selectedItem, setSelectedItem] = useState("");
   const router = useRouter();
@@ -40,11 +38,6 @@ const LanzateProgramPage: React.FC = () => {
       setSelectedItem("");
     }
   }, [pathname, searchParams]);
-
-  if (isVerified === null) {
-    // Render a loading state while verification is in progress
-    return <div>Authenticating...</div>;
-  }
 
   return (
     <>
