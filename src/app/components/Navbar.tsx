@@ -2,10 +2,25 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent";
+import { useAuth } from "../hooks/useAuth";
+
 const Navbar: React.FC = () => {
   const path = usePathname();
+  const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth-logout`, {
+        method: "POST",
+      });
+      router.push("/"); // Redirect to home page after logout
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <nav className="bg-black text-white">
@@ -24,12 +39,28 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Link href="/auth" className="text-white hover:text-gray-400">
-            Log In
-          </Link>
-          <Link href="/video-upload" className="text-white hover:text-gray-400">
-            Video Upload
-          </Link>
+          {isLoading ? (
+            <span>Loading...</span>
+          ) : isAuthenticated ? (
+            <>
+              <button
+                onClick={handleLogout}
+                className="text-white hover:text-gray-400"
+              >
+                Log Out
+              </button>
+              <Link
+                href="/video-upload"
+                className="text-white hover:text-gray-400"
+              >
+                Video Upload
+              </Link>
+            </>
+          ) : (
+            <Link href="/auth" className="text-white hover:text-gray-400">
+              Log In
+            </Link>
+          )}
           {path === "/courses" && (
             <div className="p-4 text-black">
               <AlgoliaSearchComponent />
