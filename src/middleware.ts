@@ -11,7 +11,8 @@ export async function middleware(request: NextRequest) {
 
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    await jwtVerify(authTokenValue, secret);
+    const verified = await jwtVerify(authTokenValue, secret);
+    console.log("User authenticated:", verified);
     return NextResponse.next();
   } catch (error) {
     console.error("Token verification failed:", error);
