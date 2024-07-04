@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   console.log("pre post api gateway", email, password);
   try {
     const apiGatewayLoginResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_AWS_API_GATEWAY_ROUTE}/prod/login`,
+      `${process.env.AWS_API_GATEWAY_ROUTE}/prod/login`,
       {
         method: "POST",
         headers: {
