@@ -8,6 +8,7 @@ import { present24hrsHTML } from "./content/lanzate/intro-content";
 import TextContent from "./components/TextContent";
 import CollapsibleContentList from "./components/CollapsibleContentList";
 import { allVideoUrls, contentList } from "./content/lanzate/ContentList";
+import { useAuthContext } from "../contexts/AuthContext";
 
 function FallBack() {
   return <h2 className="text-red-500">Cargando...</h2>;
@@ -19,6 +20,8 @@ const LanzateProgramPage: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { checkAuth } = useAuthContext();
+
   const handleSelectItem = (item: string) => {
     setSelectedItem(item);
     router.push(`courses/?item=${item}`);
@@ -30,6 +33,7 @@ const LanzateProgramPage: React.FC = () => {
   };
 
   useEffect(() => {
+    checkAuth();
     const item = searchParams.get("item");
     if (item && typeof item === "string") {
       setSelectedItem(item);
