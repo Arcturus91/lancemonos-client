@@ -19,7 +19,6 @@ const LanzateProgramPage: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
   const handleSelectItem = (item: string) => {
     setSelectedItem(item);
     router.push(`courses/?item=${item}`);

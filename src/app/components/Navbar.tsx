@@ -9,14 +9,22 @@ import { useAuth } from "../hooks/useAuth";
 const Navbar: React.FC = () => {
   const path = usePathname();
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, checkAuth } = useAuth();
 
   const handleLogout = async () => {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth-logout`, {
-        method: "POST",
-      });
-      router.push("/"); // Redirect to home page after logout
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth-logout`,
+        {
+          method: "POST",
+        }
+      );
+      const data = await response.json();
+      console.log("data in logout:", data);
+      if (data.success) {
+        await checkAuth(); // Re-check auth status after logout
+        router.push("/");
+      }
     } catch (error) {
       console.error("Logout failed:", error);
     }

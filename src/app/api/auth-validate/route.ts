@@ -1,9 +1,9 @@
-// pages/api/auth/check.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 export async function GET(request: Request, response: Response) {
+  console.log("auth validate end point reached");
   const authTokenValue = cookies().get("auth-token")?.value ?? null;
 
   if (!authTokenValue) {

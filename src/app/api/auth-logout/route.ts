@@ -2,15 +2,11 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
-    // Attempt to delete the cookie
     cookies().delete("auth-token");
-
-    // Check if the cookie was successfully deleted
     const remainingCookie = cookies().get("auth-token");
 
-    if (remainingCookie) {
-      // If the cookie still exists, it wasn't deleted successfully
-      console.error("Failed to delete auth-token cookie");
+    if (remainingCookie?.value) {
+      console.error("Failed to delete auth-token cookie", remainingCookie);
       return new Response(
         JSON.stringify({
           success: false,
@@ -22,8 +18,6 @@ export async function POST(request: Request) {
         }
       );
     }
-
-    // If we reach here, the cookie was successfully deleted
     return new Response(
       JSON.stringify({
         success: true,
@@ -35,10 +29,7 @@ export async function POST(request: Request) {
       }
     );
   } catch (error) {
-    // Log the error for server-side debugging
     console.error("Error during logout:", error);
-
-    // Return a generic error message to the client
     return new Response(
       JSON.stringify({
         success: false,
