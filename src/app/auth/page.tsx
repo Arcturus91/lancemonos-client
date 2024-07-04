@@ -1,10 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { checkAuth } = useAuthContext();
 
   const router = useRouter();
 
@@ -29,6 +31,8 @@ const LoginPage: React.FC = () => {
       console.log("API Gateway response:", responseData);
 
       if (responseData.message === "tokenAdded") {
+        await checkAuth(); // Re-check auth status after logout
+
         router.push("/courses");
       }
 
