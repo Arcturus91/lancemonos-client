@@ -8,7 +8,6 @@ export async function middleware(request: NextRequest) {
   if (!authTokenValue) {
     return NextResponse.redirect(new URL("/auth", request.url));
   }
-
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const verified = await jwtVerify(authTokenValue, secret);
