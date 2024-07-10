@@ -19,7 +19,7 @@ h1 {
 }
 
 .sidebar {
-  @apply w-1/4 bg-white shadow-md p-4;
+  @apply min-w-52 w-1/4 bg-white shadow-md p-4;
 }
 
 .main-content {

@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     const query = searchParams.get("query");
     if (!query) return;
     const algoliaData = await index.search(query);
-
+    console.log(algoliaData);
     return new Response(JSON.stringify(algoliaData));
   } catch (error: any) {
     console.error(error);
