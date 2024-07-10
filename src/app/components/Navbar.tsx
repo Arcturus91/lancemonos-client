@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent";
-import { useAuth } from "../hooks/useAuth";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const Navbar: React.FC = () => {

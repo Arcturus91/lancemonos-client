@@ -1,9 +1,10 @@
+import { AUTH_TOKEN } from "@/app/constants/constants";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
-    cookies().delete("auth-token");
-    const remainingCookie = cookies().get("auth-token");
+    cookies().delete(AUTH_TOKEN);
+    const remainingCookie = cookies().get(AUTH_TOKEN);
 
     if (remainingCookie?.value) {
       console.error("Failed to delete auth-token cookie", remainingCookie);

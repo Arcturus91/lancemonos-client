@@ -2,6 +2,7 @@ import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { Readable } from "stream";
 import { streamToString } from "../utils-serverSide/streamToString";
 import { NextRequest } from "next/server";
+import { BUCKET_KEYPHRASES } from "@/app/constants/constants";
 
 export async function GET(request: NextRequest) {
   const s3Client = new S3Client({ region: process.env.AWS_REGION });
@@ -9,7 +10,7 @@ export async function GET(request: NextRequest) {
   const videoName = searchParams.get("video-name");
   console.log("video-name", videoName);
   const params = {
-    Bucket: "lancemonos-video-keyphrases",
+    Bucket: BUCKET_KEYPHRASES,
     Key: `keyphrases-${videoName}.json`,
   };
 

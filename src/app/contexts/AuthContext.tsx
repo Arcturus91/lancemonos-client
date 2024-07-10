@@ -1,14 +1,8 @@
-// contexts/AuthContext.tsx
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-
-type AuthContextType = {
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  checkAuth: () => Promise<void>;
-};
+import { AuthContextType } from "../types";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

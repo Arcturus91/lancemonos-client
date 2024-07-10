@@ -1,9 +1,5 @@
+import { AUTH_TOKEN } from "@/app/constants/constants";
 import { cookies } from "next/headers";
-
-const ONE_SECOND = 1000;
-const ONE_MINUTE = ONE_SECOND * 60;
-const ONE_HOUR = ONE_MINUTE * 60;
-const ONE_DAY = ONE_HOUR * 24;
 
 export async function POST(request: Request) {
   const { email, password } = await request.json();
@@ -29,7 +25,7 @@ export async function POST(request: Request) {
     console.log(body);
     const maxAge = 60 * 60;
     cookies().set({
-      name: "auth-token",
+      name: AUTH_TOKEN,
       value: token,
       httpOnly: true,
       path: "/",
