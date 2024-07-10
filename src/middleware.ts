@@ -5,7 +5,7 @@ import { jwtVerify } from "jose";
 import { AUTH_TOKEN } from "./app/constants/constants";
 
 export async function middleware(request: NextRequest) {
-  const authTokenValue = cookies().get(AUTH_TOKEN)?.value ?? null;
+  const authTokenValue = cookies().get("auth-token")?.value ?? null;
   if (!authTokenValue) {
     console.error("no auth token");
     return NextResponse.redirect(new URL("/auth", request.url));
