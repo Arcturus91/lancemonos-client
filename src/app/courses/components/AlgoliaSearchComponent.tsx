@@ -49,6 +49,7 @@ const AlgoliaSearchComponent = () => {
         }
 
         const { hits } = await algoliaResponse.json();
+        console.log("hits! in search ocmponent", hits);
         const arraySuggestions: string[] = hits.map(
           (h: Partial<HitSearch>) => h.videoTitle ?? "video no encontrado"
         );
