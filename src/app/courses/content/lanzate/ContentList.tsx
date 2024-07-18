@@ -1,3 +1,4 @@
+import { ContentListType, VideoContent } from "@/app/types";
 import { present24hrsHTML } from "./intro-content";
 
 const sectionOneContentList = [
@@ -26,20 +27,107 @@ const sectionNineContentList = [""];
 const sectionTenContentList = [""];
 const sectionElevenContentList = [""];
 
-export const contentList = {
-  "1. Introduction": sectionOneContentList,
-  "2. El Marco": sectionTwoContentList,
-  "3. Sitema N.O.M.A.S.": sectionThreeContentList,
-  "4. Sistema Lancémonos": sectionFourContentList,
-  "5. Círculos Sociales": sectionFiveContentList,
-  "6. Citas": sectionSixContentList,
-  "7. Chats y Apps de Citas": sectionSevenContentList,
-  "8. Relaciones": sectionEightContentList,
-  "9. Sesiones de Análisis de Interacciones": sectionNineContentList,
-  "10. Sesiones de Juegos de Roles": sectionTenContentList,
-  "11. Sesiones de Mentalidad": sectionElevenContentList,
-};
+export const allContentData: VideoContent[] = [
+  {
+    videoUrl:
+      "https://df38qf2tnpcai.cloudfront.net/introduccion/siete-reglas-mentoria.MOV",
+    videoKey: "siete-reglas-mentoria",
+    videoName: "Las Siete Reglas de la Mentoría",
+    videoSection: "Introducción",
+  },
+  {
+    videoUrl:
+      "https://df38qf2tnpcai.cloudfront.net/introduccion/estructura-programa-lanzate.mp4",
+    videoKey: "estructura-programa-lanzate",
+    videoName: "Estructura del Programa Lánzate",
+    videoSection: "Introducción",
+  },
+];
 
+export const contentList: { [key: string]: string[] } = {
+  "1. Introducción": allContentData.map((item: VideoContent) => {
+    if (item.videoSection === "Introducción") {
+      return item.videoName;
+    } else {
+      return "";
+    }
+  }),
+  "2. El Marco": allContentData.map((item: VideoContent) => {
+    if (item.videoSection === "Introducción") {
+      return item.videoName;
+    } else {
+      return "";
+    }
+  }),
+  "3. Sitema N.O.M.A.S.": allContentData.map((item: VideoContent) => {
+    if (item.videoSection === "Introducción") {
+      return item.videoName;
+    } else {
+      return "";
+    }
+  }),
+  "4. Sistema Lancémonos": allContentData.map((item: VideoContent) => {
+    if (item.videoSection === "Introducción") {
+      return item.videoName;
+    } else {
+      return "";
+    }
+  }),
+  "5. Círculos Sociales": allContentData.map((item: VideoContent) => {
+    if (item.videoSection === "Introducción") {
+      return item.videoName;
+    } else {
+      return "";
+    }
+  }),
+  "6. Citas": allContentData.map((item: VideoContent) => {
+    if (item.videoSection === "Introducción") {
+      return item.videoName;
+    } else {
+      return "";
+    }
+  }),
+  "7. Chats y Apps de Citas": allContentData.map((item: VideoContent) => {
+    if (item.videoSection === "Introducción") {
+      return item.videoName;
+    } else {
+      return "";
+    }
+  }),
+  "8. Relaciones": allContentData.map((item: VideoContent) => {
+    if (item.videoSection === "Introducción") {
+      return item.videoName;
+    } else {
+      return "";
+    }
+  }),
+  "9. Sesiones de Análisis de Interacciones": allContentData.map(
+    (item: VideoContent) => {
+      if (item.videoSection === "Introducción") {
+        return item.videoName;
+      } else {
+        return "";
+      }
+    }
+  ),
+  "10. Sesiones de Juegos de Roles": allContentData.map(
+    (item: VideoContent) => {
+      if (item.videoSection === "Introducción") {
+        return item.videoName;
+      } else {
+        return "";
+      }
+    }
+  ),
+  "11. Sesiones de Mentalidad": allContentData.map((item: VideoContent) => {
+    if (item.videoSection === "Introducción") {
+      return item.videoName;
+    } else {
+      return "";
+    }
+  }),
+};
+//! to delete
 export const allVideoUrls: { [key: string]: string } = {
   "siete-reglas-mentoria":
     "https://df38qf2tnpcai.cloudfront.net/introduccion/siete-reglas-mentoria.MOV",
