@@ -67,14 +67,13 @@ const LanzateProgramPage: React.FC = () => {
     }
   }, [pathname, searchParams]);
 
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (!allContentData) return <div>No content available</div>;
+  /* if (!allContentData) return <div>No content available</div>; */
 
   const handleSelectItem = (videoKey: string, videoUrl: string) => {
     console.log("videokey", videoKey);
     setSelectedItem(videoUrl);
-    //router.push(`courses/?item=${videoKey}`);
+    router.push(`courses/?item=${videoKey}`);
     if (videoKey.includes("text")) {
       setContentType("text");
     } else {
@@ -86,12 +85,14 @@ const LanzateProgramPage: React.FC = () => {
     <>
       <Suspense fallback={<FallBack />}>
         <div className="container-programa flex">
-          <div className="sidebar">
-            <CollapsibleContentList
-              handleSelectItem={handleSelectItem}
-              allContentData={allContentData}
-            />
-          </div>
+          {!isLoading && allContentData && (
+            <div className="sidebar">
+              <CollapsibleContentList
+                handleSelectItem={handleSelectItem}
+                allContentData={allContentData}
+              />
+            </div>
+          )}
           <div className="main-content ml-4">
             {selectedItem &&
               (contentType === "video" ? (
