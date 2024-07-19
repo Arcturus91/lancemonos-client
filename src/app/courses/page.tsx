@@ -4,7 +4,6 @@ import React, { useState, useEffect, Suspense } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import VideoPlayer from "./components/VideoPlayer";
-import { present24hrsHTML } from "./content/lanzate/intro-content";
 import TextContent from "./components/TextContent";
 import CollapsibleContentList from "./components/CollapsibleContentList";
 import { useAuthContext } from "../contexts/AuthContext";
@@ -80,10 +79,10 @@ const LanzateProgramPage: React.FC = () => {
   if (!allContentData) return <div>No content available</div>;
 
   const handleSelectItem = (videoKey: string, videoUrl: string) => {
-    console.log("videokey", videoKey);
+    console.log("videokey", videoKey, videoUrl);
     setSelectedItem(videoUrl);
     router.push(`courses/?item=${videoKey}`);
-    if (videoKey.includes("text")) {
+    if (videoUrl.includes("pdf")) {
       setContentType("text");
     } else {
       setContentType("video");
@@ -105,7 +104,9 @@ const LanzateProgramPage: React.FC = () => {
               (contentType === "video" ? (
                 <VideoPlayer videoUrl={selectedItem} />
               ) : (
-                <TextContent htmlContent={present24hrsHTML} />
+                <div>
+                  <h1>Working in displaying pdf</h1>
+                </div>
               ))}
             {!selectedItem && (
               <h1 className="text-center">Bienvenido al programa</h1>
