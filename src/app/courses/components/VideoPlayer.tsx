@@ -5,10 +5,11 @@ type VideoPlayerProps = {
 };
 
 const VideoPlayer: React.FC<any> = ({ videoUrl }) => {
+  console.log(videoUrl);
   return (
     <div className="video-player flex justify-center">
       <p>video loaded {videoUrl}</p>
-      {/*       <video
+      <video
         key={videoUrl}
         className="w-full max-w-2xl h-auto"
         controls
@@ -17,7 +18,7 @@ const VideoPlayer: React.FC<any> = ({ videoUrl }) => {
       >
         <source src={videoUrl} type="video/mp4" />
         Your browser does not support the video tag.
-      </video> */}
+      </video>
     </div>
   );
 };
