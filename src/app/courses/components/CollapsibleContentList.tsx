@@ -27,49 +27,49 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
       }
     }),
     "2. El Marco": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Introducción") {
+      if (item.videoSection === "El Marco") {
         return item.videoName;
       } else {
         return "";
       }
     }),
-    "3. Sitema N.O.M.A.S.": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Introducción") {
+    "3. Sistema N.O.M.A.S.": allContentData.map((item: VideoContent) => {
+      if (item.videoSection === "Sistema N.O.M.A.S.") {
         return item.videoName;
       } else {
         return "";
       }
     }),
     "4. Sistema Lancémonos": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Introducción") {
+      if (item.videoSection === "Sistema Lancémonos") {
         return item.videoName;
       } else {
         return "";
       }
     }),
     "5. Círculos Sociales": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Introducción") {
+      if (item.videoSection === "Círculos Sociales") {
         return item.videoName;
       } else {
         return "";
       }
     }),
     "6. Citas": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Introducción") {
+      if (item.videoSection === "Citas") {
         return item.videoName;
       } else {
         return "";
       }
     }),
     "7. Chats y Apps de Citas": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Introducción") {
+      if (item.videoSection === "Chats y Apps de Citas") {
         return item.videoName;
       } else {
         return "";
       }
     }),
     "8. Relaciones": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Introducción") {
+      if (item.videoSection === "Relaciones") {
         return item.videoName;
       } else {
         return "";
@@ -77,7 +77,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
     }),
     "9. Sesiones de Análisis de Interacciones": allContentData.map(
       (item: VideoContent) => {
-        if (item.videoSection === "Introducción") {
+        if (item.videoSection === "Sesiones AI") {
           return item.videoName;
         } else {
           return "";
@@ -86,7 +86,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
     ),
     "10. Sesiones de Juegos de Roles": allContentData.map(
       (item: VideoContent) => {
-        if (item.videoSection === "Introducción") {
+        if (item.videoSection === "Sesiones JR") {
           return item.videoName;
         } else {
           return "";
@@ -94,7 +94,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
       }
     ),
     "11. Sesiones de Mentalidad": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Introducción") {
+      if (item.videoSection === "Sesiones Mentalidad") {
         return item.videoName;
       } else {
         return "";

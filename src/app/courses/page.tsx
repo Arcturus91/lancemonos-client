@@ -32,6 +32,13 @@ const LanzateProgramPage: React.FC = () => {
     const getAllContent = async () => {
       try {
         setIsLoading(true);
+        const cachedData = localStorage.getItem("courseContent");
+        if (cachedData) {
+          setAllContentData(JSON.parse(cachedData));
+          setIsLoading(false);
+          return;
+        }
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/get-course-content`,
           {
@@ -42,6 +49,7 @@ const LanzateProgramPage: React.FC = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        localStorage.setItem("courseContent", JSON.stringify(data));
         setAllContentData(data);
       } catch (error) {
         console.error("Error fetching course content:", error);
@@ -65,10 +73,11 @@ const LanzateProgramPage: React.FC = () => {
     } else if (!item) {
       setSelectedItem("");
     }
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, allContentData]);
 
+  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  /* if (!allContentData) return <div>No content available</div>; */
+  if (!allContentData) return <div>No content available</div>;
 
   const handleSelectItem = (videoKey: string, videoUrl: string) => {
     console.log("videokey", videoKey);
@@ -85,14 +94,12 @@ const LanzateProgramPage: React.FC = () => {
     <>
       <Suspense fallback={<FallBack />}>
         <div className="container-programa flex">
-          {!isLoading && allContentData && (
-            <div className="sidebar">
-              <CollapsibleContentList
-                handleSelectItem={handleSelectItem}
-                allContentData={allContentData}
-              />
-            </div>
-          )}
+          <div className="sidebar">
+            <CollapsibleContentList
+              handleSelectItem={handleSelectItem}
+              allContentData={allContentData}
+            />
+          </div>
           <div className="main-content ml-4">
             {selectedItem &&
               (contentType === "video" ? (
