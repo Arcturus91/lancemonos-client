@@ -8,7 +8,7 @@ const searchClient = algoliasearch(
 );
 const index = searchClient.initIndex(indexNameSecret);
 
-export const dynamic = "force-dynamic"; // This is the key change
+export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   try {
