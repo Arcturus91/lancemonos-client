@@ -8,6 +8,7 @@ import TextContent from "./components/TextContent";
 import CollapsibleContentList from "./components/CollapsibleContentList";
 import { useAuthContext } from "../contexts/AuthContext";
 import { VideoContent } from "../types";
+import PdfViewer from "./components/PdfViewer";
 
 function FallBack() {
   return <h2 className="text-red-500">Cargando...</h2>;
@@ -105,7 +106,8 @@ const LanzateProgramPage: React.FC = () => {
                 <VideoPlayer videoUrl={selectedItem} />
               ) : (
                 <div>
-                  <h1>Working in displaying pdf</h1>
+                  <h1>Your PDF Viewer</h1>
+                  <PdfViewer pdfUrl={selectedItem} />
                 </div>
               ))}
             {!selectedItem && (
