@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
         setTimeout(() => {
           console.log("set timeout execute");
           router.push("/courses");
-        }, 0);
+        }, 3);
       }
 
       return responseData;
