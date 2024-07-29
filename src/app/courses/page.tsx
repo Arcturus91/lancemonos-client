@@ -8,7 +8,7 @@ import TextContent from "./components/TextContent";
 import CollapsibleContentList from "./components/CollapsibleContentList";
 import { useAuthContext } from "../contexts/AuthContext";
 import { VideoContent } from "../types";
-import PdfViewer from "./components/PdfViewer";
+const PdfViewer = React.lazy(() => import("./components/PdfViewer"));
 
 function FallBack() {
   return <h2 className="text-red-500">Cargando...</h2>;
@@ -105,10 +105,9 @@ const LanzateProgramPage: React.FC = () => {
               (contentType === "video" ? (
                 <VideoPlayer videoUrl={selectedItem} />
               ) : (
-                <div>
-                  <h1>Your PDF Viewer</h1>
+                <Suspense fallback={<div>Loading PDF...</div>}>
                   <PdfViewer pdfUrl={selectedItem} />
-                </div>
+                </Suspense>
               ))}
             {!selectedItem && (
               <h1 className="text-center">Bienvenido al programa</h1>
