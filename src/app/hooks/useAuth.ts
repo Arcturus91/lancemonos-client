@@ -9,6 +9,14 @@ export const useAuth = () => {
   const checkAuth = useCallback(async () => {
     console.log("useAuth called");
     setIsLoading(true);
+
+    const cachedAuth = sessionStorage.getItem("sessionAuthenticated");
+    if (cachedAuth) {
+      setIsAuthenticated(true);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth-validate`,
@@ -19,6 +27,10 @@ export const useAuth = () => {
       );
       const data = await response.json();
       setIsAuthenticated(data.isAuthenticated);
+      sessionStorage.setItem(
+        "sessionAuthenticated",
+        JSON.stringify(data.isAuthenticated)
+      );
     } catch (error) {
       console.error("Error checking auth status:", error);
       setIsAuthenticated(false);

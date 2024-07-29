@@ -29,12 +29,10 @@ const LoginPage: React.FC = () => {
       console.log("API Gateway response:", responseData);
 
       if (responseData.message === "tokenAdded") {
-        console.log("set timeout init");
-
+        sessionStorage.setItem("sessionAuthenticated", JSON.stringify(true));
         setTimeout(() => {
           router.refresh();
           router.push("/courses");
-          console.log("set timeout execute");
         }, 3);
       }
 

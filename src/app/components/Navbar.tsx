@@ -22,6 +22,7 @@ const Navbar: React.FC = () => {
       const data = await response.json();
       console.log("data in logout:", data);
       if (data.success) {
+        sessionStorage.removeItem("sessionAuthenticated");
         await checkAuth();
         router.push("/");
         router.refresh();
