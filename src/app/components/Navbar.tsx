@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent";
-import { useAuth } from "../hooks/useAuth";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const Navbar: React.FC = () => {
@@ -37,16 +36,16 @@ const Navbar: React.FC = () => {
       <div className="container-nav mx-auto px-4 py-2 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <div className="text-2xl font-bold">
-            <Link href="/" className="text-white">
+            <a href="/" className="text-white">
               Lancémonos Nomás
-            </Link>
+            </a>
           </div>
-          <Link href="/" className="text-white hover:text-gray-400">
+          <a href="/" className="text-white hover:text-gray-400">
             Home
-          </Link>
-          <Link href="/courses" className="text-white hover:text-gray-400">
+          </a>
+          <a href="/courses" className="text-white hover:text-gray-400">
             Programa
-          </Link>
+          </a>
         </div>
         <div className="flex items-center space-x-4">
           {isLoading ? (
@@ -59,17 +58,17 @@ const Navbar: React.FC = () => {
               >
                 Log Out
               </button>
-              <Link
+              <a
                 href="/video-upload"
                 className="text-white hover:text-gray-400"
               >
                 Video Upload
-              </Link>
+              </a>
             </>
           ) : (
-            <Link href="/auth" className="text-white hover:text-gray-400">
+            <a href="/auth" className="text-white hover:text-gray-400">
               Log In
-            </Link>
+            </a>
           )}
           {path === "/courses" && (
             <div className="p-4 text-black">

@@ -4,7 +4,6 @@ import React, { useState, useEffect, Suspense } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import VideoPlayer from "./components/VideoPlayer";
-import TextContent from "./components/TextContent";
 import CollapsibleContentList from "./components/CollapsibleContentList";
 import { useAuthContext } from "../contexts/AuthContext";
 import { VideoContent } from "../types";

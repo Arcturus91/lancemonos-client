@@ -7,6 +7,7 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const checkAuth = useCallback(async () => {
+    console.log("useAuth called");
     setIsLoading(true);
     try {
       const response = await fetch(
