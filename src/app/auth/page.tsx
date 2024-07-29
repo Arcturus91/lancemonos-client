@@ -30,9 +30,11 @@ const LoginPage: React.FC = () => {
 
       if (responseData.message === "tokenAdded") {
         console.log("set timeout init");
+
         setTimeout(() => {
-          console.log("set timeout execute");
+          router.refresh();
           router.push("/courses");
+          console.log("set timeout execute");
         }, 3);
       }
 

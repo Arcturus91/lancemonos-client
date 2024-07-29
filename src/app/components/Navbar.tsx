@@ -23,8 +23,9 @@ const Navbar: React.FC = () => {
       const data = await response.json();
       console.log("data in logout:", data);
       if (data.success) {
-        await checkAuth(); // Re-check auth status after logout
+        await checkAuth();
         router.push("/");
+        router.refresh();
       }
     } catch (error) {
       console.error("Logout failed:", error);
