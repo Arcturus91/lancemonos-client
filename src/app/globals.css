@@ -180,3 +180,34 @@ input[type='reset'] {
   color: #000000;
   outline: 1px solid #000000;
 }
+
+.PdfViewer__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.PdfViewer__container__document {
+  width: 100%;
+  max-width: calc(100% - 2em);
+  margin: 1em 0;
+}
+
+.PdfViewer__container__document .react-pdf__Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PdfViewer__container__document .react-pdf__Page {
+  margin: 1em 0;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.PdfViewer__container__document .react-pdf__message {
+  padding: 20px;
+  color: white;
+}
+
