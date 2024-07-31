@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
 const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
@@ -6,9 +7,17 @@ const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
 
 export async function POST(request: Request) {
-  const { email, password } = await request.json();
-  console.log("pre post api gateway", email, password);
   try {
+    const { email, password } = await request.json();
+    console.log("pre post api gateway", email, password);
+
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Email and password are required" },
+        { status: 400 }
+      );
+    }
+
     const apiGatewayLoginResponse = await fetch(
       `${process.env.AWS_API_GATEWAY_ROUTE}/prod/login`,
       {
@@ -22,11 +31,29 @@ export async function POST(request: Request) {
       }
     );
 
-    const apiGatewayLogin = await apiGatewayLoginResponse.json();
-    const { body, token } = apiGatewayLogin;
+    if (!apiGatewayLoginResponse.ok) {
+      const errorData = await apiGatewayLoginResponse.json();
+      return NextResponse.json(
+        { error: errorData.message || "An error occurred during login" },
+        { status: apiGatewayLoginResponse.status }
+      );
+    }
 
-    const user = body.user;
-    console.log(body);
+    const apiGatewayLogin = await apiGatewayLoginResponse.json();
+    console.log("response in auth login route", apiGatewayLogin);
+
+    const { body, token, message } = apiGatewayLogin;
+    if (!token && message) {
+      return NextResponse.json({ error: message }, { status: 500 });
+    }
+
+    if (!token) {
+      return NextResponse.json(
+        { error: "Token not received from API" },
+        { status: 500 }
+      );
+    }
+
     const maxAge = 60 * 60;
     cookies().set({
       name: "auth-token",
@@ -34,14 +61,17 @@ export async function POST(request: Request) {
       httpOnly: true,
       path: "/",
       maxAge,
-      secure: process.env.NODE_ENV === "production", // Use secure in production
+      secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
 
     console.log("api gateway login response:", apiGatewayLogin);
-    return new Response(JSON.stringify(apiGatewayLogin));
+    return NextResponse.json({ success: true, body });
   } catch (error) {
-    console.log("error fetching", error);
-    return Response.json({ error });
+    console.error("Error in login route:", error);
+    return NextResponse.json(
+      { error: "An unexpected error occurred. Please try again later." },
+      { status: 500 }
+    );
   }
 }
