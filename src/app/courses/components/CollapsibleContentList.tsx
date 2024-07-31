@@ -19,13 +19,14 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
   );
 
   const contentList: { [key: string]: string[] } = {
-    "1. Introducción": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Introducción") {
+    "1. Introducción": allContentData
+      .filter((item: VideoContent) => item.videoSection === "Introducción")
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
         return item.videoName;
-      } else {
-        return "";
-      }
-    }),
+      }),
     "2. El Marco": allContentData.map((item: VideoContent) => {
       if (item.videoSection === "El Marco") {
         return item.videoName;
@@ -40,42 +41,35 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
         return "";
       }
     }),
-    "4. Sistema Lancémonos": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Sistema Lancémonos") {
-        return item.videoName;
-      } else {
-        return "";
-      }
-    }),
-    "5. Círculos Sociales": allContentData.map((item: VideoContent) => {
+    "4. Círculos Sociales": allContentData.map((item: VideoContent) => {
       if (item.videoSection === "Círculos Sociales") {
         return item.videoName;
       } else {
         return "";
       }
     }),
-    "6. Citas": allContentData.map((item: VideoContent) => {
+    "5. Citas": allContentData.map((item: VideoContent) => {
       if (item.videoSection === "Citas") {
         return item.videoName;
       } else {
         return "";
       }
     }),
-    "7. Chats y Apps de Citas": allContentData.map((item: VideoContent) => {
+    "6. Chats y Apps de Citas": allContentData.map((item: VideoContent) => {
       if (item.videoSection === "Chats y Apps de Citas") {
         return item.videoName;
       } else {
         return "";
       }
     }),
-    "8. Relaciones": allContentData.map((item: VideoContent) => {
+    "7. Relaciones": allContentData.map((item: VideoContent) => {
       if (item.videoSection === "Relaciones") {
         return item.videoName;
       } else {
         return "";
       }
     }),
-    "9. Sesiones de Análisis de Interacciones": allContentData.map(
+    "8. Sesiones de Análisis de Interacciones": allContentData.map(
       (item: VideoContent) => {
         if (item.videoSection === "Sesiones AI") {
           return item.videoName;
@@ -84,7 +78,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
         }
       }
     ),
-    "10. Sesiones de Juegos de Roles": allContentData.map(
+    "9. Sesiones de Juegos de Roles": allContentData.map(
       (item: VideoContent) => {
         if (item.videoSection === "Sesiones JR") {
           return item.videoName;
@@ -93,7 +87,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
         }
       }
     ),
-    "11. Sesiones de Mentalidad": allContentData.map((item: VideoContent) => {
+    "10. Sesiones de Mentalidad": allContentData.map((item: VideoContent) => {
       if (item.videoSection === "Sesiones Mentalidad") {
         return item.videoName;
       } else {

@@ -13,7 +13,6 @@ export async function GET(): Promise<Response> {
   try {
     const command = new ScanCommand(params);
     const response = await client.send(command);
-    console.log("success scanning db table", response);
 
     if (!response?.Items) throw new Error("items undefined");
 
@@ -23,9 +22,11 @@ export async function GET(): Promise<Response> {
         videoKey: item.videoKey.S,
         videoName: item.videoName.S,
         videoSection: item.videoSection.S,
+        sectionOrder: item.sectionOrder.N,
       };
     });
 
+    console.log("success scanning db table", normalizedData);
     return new Response(JSON.stringify(normalizedData));
   } catch (error) {
     console.error("There is an error getting content!: ", error);

@@ -14,6 +14,7 @@ export type VideoContent = {
   videoKey: string;
   videoName: string;
   videoSection: string;
+  sectionOrder: string;
 };
 
 export type ContentListType = { videoName: string; videoSection: string };
