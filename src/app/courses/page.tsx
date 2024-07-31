@@ -15,7 +15,8 @@ function FallBack() {
 
 const LanzateProgramPage: React.FC = () => {
   const [contentType, setContentType] = useState("video");
-  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedItem, setSelectedItem] =
+    useState<Partial<VideoContent> | null>(null);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -65,12 +66,12 @@ const LanzateProgramPage: React.FC = () => {
     checkAuth();
     const item = searchParams.get("item");
     if (item && typeof item === "string") {
-      const selectedItemUrl = allContentData?.find(
+      const { videoUrl, videoName } = allContentData?.find(
         (videoItem: VideoContent) => videoItem.videoKey === item
-      )?.videoUrl as string;
-      setSelectedItem(selectedItemUrl);
+      ) as VideoContent;
+      setSelectedItem({ videoUrl, videoName });
     } else if (!item) {
-      setSelectedItem("");
+      setSelectedItem(null);
     }
   }, [pathname, searchParams, allContentData]);
 
@@ -78,9 +79,10 @@ const LanzateProgramPage: React.FC = () => {
   if (error) return <div>Error: {error}</div>;
   if (!allContentData) return <div>No content available</div>;
 
-  const handleSelectItem = (videoKey: string, videoUrl: string) => {
-    console.log("videokey", videoKey, videoUrl);
-    setSelectedItem(videoUrl);
+  const handleSelectItem = (selectedVideoData: VideoContent) => {
+    const { videoUrl, videoKey, videoName } = selectedVideoData;
+    setSelectedItem({ videoUrl, videoName });
+    console.log("selected item", selectedVideoData, selectedItem);
     router.push(`courses/?item=${videoKey}`);
     if (videoUrl.includes("pdf")) {
       setContentType("text");
@@ -102,10 +104,10 @@ const LanzateProgramPage: React.FC = () => {
           <div className="main-content ml-4">
             {selectedItem &&
               (contentType === "video" ? (
-                <VideoPlayer videoUrl={selectedItem} />
+                <VideoPlayer videoData={selectedItem} />
               ) : (
                 <Suspense fallback={<div>Loading PDF...</div>}>
-                  <PdfViewer pdfUrl={selectedItem} />
+                  <PdfViewer pdfData={selectedItem} />
                 </Suspense>
               ))}
             {!selectedItem && (

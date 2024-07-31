@@ -3,10 +3,7 @@ import { VideoContent } from "@/app/types";
 import { useState } from "react";
 
 type ContentListProps = {
-  handleSelectItem: (
-    selectedVideoKey: string,
-    selectedVideoUrl: string
-  ) => void;
+  handleSelectItem: (selectedVideoData: VideoContent) => void;
   allContentData: VideoContent[];
 };
 
@@ -106,10 +103,9 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
   const selectVideo = (videoName: string) => {
     const contentItem = allContentData.find(
       (item: VideoContent) => item.videoName === videoName
-    );
-    const selectedVideoKey = contentItem?.videoKey as string;
-    const selectedVideoUrl = contentItem?.videoUrl as string;
-    handleSelectItem(selectedVideoKey, selectedVideoUrl);
+    ) as VideoContent;
+    console.log("content item", contentItem);
+    handleSelectItem(contentItem);
   };
 
   return (
