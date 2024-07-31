@@ -1,5 +1,6 @@
 "use Client";
 import useResizeObserver from "@/app/hooks/useResizeObserver";
+import { VideoContent } from "@/app/types";
 import React, { useState, useEffect, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
@@ -8,12 +9,13 @@ import "react-pdf/dist/esm/Page/TextLayer.css";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 const resizeObserverOptions = {};
 interface PdfViewerProps {
-  pdfUrl: string;
+  pdfData: Partial<VideoContent>;
 }
 const maxWidth = 1000;
-const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
-  console.log("pdfurl from pdfviewer", pdfUrl);
-  const url = pdfUrl;
+const PdfViewer: React.FC<PdfViewerProps> = ({ pdfData }) => {
+  console.log("pdfviewered", pdfData);
+  const url = pdfData.videoUrl;
+  const { videoName } = pdfData;
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -41,6 +43,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
 
   return (
     <div className=".PdfViewer__container">
+      <h1 className="mb-4 text-3xl font-bold text-gray-800">{videoName}</h1>
       <div className="flex flex-col sm:flex-row items-center justify-between mt-4 w-full max-w-2xl">
         <p className="text-center text-sm sm:text-base mb-2 sm:mb-0">
           Page {pageNumber} of {numPages}
