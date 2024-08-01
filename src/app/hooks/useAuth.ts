@@ -11,7 +11,8 @@ export const useAuth = () => {
     setIsLoading(true);
 
     const cachedAuth = sessionStorage.getItem("sessionAuthenticated");
-    if (cachedAuth) {
+    console.log("useAuth value", cachedAuth);
+    if (cachedAuth === "true") {
       setIsAuthenticated(true);
       setIsLoading(false);
       return;

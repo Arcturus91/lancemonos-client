@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
   const path = usePathname();
   const router = useRouter();
   const { isAuthenticated, isLoading, checkAuth } = useAuthContext();
-
+  console.log("isAuth", isAuthenticated);
   const handleLogout = async () => {
     try {
       const response = await fetch(
