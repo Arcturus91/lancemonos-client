@@ -25,3 +25,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/auth", request.url));
   }
 }
+
+export const config = {
+  matcher: ["/courses/:path*", "/video-upload/:path*"],
+};
