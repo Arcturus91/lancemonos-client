@@ -27,6 +27,7 @@ export const useAuth = () => {
         }
       );
       const data = await response.json();
+      console.log("useAuth data", data);
       setIsAuthenticated(data.isAuthenticated);
       sessionStorage.setItem(
         "sessionAuthenticated",

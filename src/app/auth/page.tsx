@@ -2,6 +2,16 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+type UserData = {
+  email: string;
+  role: string;
+};
+interface ApiGatewayResponse {
+  body: UserData;
+  success: true;
+  error?: any;
+}
+
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +37,7 @@ const LoginPage: React.FC = () => {
         }
       );
 
-      const responseData = await response.json();
+      const responseData = (await response.json()) as ApiGatewayResponse;
 
       if (!response.ok) {
         throw new Error(responseData.error || "An error occurred during login");
@@ -37,6 +47,7 @@ const LoginPage: React.FC = () => {
 
       if (responseData.success) {
         sessionStorage.setItem("sessionAuthenticated", JSON.stringify(true));
+        sessionStorage.setItem("userRole", JSON.stringify(responseData.body));
         router.refresh();
         router.push("/courses");
       } else {

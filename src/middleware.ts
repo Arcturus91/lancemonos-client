@@ -11,7 +11,6 @@ export async function middleware(request: NextRequest) {
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const verified = await jwtVerify(authTokenValue, secret);
-    console.log("User authenticated:", verified, request.url);
     if (
       request.url.includes("video-upload") &&
       verified?.payload?.role === "user"

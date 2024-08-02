@@ -9,7 +9,6 @@ const ONE_DAY = ONE_HOUR * 24;
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
-    console.log("pre post api gateway", email, password);
 
     if (!email || !password) {
       return NextResponse.json(
@@ -40,7 +39,6 @@ export async function POST(request: Request) {
     }
 
     const apiGatewayLogin = await apiGatewayLoginResponse.json();
-    console.log("response in auth login route", apiGatewayLogin);
 
     const { body, token, message } = apiGatewayLogin;
     if (!token && message) {
@@ -65,7 +63,6 @@ export async function POST(request: Request) {
       sameSite: "strict",
     });
 
-    console.log("api gateway login response:", apiGatewayLogin);
     return NextResponse.json({ success: true, body });
   } catch (error) {
     console.error("Error in login route:", error);

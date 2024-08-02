@@ -12,7 +12,8 @@ export async function GET(request: Request, response: Response) {
 
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    await jwtVerify(authTokenValue, secret);
+    const jwtVerified = await jwtVerify(authTokenValue, secret);
+    console.log("jwt verified", jwtVerified);
     return new Response(JSON.stringify({ isAuthenticated: true }));
   } catch (error) {
     return new Response(JSON.stringify({ isAuthenticated: false }));
