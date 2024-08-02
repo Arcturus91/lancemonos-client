@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent";
 import { useAuthContext } from "../contexts/AuthContext";
@@ -64,12 +63,14 @@ const Navbar: React.FC = () => {
               >
                 Log Out
               </button>
-              <a
-                href="/video-upload"
-                className="text-white hover:text-gray-400"
-              >
-                Video Upload
-              </a>
+              {userData?.role === "admin" ? (
+                <a
+                  href="/video-upload"
+                  className="text-white hover:text-gray-400"
+                >
+                  Video Upload
+                </a>
+              ) : null}
             </>
           ) : (
             <a href="/auth" className="text-white hover:text-gray-400">
