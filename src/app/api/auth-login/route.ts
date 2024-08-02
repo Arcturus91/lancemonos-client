@@ -62,8 +62,8 @@ export async function POST(request: Request) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-
-    return NextResponse.json({ success: true, body });
+    console.log("auth login", body);
+    return NextResponse.json({ success: true, body: body.user });
   } catch (error) {
     console.error("Error in login route:", error);
     return NextResponse.json(

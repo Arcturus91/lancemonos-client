@@ -5,12 +5,15 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent";
 import { useAuthContext } from "../contexts/AuthContext";
+import { useUser } from "../contexts/UserContext";
 
 const Navbar: React.FC = () => {
   const path = usePathname();
   const router = useRouter();
   const { isAuthenticated, isLoading, checkAuth } = useAuthContext();
-  console.log("isAuth", isAuthenticated);
+  const { userData, setUserData } = useUser();
+
+  console.log("isAuth and userData", isAuthenticated, userData);
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -23,6 +26,7 @@ const Navbar: React.FC = () => {
       console.log("data in logout:", data);
       if (data.success) {
         sessionStorage.removeItem("sessionAuthenticated");
+        setUserData(null);
         await checkAuth();
         router.push("/");
         router.refresh();
@@ -53,6 +57,7 @@ const Navbar: React.FC = () => {
             <span>Loading...</span>
           ) : isAuthenticated ? (
             <>
+              <p className="text-white">{userData?.email}</p>
               <button
                 onClick={handleLogout}
                 className="text-white hover:text-gray-400"

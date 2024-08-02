@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./contexts/AuthContext";
+import { UserProvider } from "./contexts/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} flex flex-col min-h-screen`}>
         <AuthProvider>
-          <Navbar />
-          <main className="flex-grow">{children}</main>
+          <UserProvider>
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+          </UserProvider>
         </AuthProvider>
       </body>
     </html>

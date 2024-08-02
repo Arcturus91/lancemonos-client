@@ -1,11 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { UserData } from "../types";
+import { useUser } from "../contexts/UserContext";
 
-type UserData = {
-  email: string;
-  role: string;
-};
 interface ApiGatewayResponse {
   body: UserData;
   success: true;
@@ -17,6 +15,8 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const { setUserData } = useUser();
 
   const router = useRouter();
 
@@ -47,7 +47,8 @@ const LoginPage: React.FC = () => {
 
       if (responseData.success) {
         sessionStorage.setItem("sessionAuthenticated", JSON.stringify(true));
-        sessionStorage.setItem("userRole", JSON.stringify(responseData.body));
+        console.log("setuserdata", responseData.body);
+        setUserData(responseData.body);
         router.refresh();
         router.push("/courses");
       } else {

@@ -18,3 +18,8 @@ export type VideoContent = {
 };
 
 export type ContentListType = { videoName: string; videoSection: string };
+
+export type UserData = {
+  email: string;
+  role: string;
+};
