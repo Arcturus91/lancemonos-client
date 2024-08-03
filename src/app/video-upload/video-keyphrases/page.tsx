@@ -86,6 +86,7 @@ const VideoKeyphrases = () => {
         );
         setTimeout(() => {
           router.push("/video-upload");
+          sessionStorage.removeItem("courseContent");
         }, 5000);
       }
     };

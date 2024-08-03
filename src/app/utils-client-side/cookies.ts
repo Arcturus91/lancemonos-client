@@ -14,3 +14,7 @@ export const getUserDataFromCookie = (): UserData | null => {
   const userDataString = Cookies.get("userData");
   return userDataString ? JSON.parse(userDataString) : null;
 };
+
+export const deleteSpecificCookies = (cookiesName: string) => {
+  Cookies.remove(cookiesName);
+};
