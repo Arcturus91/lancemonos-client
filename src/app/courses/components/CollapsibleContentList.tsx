@@ -45,20 +45,24 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
         return "";
       }
     }),
-    "5. Citas": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Citas") {
+    "5. Citas": allContentData
+      .filter((item: VideoContent) => item.videoSection === "Citas")
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
         return item.videoName;
-      } else {
-        return "";
-      }
-    }),
-    "6. Chats y Apps de Citas": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Chats y Apps de Citas") {
+      }),
+    "6. Chats y Apps de Citas": allContentData
+      .filter(
+        (item: VideoContent) => item.videoSection === "Chats y Apps de Citas"
+      )
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
         return item.videoName;
-      } else {
-        return "";
-      }
-    }),
+      }),
     "7. Relaciones": allContentData.map((item: VideoContent) => {
       if (item.videoSection === "Relaciones") {
         return item.videoName;
