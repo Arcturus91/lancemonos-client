@@ -6,6 +6,12 @@ const VideoUpload: React.FC = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
+    const fileNamePattern = /^[0-9a-zA-Z._-]+$/;
+
+    if (selectedFile?.name && !fileNamePattern.test(selectedFile?.name)) {
+      alert("El nombre no es correcto");
+      return;
+    }
     if (selectedFile) {
       setFile(selectedFile);
     }
@@ -97,7 +103,7 @@ const VideoUpload: React.FC = () => {
               type="file"
               className="hidden"
               onChange={handleFileChange}
-              accept="video/mp4,video/quicktime"
+              accept="video/mp4,video/mov"
             />
           </label>
         </div>

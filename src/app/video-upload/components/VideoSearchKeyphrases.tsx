@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 
 const VideoSearchKeyphrases: React.FC = () => {
   const [videoName, setVideoName] = useState<string>(
-    "cosas-esenciales-primera-cita"
+    "diez-errores-mensajes-texto"
   );
   const router = useRouter();
 

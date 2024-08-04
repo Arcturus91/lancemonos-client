@@ -66,10 +66,9 @@ const VideoKeyphrases = () => {
   const handleSave = () => {
     const videoName = searchParams.get("video-name");
     const finalKeyPhrases = editedKeyPhrases.filter((key) => key.length > 3);
-    //!SI modificamos los keyphrases, estos deberían ir tmb al s3 bucket tal qe si quieres  modificar de nuevo, comienzas desde la última modificación
     const saveKeyPhrasesInAlgolia = async (finalKeyPhrases: string[]) => {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_BASE_URL + "/algolia-save-object",
+        process.env.NEXT_PUBLIC_API_BASE_URL + "/keyphrase-save",
         {
           method: "POST",
           headers: {
@@ -78,11 +77,16 @@ const VideoKeyphrases = () => {
           body: JSON.stringify({ videoName, finalKeyPhrases }),
         }
       );
-      const responseData = await response.json();
-      console.log("response data of creating object in algolia", responseData);
-      if (responseData?.objectID && responseData?.taskID) {
+      const { algoliaResponse, s3Response } = await response.json();
+
+      if (
+        algoliaResponse?.objectID &&
+        algoliaResponse?.taskID &&
+        s3Response["$metadata"] &&
+        s3Response["$metadata"]["httpStatusCode"] === 200
+      ) {
         setUserFeedbackMessage(
-          "Las palabras principales fueron grabadas en Algolia. Redireccionando..."
+          "Las palabras principales fueron grabadas en Algolia y actualizadas en s3. Redireccionando..."
         );
         setTimeout(() => {
           router.push("/video-upload");
