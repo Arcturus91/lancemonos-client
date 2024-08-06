@@ -6,56 +6,50 @@ const VideoKeyphrases = () => {
   const [keyPhrases, setKeyPhrases] = useState<string[]>([]);
   const [editedKeyPhrases, setEditedKeyPhrases] = useState<string[]>([]);
   const [userFeedbackMessage, setUserFeedbackMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const router = useRouter();
   const videoName = searchParams.get("video-name");
 
   useEffect(() => {
-    const getKeyPhrasesArray = async () => {
-      try {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_API_BASE_URL +
-            `/video-keyphrases?video-name=${videoName}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+    fetchKeyPhrases();
+  }, [videoName]);
 
-        const data = await response.json();
-        if (!data?.keyphrases && data?.name === "NoSuchKey") {
-          setUserFeedbackMessage(
-            "El video no se encontró. Revise el nombre del video otra vez..."
-          );
-          setTimeout(() => {
-            router.push("/video-upload");
-          }, 5000);
-          return [];
-        }
-        return data.keyphrases;
-      } catch (error: any) {
-        console.error(error);
-        return [];
+  const fetchKeyPhrases = async () => {
+    if (!videoName) {
+      setError("Video name is missing");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_API_BASE_URL
+        }/video-keyphrases?video-name=${encodeURIComponent(videoName)}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
 
-    const fetchAndSetKeyPhrases = async () => {
-      try {
-        const keyPhrasesArray = await getKeyPhrasesArray();
-        setKeyPhrases(keyPhrasesArray);
-        setEditedKeyPhrases(keyPhrasesArray);
-      } catch (error) {
-        console.error(error);
-        setKeyPhrases([]);
-        setEditedKeyPhrases([]);
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
       }
-    };
-
-    fetchAndSetKeyPhrases();
-  }, []);
+      console.log("video keyphrases", data);
+      setKeyPhrases(data.keyphrases);
+      setEditedKeyPhrases(data.keyphrases);
+    } catch (error) {
+      console.error("Error fetching keyphrases:", error);
+      setError("Failed to fetch keyphrases. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleEdit = (index: number, value: string) => {
     const newKeyPhrases = [...editedKeyPhrases];
@@ -63,10 +57,17 @@ const VideoKeyphrases = () => {
     setEditedKeyPhrases(newKeyPhrases);
   };
 
-  const handleSave = () => {
-    const videoName = searchParams.get("video-name");
-    const finalKeyPhrases = editedKeyPhrases.filter((key) => key.length > 3);
-    const saveKeyPhrasesInAlgolia = async (finalKeyPhrases: string[]) => {
+  const handleSave = async () => {
+    if (!videoName) {
+      setError("Video name is missing");
+      return;
+    }
+
+    const finalKeyPhrases = editedKeyPhrases.filter(
+      (key) => key.trim().length > 3
+    );
+    try {
+      setIsLoading(true);
       const response = await fetch(
         process.env.NEXT_PUBLIC_API_BASE_URL + "/keyphrase-save",
         {
@@ -77,6 +78,11 @@ const VideoKeyphrases = () => {
           body: JSON.stringify({ videoName, finalKeyPhrases }),
         }
       );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const { algoliaResponse, s3Response } = await response.json();
 
       if (
@@ -90,21 +96,34 @@ const VideoKeyphrases = () => {
         );
         setTimeout(() => {
           router.push("/video-upload");
-          sessionStorage.removeItem("courseContent");
-        }, 5000);
+          localStorage.removeItem("courseContent");
+        }, 2000);
       }
-    };
-
-    saveKeyPhrasesInAlgolia(finalKeyPhrases);
+    } catch (error) {
+      console.error("Error saving keyphrases:", error);
+      setError("Failed to save keyphrases. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  if (isLoading) {
+    return <div className="text-center mt-8">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center mt-8 text-red-500">{error}</div>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <h1 className="text-2xl font-bold mb-4">Video Keyphrases</h1>
       <h2 className="text-red-500 font-bold mb-4">{videoName}</h2>
 
-      <Suspense fallback={<h2 className="text-red-600">Cargando...</h2>}>
-        {userFeedbackMessage.length === 0 && editedKeyPhrases?.length > 0 && (
+      {userFeedbackMessage ? (
+        <h2 className="text-green-950">{userFeedbackMessage}</h2>
+      ) : (
+        editedKeyPhrases?.length > 0 && (
           <div className="w-full max-w-md bg-white shadow-md rounded-lg p-4">
             <table className="min-w-full border-collapse">
               <thead>
@@ -139,15 +158,13 @@ const VideoKeyphrases = () => {
             <button
               onClick={handleSave}
               className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+              disabled={isLoading}
             >
-              Save
+              {isLoading ? "Saving..." : "Save"}
             </button>
           </div>
-        )}
-        {userFeedbackMessage.length > 0 && (
-          <h2 className="text-green-950">{userFeedbackMessage}</h2>
-        )}
-      </Suspense>
+        )
+      )}
     </div>
   );
 };

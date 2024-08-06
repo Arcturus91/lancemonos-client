@@ -75,9 +75,19 @@ const LanzateProgramPage: React.FC = () => {
     }
   }, [pathname, searchParams, allContentData]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!allContentData) return <div>No content available</div>;
+  if (isLoading) {
+    return <div className="text-center mt-8">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center mt-8 text-red-500">{error}</div>;
+  }
+  if (!allContentData)
+    return (
+      <div className="text-center mt-8 text-red-500">
+        El contenido no está disponible.
+      </div>
+    );
 
   const handleSelectItem = (selectedVideoData: VideoContent) => {
     const { videoUrl, videoKey, videoName } = selectedVideoData;
