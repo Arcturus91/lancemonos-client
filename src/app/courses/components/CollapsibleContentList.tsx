@@ -24,27 +24,32 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
       .map((item: VideoContent) => {
         return item.videoName;
       }),
-    "2. El Marco": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "El Marco") {
+    "2. El Marco": allContentData
+      .filter((item: VideoContent) => item.videoSection === "Marco")
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
         return item.videoName;
-      } else {
-        return "";
-      }
-    }),
-    "3. Sistema N.O.M.A.S.": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Sistema N.O.M.A.S.") {
+      }),
+    "3. Sistema N.O.M.A.S.": allContentData
+      .filter(
+        (item: VideoContent) => item.videoSection === "Sistema N.O.M.A.S."
+      )
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
         return item.videoName;
-      } else {
-        return "";
-      }
-    }),
-    "4. Círculos Sociales": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Círculos Sociales") {
+      }),
+    "4. Círculos Sociales": allContentData
+      .filter((item: VideoContent) => item.videoSection === "Círculos Sociales")
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
         return item.videoName;
-      } else {
-        return "";
-      }
-    }),
+      }),
     "5. Citas": allContentData
       .filter((item: VideoContent) => item.videoSection === "Citas")
       .sort((a: VideoContent, b: VideoContent) => {
@@ -63,38 +68,41 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
       .map((item: VideoContent) => {
         return item.videoName;
       }),
-    "7. Relaciones": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Relaciones") {
+    "7. Relaciones": allContentData
+      .filter((item: VideoContent) => item.videoSection === "Relaciones")
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
         return item.videoName;
-      } else {
-        return "";
-      }
-    }),
-    "8. Sesiones de Análisis de Interacciones": allContentData.map(
-      (item: VideoContent) => {
-        if (item.videoSection === "Sesiones AI") {
-          return item.videoName;
-        } else {
-          return "";
-        }
-      }
-    ),
-    "9. Sesiones de Juegos de Roles": allContentData.map(
-      (item: VideoContent) => {
-        if (item.videoSection === "Sesiones JR") {
-          return item.videoName;
-        } else {
-          return "";
-        }
-      }
-    ),
-    "10. Sesiones de Mentalidad": allContentData.map((item: VideoContent) => {
-      if (item.videoSection === "Sesiones Mentalidad") {
+      }),
+    "8. Sesiones de Análisis de Interacciones": allContentData
+      .filter(
+        (item: VideoContent) =>
+          item.videoSection === "Análisis de Interacciones"
+      )
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
         return item.videoName;
-      } else {
-        return "";
-      }
-    }),
+      }),
+    "9. Sesiones de Juegos de Roles": allContentData
+      .filter((item: VideoContent) => item.videoSection === "Juego de Roles")
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
+        return item.videoName;
+      }),
+    "10. Sesiones de Mentalidad": allContentData
+      .filter((item: VideoContent) => item.videoSection === "Mentalidad")
+      .sort((a: VideoContent, b: VideoContent) => {
+        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+      })
+      .map((item: VideoContent) => {
+        return item.videoName;
+      }),
   };
 
   const toggleSection = (key: string) => {
