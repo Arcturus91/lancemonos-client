@@ -7,6 +7,20 @@ type ContentListProps = {
   allContentData: VideoContent[];
 };
 
+const contentDataFilter = (
+  allVideoContent: VideoContent[],
+  section: string
+) => {
+  return allVideoContent
+    .filter((item: VideoContent) => item.videoSection === section)
+    .sort((a: VideoContent, b: VideoContent) => {
+      return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+    })
+    .map((item: VideoContent) => {
+      return item.videoName;
+    });
+};
+
 const CollapsibleContentList: React.FC<ContentListProps> = ({
   handleSelectItem,
   allContentData,
@@ -16,93 +30,34 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
   );
 
   const contentList: { [key: string]: string[] } = {
-    "1. Introducción": allContentData
-      .filter((item: VideoContent) => item.videoSection === "Introducción")
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
-    "2. El Marco": allContentData
-      .filter((item: VideoContent) => item.videoSection === "Marco")
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
-    "3. Sistema N.O.M.A.S.": allContentData
-      .filter(
-        (item: VideoContent) => item.videoSection === "Sistema N.O.M.A.S."
-      )
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
-    "4. Círculos Sociales": allContentData
-      .filter((item: VideoContent) => item.videoSection === "Círculos Sociales")
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
-    "5. Citas": allContentData
-      .filter((item: VideoContent) => item.videoSection === "Citas")
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
-    "6. Chats y Apps de Citas": allContentData
-      .filter(
-        (item: VideoContent) => item.videoSection === "Chats y Apps de Citas"
-      )
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
-    "7. Relaciones": allContentData
-      .filter((item: VideoContent) => item.videoSection === "Relaciones")
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
-    "8. Sesiones de Análisis de Interacciones": allContentData
-      .filter(
-        (item: VideoContent) =>
-          item.videoSection === "Análisis de Interacciones"
-      )
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
-    "9. Sesiones de Juegos de Roles": allContentData
-      .filter((item: VideoContent) => item.videoSection === "Juego de Roles")
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
-    "10. Sesiones de Mentalidad": allContentData
-      .filter((item: VideoContent) => item.videoSection === "Mentalidad")
-      .sort((a: VideoContent, b: VideoContent) => {
-        return parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
-      })
-      .map((item: VideoContent) => {
-        return item.videoName;
-      }),
+    "1. Introducción": contentDataFilter(allContentData, "Introducción"),
+    "2. El Marco": contentDataFilter(allContentData, "Marco"),
+    "3. Sistema N.O.M.A.S.": contentDataFilter(
+      allContentData,
+      "Sistema N.O.M.A.S."
+    ),
+    "4. Círculos Sociales": contentDataFilter(
+      allContentData,
+      "Círculos Sociales"
+    ),
+    "5. Citas": contentDataFilter(allContentData, "Citas"),
+    "6. Chats y Apps de Citas": contentDataFilter(
+      allContentData,
+      "Chats y Apps de Citas"
+    ),
+    "7. Relaciones": contentDataFilter(allContentData, "Relaciones"),
+    "8. Sesiones de Análisis de Interacciones": contentDataFilter(
+      allContentData,
+      "Análisis de Interacciones"
+    ),
+    "9. Sesiones de Juegos de Roles": contentDataFilter(
+      allContentData,
+      "Juego de Roles"
+    ),
+    "10. Sesiones de Mentalidad": contentDataFilter(
+      allContentData,
+      "Mentalidad"
+    ),
   };
 
   const toggleSection = (key: string) => {
