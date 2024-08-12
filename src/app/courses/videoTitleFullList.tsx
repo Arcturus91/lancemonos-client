@@ -6,7 +6,7 @@ export const videoTitleFullList = {
   "Sesión de Mentalidad 24-07-2024": "M-24-07-2024",
   "Diseñando tu perfil de apps": "disenando-tu-perfil",
   "Una estructura para tu biografía": "estructura-biografia",
-  "Introducción y temario": "Introduccion-y-temario-Diapo-1-3",
+  "Introducción y temario": "Introduccion-y-temario",
   "Las doce reglas de las fotos": "doce-reglas-fotos",
   "Cosas esenciales para la primera cita": "cosas-esenciales-primera-cita",
   "Casos de éxito largo: 30 días de chat": "caso-exito-largo",
@@ -33,8 +33,7 @@ export const videoTitleFullList = {
   "Estructura del Programa Lánzate": "estructura-programa-lanzate",
   "El marco de nosotros": "marco-de-nosotros",
   "Visión de vida": "vision-de-vida-metas",
-  "Dos Elementos para tener matches":
-    "dos-elementos-para-tener-matches-Diapo-4",
+  "Dos Elementos para tener matches": "dos-elementos-para-tener-matches",
   "Juego de Roles 17-7-2024": "JDR-17-7-2024",
   "Esquema Inicio de conversación hasta cita":
     "esquema-inicio-de-conversacion-hasta-cita",
