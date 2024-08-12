@@ -3,9 +3,9 @@ import { UserData } from "../types";
 
 export const setUserDataCookie = (userData: UserData): void => {
   console.log("set data", userData);
-  const expiresInOneHour = 1 / 24;
+  const expiresInTwelveHours = 1 / 12;
   Cookies.set("userData", JSON.stringify(userData), {
-    expires: expiresInOneHour,
+    expires: expiresInTwelveHours,
     secure: true,
     sameSite: "strict",
   });

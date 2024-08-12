@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const maxAge = 60 * 60;
+    const maxAge = 60 * 60 * 12;
     cookies().set({
       name: "auth-token",
       value: token,

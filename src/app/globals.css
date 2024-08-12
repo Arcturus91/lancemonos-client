@@ -26,15 +26,6 @@ h1 {
   @apply flex-grow p-6;
 }
 
-.content-list ul {
-  @apply list-none p-0;
-}
-
-.content-list li {
-  @apply p-2 cursor-pointer hover:bg-gray-200;
-}
-
-
 
 input[type="email"],
 input[type="password"] {
@@ -211,3 +202,13 @@ input[type='reset'] {
   color: white;
 }
 
+.welcomeList {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.welcomeList li {
+  display: list-item;
+  margin-bottom: 5px;
+  color: gray;
+}
