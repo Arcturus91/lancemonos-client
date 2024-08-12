@@ -3,9 +3,9 @@ import React, {
   useEffect,
   useState,
   ChangeEvent,
-  MouseEvent as ReactMouseEvent,
+  useCallback,
 } from "react";
-
+import debounce from "lodash/debounce";
 import { HitSearch } from "../../types";
 import SuggestionsListComponent from "./Autocomplete";
 import { useRouter } from "next/navigation";
@@ -19,7 +19,7 @@ const AlgoliaSearchComponent = () => {
   const newRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const checkTitle = (input: string, limit: number = 5) => {
+  const checkTitle = useCallback((input: string, limit: number = 5) => {
     const lowercaseInput = input.toLowerCase();
     const videoTitlesFullList = Object.entries(videoTitleFullList);
 
@@ -43,7 +43,48 @@ const AlgoliaSearchComponent = () => {
       setShowSuggestions(true);
       setSuggestions(arraySuggestions);
     }
-  };
+  }, []);
+
+  const fetchSuggestions = useCallback(
+    async (query: string) => {
+      if (!availableToResearch || query.length < 3) {
+        setSuggestions([]);
+        return;
+      }
+
+      if (query.length <= 7) {
+        checkTitle(query);
+        return;
+      }
+
+      try {
+        setShowSuggestions(true);
+
+        const algoliaResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/algolia-search?query=${query}`
+        );
+
+        if (!algoliaResponse.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const { hits } = await algoliaResponse.json();
+        console.log("hits! in search component", hits);
+        const arraySuggestions: string[] = hits.map(
+          (h: Partial<HitSearch>) => h.videoTitle ?? "video no encontrado"
+        );
+        setSuggestions(arraySuggestions);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [availableToResearch, checkTitle]
+  );
+
+  const debouncedFetchSuggestions = useCallback(
+    debounce((query: string) => fetchSuggestions(query), 500),
+    [fetchSuggestions]
+  );
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -61,34 +102,12 @@ const AlgoliaSearchComponent = () => {
   }, [showSuggestions]);
 
   useEffect(() => {
-    if (!availableToResearch || input.length < 3) return;
+    debouncedFetchSuggestions(input);
 
-    if (input.length <= 7 && input.length >= 3) return checkTitle(input);
-
-    const fetchSuggestions = async () => {
-      try {
-        setShowSuggestions(true);
-
-        const algoliaResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/algolia-search?query=${input}`
-        );
-
-        if (!algoliaResponse.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const { hits } = await algoliaResponse.json();
-        console.log("hits! in search ocmponent", hits);
-        const arraySuggestions: string[] = hits.map(
-          (h: Partial<HitSearch>) => h.videoTitle ?? "video no encontrado"
-        );
-        setSuggestions(arraySuggestions);
-      } catch (error) {
-        console.error(error);
-      }
+    return () => {
+      debouncedFetchSuggestions.cancel();
     };
-    fetchSuggestions();
-  }, [input, availableToResearch]);
+  }, [input, debouncedFetchSuggestions]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
