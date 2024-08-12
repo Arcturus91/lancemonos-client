@@ -1,9 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserData } from "../types";
 import { useUser } from "../contexts/UserContext";
-
+import Cookies from "js-cookie";
 interface ApiGatewayResponse {
   body: UserData;
   success: true;
@@ -15,6 +15,13 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    Cookies.remove("auth-token");
+    Cookies.remove("userData");
+    sessionStorage.removeItem("sessionAuthenticated");
+    localStorage.removeItem("courseContent");
+  }, []);
 
   const { setUserData } = useUser();
 

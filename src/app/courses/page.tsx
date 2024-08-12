@@ -67,6 +67,7 @@ const LanzateProgramPage: React.FC = () => {
     checkAuth();
     const item = searchParams.get("item");
     if (item && typeof item === "string") {
+      if (!allContentData) return router.push("/courses");
       const { videoUrl, videoName } = allContentData?.find(
         (videoItem: VideoContent) => videoItem.videoKey === item
       ) as VideoContent;
@@ -91,6 +92,7 @@ const LanzateProgramPage: React.FC = () => {
     );
 
   const handleSelectItem = (selectedVideoData: VideoContent) => {
+    console.log("selected video data", selectedVideoData);
     const { videoUrl, videoKey, videoName } = selectedVideoData;
     setSelectedItem({ videoUrl, videoName });
     console.log("selected item", selectedVideoData, selectedItem);

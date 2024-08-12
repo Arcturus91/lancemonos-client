@@ -13,8 +13,8 @@ const SuggestionsListComponent: React.FC<SuggestionListProps> = ({
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(0);
 
   const handleItemClick = (index: number, suggestion: string) => {
-    setActiveSuggestionIndex(index); // Set the current active index
-    onClick(index, suggestion); // Call the parent's onClick handler
+    setActiveSuggestionIndex(index);
+    onClick(index, suggestion);
   };
 
   return suggestions.length ? (

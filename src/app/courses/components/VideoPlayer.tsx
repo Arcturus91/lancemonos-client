@@ -2,6 +2,7 @@ import { VideoContent } from "@/app/types";
 import React from "react";
 
 const VideoPlayer: React.FC<any> = ({ videoData }) => {
+  console.log("video data", videoData);
   const { videoUrl, videoName } = videoData;
   return (
     <div className="flex flex-col items-center justify-center px-4 py-8 bg-gray-100">

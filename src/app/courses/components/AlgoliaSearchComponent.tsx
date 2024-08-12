@@ -9,6 +9,7 @@ import React, {
 import { HitSearch } from "../../types";
 import SuggestionsListComponent from "./Autocomplete";
 import { useRouter } from "next/navigation";
+import { videoTitleFullList } from "../videoTitleFullList";
 
 const AlgoliaSearchComponent = () => {
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -17,6 +18,32 @@ const AlgoliaSearchComponent = () => {
   const [availableToResearch, setAvailableToResearch] = useState<boolean>(true);
   const newRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const checkTitle = (input: string, limit: number = 5) => {
+    const lowercaseInput = input.toLowerCase();
+    const videoTitlesFullList = Object.entries(videoTitleFullList);
+
+    const arraySuggestions = videoTitlesFullList
+      .filter(([key]) => {
+        const lowercaseKey = key.toLowerCase();
+        return lowercaseInput
+          .split(" ")
+          .every((word) => lowercaseKey.includes(word));
+      })
+      .sort(([keyA], [keyB]) => {
+        const matchesA = keyA.toLowerCase().split(lowercaseInput).length - 1;
+        const matchesB = keyB.toLowerCase().split(lowercaseInput).length - 1;
+        return matchesB - matchesA;
+      })
+      .map(([, value]) => value)
+      .slice(0, limit);
+
+    console.log(input, arraySuggestions);
+    if (arraySuggestions.length > 0) {
+      setShowSuggestions(true);
+      setSuggestions(arraySuggestions);
+    }
+  };
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -35,6 +62,8 @@ const AlgoliaSearchComponent = () => {
 
   useEffect(() => {
     if (!availableToResearch || input.length < 3) return;
+
+    if (input.length <= 7 && input.length >= 3) return checkTitle(input);
 
     const fetchSuggestions = async () => {
       try {
