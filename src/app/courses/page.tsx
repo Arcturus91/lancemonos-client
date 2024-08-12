@@ -8,6 +8,7 @@ import CollapsibleContentList from "./components/CollapsibleContentList";
 import { useAuthContext } from "../contexts/AuthContext";
 import { VideoContent } from "../types";
 import WelcomeContent from "./htmlContent/WelcomeContent";
+import WatchedVideoButton from "./components/WatchedVideoButton";
 const PdfViewer = React.lazy(() => import("./components/PdfViewer"));
 
 function FallBack() {
@@ -68,10 +69,10 @@ const LanzateProgramPage: React.FC = () => {
     const item = searchParams.get("item");
     if (item && typeof item === "string") {
       if (!allContentData) return router.push("/courses");
-      const { videoUrl, videoName } = allContentData?.find(
+      const { videoUrl, videoName, videoKey } = allContentData?.find(
         (videoItem: VideoContent) => videoItem.videoKey === item
       ) as VideoContent;
-      setSelectedItem({ videoUrl, videoName });
+      setSelectedItem({ videoUrl, videoName, videoKey });
     } else if (!item) {
       setSelectedItem(null);
     }
@@ -94,7 +95,7 @@ const LanzateProgramPage: React.FC = () => {
   const handleSelectItem = (selectedVideoData: VideoContent) => {
     console.log("selected video data", selectedVideoData);
     const { videoUrl, videoKey, videoName } = selectedVideoData;
-    setSelectedItem({ videoUrl, videoName });
+    setSelectedItem({ videoUrl, videoName, videoKey });
     console.log("selected item", selectedVideoData, selectedItem);
     router.push(`courses/?item=${videoKey}`);
     if (videoUrl.includes("pdf")) {
@@ -117,9 +118,17 @@ const LanzateProgramPage: React.FC = () => {
           <div className="main-content ml-4">
             {selectedItem &&
               (contentType === "video" ? (
-                <VideoPlayer videoData={selectedItem} />
+                <>
+                  <WatchedVideoButton
+                    videoKey={selectedItem.videoKey as string}
+                  />
+                  <VideoPlayer videoData={selectedItem} />
+                </>
               ) : (
                 <Suspense fallback={<div>Loading PDF...</div>}>
+                  <WatchedVideoButton
+                    videoKey={selectedItem.videoKey as string}
+                  />
                   <PdfViewer pdfData={selectedItem} />
                 </Suspense>
               ))}

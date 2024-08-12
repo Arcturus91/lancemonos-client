@@ -7,9 +7,9 @@ import {
   GetItemOutput,
 } from "@aws-sdk/client-dynamodb";
 
-const REGION = "sa-east-1";
+const REGION = process.env.AWS_REGION;
 const dynamoClient = new DynamoDBClient({ region: REGION });
-const USER_TABLE = "lancemonos-users";
+const USER_TABLE = process.env.AWS_USER_TABLE;
 
 interface VideoWatched {
   videoName: string;
