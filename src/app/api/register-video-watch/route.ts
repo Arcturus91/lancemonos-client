@@ -5,11 +5,11 @@ import {
   UpdateItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
 import { cookies } from "next/headers";
-import { jwtVerify, jwtDecrypt } from "jose";
+import { jwtVerify } from "jose";
 
 const REGION = process.env.AWS_REGION;
 const dynamoClient = new DynamoDBClient({ region: REGION });
-const USER_TABLE = "lancemonos-users";
+const USER_TABLE = process.env.AWS_USER_TABLE;
 
 interface VideoWatched {
   videoKey: string;
