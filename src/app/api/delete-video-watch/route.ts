@@ -6,6 +6,7 @@ import {
   GetItemCommand,
   GetItemOutput,
 } from "@aws-sdk/client-dynamodb";
+import { validatePayloadInToken } from "../utils-serverSide/serverUtils";
 
 const REGION = process.env.AWS_REGION;
 const dynamoClient = new DynamoDBClient({ region: REGION });
@@ -15,7 +16,16 @@ interface VideoWatched {
   videoName: string;
 }
 export async function POST(request: Request) {
-  const user = { email: "rcollioa86@gmail.com" };
+  const payload = await validatePayloadInToken();
+  const userEmail = payload.email as string;
+
+  if (!userEmail) {
+    return NextResponse.json(
+      { error: "User email not found in token" },
+      { status: 400 }
+    );
+  }
+
   const { videoName } = (await request.json()) as VideoWatched;
 
   if (!videoName) {
@@ -26,11 +36,10 @@ export async function POST(request: Request) {
   }
 
   try {
-    // First, we need to find the index of the videoKey in the list
     const getItemParams = {
       TableName: USER_TABLE,
       Key: {
-        email: { S: user.email },
+        email: { S: userEmail },
       },
       ProjectionExpression: "videosWatched",
     };
@@ -61,7 +70,7 @@ export async function POST(request: Request) {
     const updateToDeleteParams: UpdateItemCommandInput = {
       TableName: USER_TABLE,
       Key: {
-        email: { S: user.email },
+        email: { S: userEmail },
       },
       UpdateExpression: `REMOVE #VW[${indexToRemove.toString()}]`,
       ConditionExpression: "contains(#VW, :videoKey)",
@@ -73,24 +82,16 @@ export async function POST(request: Request) {
       },
     };
 
-    /*     if (!updateToDeleteParams.ExpressionAttributeNames) {
-      updateToDeleteParams.ExpressionAttributeNames = {};
-    }
-
-    updateToDeleteParams.ExpressionAttributeNames[":#index"] =
-      indexToRemove.toString(); */
-
     const command = new UpdateItemCommand(updateToDeleteParams);
     const response = await dynamoClient.send(command);
     console.log("Update succeeded:", response);
 
     return NextResponse.json(response);
   } catch (error) {
-    /*     if (error.name === "ConditionalCheckFailedException") {
-        console.log("Video not in the list, no update needed");
-      }  */
-
-    console.log("general error:", error);
+    console.error("Error:", error);
+    if (error instanceof Error && error.message === "No auth token found") {
+      return NextResponse.redirect(new URL("/auth", request.url));
+    }
     return NextResponse.json(
       { error: "Internal server error", message: (error as Error).message },
       { status: 500 }

@@ -4,8 +4,6 @@ import {
   UpdateItemCommand,
   UpdateItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
-import { cookies } from "next/headers";
-import { jwtVerify } from "jose";
 import { validatePayloadInToken } from "../utils-serverSide/serverUtils";
 
 const REGION = process.env.AWS_REGION;

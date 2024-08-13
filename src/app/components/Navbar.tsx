@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
           ) : isAuthenticated ? (
             <>
               <p className="text-white">{userData?.email}</p>
-              <p className="text-white">Progreso: %{userProgress}</p>
+              <p className="text-white">Progreso: {userProgress}%</p>
               <button
                 onClick={handleLogout}
                 className="text-white hover:text-gray-400"
