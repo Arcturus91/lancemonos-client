@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { UserData } from "../types";
 import { useUser } from "../contexts/UserContext";
 import Cookies from "js-cookie";
+import { useAuthContext } from "../contexts/AuthContext";
 interface ApiGatewayResponse {
   body: UserData;
   success: true;
@@ -15,10 +16,10 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const { checkAuth } = useAuthContext();
   useEffect(() => {
     Cookies.remove("auth-token");
-    Cookies.remove("userData");
+    localStorage.removeItem("userData");
     sessionStorage.removeItem("sessionAuthenticated");
     localStorage.removeItem("courseContent");
   }, []);
@@ -54,6 +55,7 @@ const LoginPage: React.FC = () => {
 
       if (responseData.success) {
         sessionStorage.setItem("sessionAuthenticated", JSON.stringify(true));
+        checkAuth();
         console.log("setuserdata", responseData.body);
         setUserData(responseData.body);
         router.refresh();

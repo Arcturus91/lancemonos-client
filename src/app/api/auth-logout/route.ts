@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 export async function POST(request: Request) {
   try {
     cookies().delete("auth-token");
-    cookies().delete("userData");
     const remainingCookie = cookies().get("auth-token");
     if (remainingCookie?.value) {
       console.error("Failed to delete auth-token cookie", remainingCookie);

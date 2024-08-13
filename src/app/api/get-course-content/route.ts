@@ -26,7 +26,7 @@ export async function GET(): Promise<Response> {
       };
     });
 
-    console.log("success scanning db table", normalizedData);
+    //console.log("success scanning db table", normalizedData);
     return new Response(JSON.stringify(normalizedData));
   } catch (error) {
     console.error("There is an error getting content!: ", error);

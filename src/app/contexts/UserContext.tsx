@@ -1,11 +1,6 @@
 "use client";
 import React, { createContext, useState, useContext, useEffect } from "react";
-import Cookies from "js-cookie";
 import { UserData } from "../types";
-import {
-  getUserDataFromCookie,
-  setUserDataCookie,
-} from "../utils-client-side/cookies";
 
 interface UserContextType {
   userData: UserData | null;
@@ -20,18 +15,20 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userData, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
-    const cookieData = getUserDataFromCookie();
-    if (cookieData) {
-      setUserData(cookieData);
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      console.log("user data parseado", JSON.parse(userData));
+      setUserData(JSON.parse(userData));
     }
   }, []);
 
   const handleSetUserData = (data: UserData | null) => {
+    console.log("handleSetUserData", data);
     setUserData(data);
     if (data) {
-      setUserDataCookie(data);
+      localStorage.setItem("userData", JSON.stringify(data));
     } else {
-      Cookies.remove("userData");
+      localStorage.removeItem("userData");
     }
   };
 

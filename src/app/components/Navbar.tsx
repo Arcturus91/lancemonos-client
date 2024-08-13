@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent";
 import { useAuthContext } from "../contexts/AuthContext";
@@ -39,6 +39,11 @@ const Navbar: React.FC = () => {
       console.error("Logout failed:", error);
     }
   };
+
+  useEffect(() => {
+    // This will run whenever userData changes
+    console.log("userData and isAuth in Navbar:", userData, isAuthenticated);
+  }, [userData, isAuthenticated]);
 
   return (
     <nav className="bg-black text-white">
