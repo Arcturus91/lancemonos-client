@@ -70,7 +70,7 @@ const WatchedVideoButton: React.FC<WatchedVideoProps> = ({ videoKey }) => {
       case "idle":
         return "Completar lección";
       case "loading":
-        return "Cargando...";
+        return "Loading...";
       case "error":
         return "Error - Intentar de nuevo";
       case "completed":

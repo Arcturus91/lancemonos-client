@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import VideoPlayer from "./components/VideoPlayer";
@@ -11,24 +11,23 @@ import WelcomeContent from "./htmlContent/WelcomeContent";
 import WatchedVideoButton from "./components/WatchedVideoButton";
 const PdfViewer = React.lazy(() => import("./components/PdfViewer"));
 
-function FallBack() {
-  return <h2 className="text-red-500">Cargando...</h2>;
-}
+const FallBack: React.FC = () => <h2 className="text-red-500">Loading...</h2>;
 
 const LanzateProgramPage: React.FC = () => {
-  const [contentType, setContentType] = useState("video");
+  const [contentType, setContentType] = useState<"video" | "text">("video");
   const [selectedItem, setSelectedItem] =
     useState<Partial<VideoContent> | null>(null);
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const { checkAuth } = useAuthContext();
 
   const [allContentData, setAllContentData] = useState<VideoContent[] | null>(
     null
   );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { checkAuth } = useAuthContext();
 
   useEffect(() => {
     const getAllContent = async () => {
@@ -78,63 +77,60 @@ const LanzateProgramPage: React.FC = () => {
     }
   }, [pathname, searchParams, allContentData]);
 
-  if (isLoading) {
-    return <div className="text-center mt-8">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center mt-8 text-red-500">{error}</div>;
-  }
-  if (!allContentData)
-    return (
-      <div className="text-center mt-8 text-red-500">
-        El contenido no está disponible.
-      </div>
-    );
-
   const handleSelectItem = (selectedVideoData: VideoContent) => {
     const { videoUrl, videoKey, videoName } = selectedVideoData;
     setSelectedItem({ videoUrl, videoName, videoKey });
     router.push(`courses/?item=${videoKey}`);
-    if (videoUrl.includes("pdf")) {
-      setContentType("text");
-    } else {
-      setContentType("video");
-    }
+    setContentType(videoUrl.includes("pdf") ? "text" : "video");
   };
 
+  const renderContent = useMemo(() => {
+    if (isLoading) return <div className="text-center mt-8">Loading...</div>;
+    if (error)
+      return <div className="text-center mt-8 text-red-500">{error}</div>;
+    if (!allContentData)
+      return (
+        <div className="text-center mt-8 text-red-500">
+          El contenido no está disponible.
+        </div>
+      );
+
+    if (!selectedItem) return <WelcomeContent />;
+
+    return (
+      <>
+        <WatchedVideoButton videoKey={selectedItem.videoKey as string} />
+        {contentType === "video" ? (
+          <VideoPlayer videoData={selectedItem} />
+        ) : (
+          <React.Suspense fallback={<div>Loading PDF...</div>}>
+            <PdfViewer pdfData={selectedItem} />
+          </React.Suspense>
+        )}
+      </>
+    );
+  }, [isLoading, error, allContentData, selectedItem, contentType]);
+
   return (
-    <>
-      <Suspense fallback={<FallBack />}>
-        <div className="container-programa flex">
-          <div className="sidebar">
+    <React.Suspense fallback={<FallBack />}>
+      <div className="container-programa flex">
+        <div className="sidebar">
+          {isLoading ? (
+            <div>Loading sidebar content...</div>
+          ) : allContentData ? (
             <CollapsibleContentList
               handleSelectItem={handleSelectItem}
               allContentData={allContentData}
             />
-          </div>
-          <div className="main-content ml-4">
-            {selectedItem &&
-              (contentType === "video" ? (
-                <>
-                  <WatchedVideoButton
-                    videoKey={selectedItem.videoKey as string}
-                  />
-                  <VideoPlayer videoData={selectedItem} />
-                </>
-              ) : (
-                <Suspense fallback={<div>Loading PDF...</div>}>
-                  <WatchedVideoButton
-                    videoKey={selectedItem.videoKey as string}
-                  />
-                  <PdfViewer pdfData={selectedItem} />
-                </Suspense>
-              ))}
-            {!selectedItem && <WelcomeContent />}
-          </div>
+          ) : (
+            <div>No content available</div>
+          )}
         </div>
-      </Suspense>
-    </>
+        <div className="main-content ml-4">
+          {isLoading ? <div>Loading main content...</div> : renderContent}
+        </div>
+      </div>
+    </React.Suspense>
   );
 };
 
