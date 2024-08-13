@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import algoliasearch from "algoliasearch/lite";
+import { validatePayloadInToken } from "../utils-serverSide/serverUtils";
 
 const indexNameSecret = process.env.ALGOLIA_INDEX_NAME as string;
 const searchClient = algoliasearch(
@@ -12,6 +13,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   try {
+    await validatePayloadInToken();
     const searchParams = request.nextUrl.searchParams;
     const query = searchParams.get("query");
     if (!query) {
@@ -20,8 +22,14 @@ export async function GET(request: NextRequest) {
     const algoliaData = await index.search(query);
 
     return NextResponse.json(algoliaData);
-  } catch (error: any) {
-    console.error(error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    console.error("Error:", error);
+    if (error instanceof Error && error.message === "No auth token found") {
+      return NextResponse.redirect(new URL("/auth", request.url));
+    }
+    return NextResponse.json(
+      { error: "Internal server error", message: (error as Error).message },
+      { status: 500 }
+    );
   }
 }

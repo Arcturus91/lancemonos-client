@@ -4,7 +4,7 @@ import {
   S3ServiceException,
 } from "@aws-sdk/client-s3";
 import { Readable } from "stream";
-import { streamToString } from "../utils-serverSide/streamToString";
+import { streamToString } from "../utils-serverSide/serverUtils";
 import { NextRequest, NextResponse } from "next/server";
 
 const s3Client = new S3Client({ region: process.env.AWS_REGION });

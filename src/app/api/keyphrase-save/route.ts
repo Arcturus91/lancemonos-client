@@ -1,17 +1,15 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
+import { validatePayloadInToken } from "../utils-serverSide/serverUtils";
 
-// Environment variables
 const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID as string;
 const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
 const ALGOLIA_WRITE_API_KEY = process.env.ALGOLIA_WRITE_API_KEY as string;
 const AWS_BUCKET_NAME_KEYPHRASES = process.env.AWS_BUCKET_NAME_KEYPHRASES;
 const AWS_REGION = "sa-east-1";
 
-// S3 client initialization
 const s3Client = new S3Client({ region: AWS_REGION });
 
-// Interfaces
 interface KeyPhrasesData {
   finalKeyPhrases: string[];
   videoName: string;
@@ -22,10 +20,8 @@ interface AlgoliaRequestBody {
   finalKeyPhrases: string[];
 }
 
-// Constants
 const ALGOLIA_API_URL = `https://${ALGOLIA_APP_ID}-dsn.algolia.net/1/indexes/${ALGOLIA_INDEX_NAME}`;
 
-// Helper functions
 async function saveToAlgolia(data: AlgoliaRequestBody): Promise<any> {
   const response = await fetch(ALGOLIA_API_URL, {
     method: "POST",
@@ -58,9 +54,10 @@ async function saveToS3(videoName: string, keyphrases: string[]): Promise<any> {
   return s3Client.send(new PutObjectCommand(putObjectParams));
 }
 
-// Main handler
 export async function POST(request: Request) {
   try {
+    await validatePayloadInToken();
+
     const { finalKeyPhrases, videoName } =
       (await request.json()) as KeyPhrasesData;
 
@@ -76,12 +73,12 @@ export async function POST(request: Request) {
       saveToS3(videoName, finalKeyPhrases),
     ]);
 
-    console.log("Algolia response:", algoliaResponse);
-    console.log("S3 response:", s3Response);
-
     return NextResponse.json({ algoliaResponse, s3Response });
   } catch (error) {
-    console.error("Error saving keyphrases:", error);
+    console.error("Error:", error);
+    if (error instanceof Error && error.message === "No auth token found") {
+      return NextResponse.redirect(new URL("/auth", request.url));
+    }
     return NextResponse.json(
       { error: "Internal server error", message: (error as Error).message },
       { status: 500 }
