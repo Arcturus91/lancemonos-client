@@ -1,7 +1,7 @@
 "use client";
 import { useUser } from "@/app/contexts/UserContext";
 import { UserData } from "@/app/types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 
 interface WatchedVideoProps {
   videoKey: string;
@@ -9,50 +9,93 @@ interface WatchedVideoProps {
 
 const WatchedVideoButton: React.FC<WatchedVideoProps> = ({ videoKey }) => {
   const { userData, setUserData } = useUser();
-  console.log("userdata in watched video button", userData);
-  const [statusStringButton, setstatusStringButton] =
-    useState("Completar lección");
-  const videosAlreadyWatched = userData?.videosWatched ?? [];
+  const [buttonStatus, setButtonStatus] = useState<
+    "idle" | "loading" | "error" | "completed"
+  >("idle");
+
+  const videosAlreadyWatched = useMemo(
+    () => userData?.videosWatched ?? [],
+    [userData?.videosWatched]
+  );
+
+  const isVideoWatched = useMemo(
+    () => videosAlreadyWatched.includes(videoKey),
+    [videosAlreadyWatched, videoKey]
+  );
 
   useEffect(() => {
-    console.log("useEffect loadded", videoKey);
-    if (videosAlreadyWatched.find((item) => item === videoKey)) {
-      setstatusStringButton("Completado🔥");
-    } else {
-      setstatusStringButton("Completar lección");
-    }
-  }, [videoKey, videosAlreadyWatched]);
+    setButtonStatus(isVideoWatched ? "completed" : "idle");
+  }, [isVideoWatched]);
 
-  const registerWatchedVideo = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/register-video-watch`,
-      {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify({ videoKey }),
+  const registerWatchedVideo = useCallback(async () => {
+    if (!userData) return;
+
+    setButtonStatus("loading");
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/register-video-watch`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ videoKey }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to register video");
       }
-    );
 
-    const registerVideoResponse = await response.json();
-    if (
-      registerVideoResponse["$metadata"] &&
-      registerVideoResponse["$metadata"]["httpStatusCode"] === 200
-    ) {
-      videosAlreadyWatched.push(videoKey);
-      const videosWatched = videosAlreadyWatched;
-      setUserData({ ...userData, videosWatched } as UserData);
-      setstatusStringButton("Completado🔥");
+      const registerVideoResponse = await response.json();
+      if (registerVideoResponse["$metadata"]?.httpStatusCode === 200) {
+        const updatedUserData: UserData = {
+          ...userData,
+          videosWatched: [...userData.videosWatched, videoKey],
+        };
+        setUserData(updatedUserData);
+        setButtonStatus("completed");
+      } else {
+        throw new Error("Unexpected response from server");
+      }
+    } catch (error) {
+      console.error("Error registering video:", error);
+      setButtonStatus("error");
     }
-  };
+  }, [userData, videoKey, setUserData]);
+
+  const buttonText = useMemo(() => {
+    switch (buttonStatus) {
+      case "idle":
+        return "Completar lección";
+      case "loading":
+        return "Cargando...";
+      case "error":
+        return "Error - Intentar de nuevo";
+      case "completed":
+        return "Completado🔥";
+    }
+  }, [buttonStatus]);
+
   return (
-    <>
-      <button
-        onClick={() => registerWatchedVideo()}
-        className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded disabled:bg-gray-400"
-      >
-        {statusStringButton}
-      </button>
-    </>
+    <button
+      onClick={registerWatchedVideo}
+      disabled={
+        !userData || buttonStatus === "loading" || buttonStatus === "completed"
+      }
+      className={`px-4 py-2 text-sm font-medium text-white rounded ${
+        buttonStatus === "completed"
+          ? "bg-green-500"
+          : buttonStatus === "error"
+          ? "bg-red-500"
+          : buttonStatus === "loading"
+          ? "bg-gray-400"
+          : "bg-blue-500"
+      }`}
+    >
+      {buttonText}
+    </button>
   );
 };
 
