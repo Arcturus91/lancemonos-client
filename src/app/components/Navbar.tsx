@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
   const { isAuthenticated, isLoading, checkAuth } = useAuthContext();
   const { userData, setUserData } = useUser();
   const totalContentAmount = Object.keys(videoTitleFullList).length;
-  console.log("isAuth and userData", isAuthenticated, userData);
+
   const videosWatchedAmount = userData?.videosWatched.length ?? 0;
   const userProgress = Math.ceil(
     100 * (videosWatchedAmount / totalContentAmount)
