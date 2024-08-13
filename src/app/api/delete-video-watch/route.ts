@@ -13,7 +13,7 @@ const dynamoClient = new DynamoDBClient({ region: REGION });
 const USER_TABLE = process.env.AWS_USER_TABLE;
 
 interface VideoWatched {
-  videoName: string;
+  videoKey: string;
 }
 export async function POST(request: Request) {
   const payload = await validatePayloadInToken();
@@ -26,9 +26,9 @@ export async function POST(request: Request) {
     );
   }
 
-  const { videoName } = (await request.json()) as VideoWatched;
+  const { videoKey } = (await request.json()) as VideoWatched;
 
-  if (!videoName) {
+  if (!videoKey) {
     return NextResponse.json(
       { error: "Missing required fields" },
       { status: 400 }
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
       throw Error("getItemResponse undefined");
     }
     const videosWatched = getItemResponse.Item.videosWatched.L;
-    const indexToRemove = videosWatched.findIndex((v) => v.S === videoName);
+    const indexToRemove = videosWatched.findIndex((v) => v.S === videoKey);
     console.log(
       "videos watched and index to remove",
       videosWatched,
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
         "#VW": "videosWatched",
       },
       ExpressionAttributeValues: {
-        ":videoKey": { S: videoName },
+        ":videoKey": { S: videoKey },
       },
     };
 
