@@ -93,10 +93,8 @@ const LanzateProgramPage: React.FC = () => {
     );
 
   const handleSelectItem = (selectedVideoData: VideoContent) => {
-    console.log("selected video data", selectedVideoData);
     const { videoUrl, videoKey, videoName } = selectedVideoData;
     setSelectedItem({ videoUrl, videoName, videoKey });
-    console.log("selected item", selectedVideoData, selectedItem);
     router.push(`courses/?item=${videoKey}`);
     if (videoUrl.includes("pdf")) {
       setContentType("text");

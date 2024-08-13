@@ -1,10 +1,9 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-const ONE_SECOND = 1000;
-const ONE_MINUTE = ONE_SECOND * 60;
-const ONE_HOUR = ONE_MINUTE * 60;
-const ONE_DAY = ONE_HOUR * 24;
+const normalizeVideosWatched = (videosWatched: any[]) => {
+  return videosWatched.map((item) => item.S);
+};
 
 export async function POST(request: Request) {
   try {
@@ -63,7 +62,10 @@ export async function POST(request: Request) {
       sameSite: "strict",
     });
     console.log("auth login", body);
-    return NextResponse.json({ success: true, body: body.user });
+    const { user } = body;
+    const videosWatched = normalizeVideosWatched(user.videosWatched);
+    const refactoredUserData = { ...user, videosWatched };
+    return NextResponse.json({ success: true, body: refactoredUserData });
   } catch (error) {
     console.error("Error in login route:", error);
     return NextResponse.json(

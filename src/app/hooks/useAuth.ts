@@ -7,11 +7,9 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const checkAuth = useCallback(async () => {
-    console.log("useAuth called");
     setIsLoading(true);
 
     const cachedAuth = sessionStorage.getItem("sessionAuthenticated");
-    console.log("useAuth value", cachedAuth);
     if (cachedAuth === "true") {
       setIsAuthenticated(true);
       setIsLoading(false);
