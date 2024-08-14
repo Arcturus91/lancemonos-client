@@ -125,7 +125,7 @@ const LoginPage: React.FC = () => {
             href="/auth-pass-change"
             className="text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
           >
-            Olvidó su Contraseña?
+            Cambiar contraseña?
           </a>
         </div>
       </form>

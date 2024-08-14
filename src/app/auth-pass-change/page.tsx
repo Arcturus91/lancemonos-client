@@ -24,11 +24,10 @@ const PasswordChangePage: React.FC = () => {
   const router = useRouter();
 
   const validatePassword = (password: string): boolean => {
-    // Implement password strength validation logic here
-    return password.length >= 8; // Simple example
+    return password.length >= 8;
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newPassword !== confirmNewPassword) {
       setError("New passwords do not match");
@@ -40,10 +39,10 @@ const PasswordChangePage: React.FC = () => {
     }
     setIsLoading(true);
     setError(null);
-
+    console.log("password change", { email, password, newPassword });
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth-recovery`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/password-change`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -87,7 +86,7 @@ const PasswordChangePage: React.FC = () => {
           <span className="block sm:inline">{error}</span>
         </div>
       )}
-      <form className="w-full max-w-sm" onSubmit={handleLogin}>
+      <form className="w-full max-w-sm" onSubmit={handlePasswordChange}>
         {/* Email input */}
         <div className="mb-4">
           <label
