@@ -27,14 +27,14 @@ const LandingPage: React.FC = () => {
           href="/courses"
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline"
         >
-          Go to Program
+          Ir al Programa
         </a>
         {!isSessionAuthenticated && (
           <a
             href="/auth"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline"
           >
-            Log in
+            Ingresa
           </a>
         )}
       </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 
 const Footer: React.FC = () => {
   return (
@@ -7,27 +6,27 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <div className="text-lg font-bold">
-            <Link className="text-white hover:text-gray-400" href="/">
+            <a className="text-white hover:text-gray-400" href="/">
               Lancémonos Nomás
-            </Link>
+            </a>
           </div>
           <div className="text-center">
             <p className="text-lg">
-              &copy; {new Date().getFullYear()} Lancémonos Nomás. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} Lancémonos Nomás. Todos los
+              derechos reservados
             </p>
           </div>
 
           <div className="space-x-4">
-            <Link className="text-white hover:text-gray-400" href="/">
-              Home
-            </Link>
-            <Link className="text-white hover:text-gray-400" href="/programa">
+            <a className="text-white hover:text-gray-400" href="/">
+              Inicio
+            </a>
+            <a className="text-white hover:text-gray-400" href="/courses">
               Programa
-            </Link>
-            <Link className="text-white hover:text-gray-400" href="/login">
-              Log In
-            </Link>
+            </a>
+            <a className="text-white hover:text-gray-400" href="/auth">
+              Ingresa
+            </a>
           </div>
         </div>
       </div>
