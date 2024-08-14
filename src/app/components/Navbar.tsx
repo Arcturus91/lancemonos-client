@@ -6,6 +6,7 @@ import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent
 import { useAuthContext } from "../contexts/AuthContext";
 import { useUser } from "../contexts/UserContext";
 import { videoTitleFullList } from "../courses/videoTitleFullList";
+import Spinner from "./LoadingSpinner";
 
 const Navbar: React.FC = () => {
   const path = usePathname();
@@ -63,7 +64,7 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex items-center space-x-4">
           {isLoading ? (
-            <span>Loading...</span>
+            <Spinner size="medium" />
           ) : isAuthenticated ? (
             <>
               <p className="text-white">{userData?.email}</p>

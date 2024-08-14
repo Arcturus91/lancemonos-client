@@ -1,4 +1,5 @@
 "use client";
+import Spinner from "@/app/components/LoadingSpinner";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
 
@@ -116,7 +117,7 @@ const VideoKeyphrases = () => {
   };
 
   if (isLoading) {
-    return <div className="text-center mt-8">Loading...</div>;
+    return <Spinner size="medium" />;
   }
 
   if (error) {

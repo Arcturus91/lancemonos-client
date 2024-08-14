@@ -9,9 +9,10 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { VideoContent } from "../types";
 import WelcomeContent from "./htmlContent/WelcomeContent";
 import WatchedVideoButton from "./components/WatchedVideoButton";
+import Spinner from "../components/LoadingSpinner";
 const PdfViewer = React.lazy(() => import("./components/PdfViewer"));
 
-const FallBack: React.FC = () => <h2 className="text-red-500">Loading...</h2>;
+const FallBack: React.FC = () => <Spinner size="large" />;
 
 const LanzateProgramPage: React.FC = () => {
   const [contentType, setContentType] = useState<"video" | "text">("video");
@@ -85,7 +86,7 @@ const LanzateProgramPage: React.FC = () => {
   };
 
   const renderContent = useMemo(() => {
-    if (isLoading) return <div className="text-center mt-8">Loading...</div>;
+    if (isLoading) return <Spinner size="large" />;
     if (error)
       return <div className="text-center mt-8 text-red-500">{error}</div>;
     if (!allContentData)
@@ -103,7 +104,13 @@ const LanzateProgramPage: React.FC = () => {
         {contentType === "video" ? (
           <VideoPlayer videoData={selectedItem} />
         ) : (
-          <React.Suspense fallback={<div>Loading PDF...</div>}>
+          <React.Suspense
+            fallback={
+              <div>
+                <Spinner size="large" />
+              </div>
+            }
+          >
             <PdfViewer pdfData={selectedItem} />
           </React.Suspense>
         )}
@@ -116,7 +123,7 @@ const LanzateProgramPage: React.FC = () => {
       <div className="container-programa flex">
         <div className="sidebar">
           {isLoading ? (
-            <div>Loading sidebar content...</div>
+            <Spinner size="large" />
           ) : allContentData ? (
             <CollapsibleContentList
               handleSelectItem={handleSelectItem}
@@ -127,7 +134,7 @@ const LanzateProgramPage: React.FC = () => {
           )}
         </div>
         <div className="main-content ml-4">
-          {isLoading ? <div>Loading main content...</div> : renderContent}
+          {isLoading ? <Spinner size="large" /> : renderContent}
         </div>
       </div>
     </React.Suspense>
