@@ -50,12 +50,9 @@ const LoginPage: React.FC = () => {
         throw new Error(responseData.error || "An error occurred during login");
       }
 
-      console.log("API Gateway response:", responseData);
-
       if (responseData.success) {
         sessionStorage.setItem("sessionAuthenticated", JSON.stringify(true));
         checkAuth();
-        console.log("setuserdata", responseData.body);
         setUserData(responseData.body);
         router.refresh();
         router.push("/courses");
@@ -87,7 +84,7 @@ const LoginPage: React.FC = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="email"
           >
-            Email
+            Correo
           </label>
           <input
             type="email"
@@ -95,7 +92,7 @@ const LoginPage: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter your email"
+            placeholder="Coloca tu correo"
             required
           />
         </div>
@@ -104,7 +101,7 @@ const LoginPage: React.FC = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="password"
           >
-            Password
+            Contraseña
           </label>
           <input
             type="password"
@@ -112,17 +109,11 @@ const LoginPage: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter your password"
+            placeholder="Coloca tu password"
             required
           />
         </div>
-        <div className="flex items-center justify-between">
-          <a
-            href="/"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Home
-          </a>
+        <div className="flex flex-col items-center justify-center">
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -130,6 +121,12 @@ const LoginPage: React.FC = () => {
           >
             {isLoading ? "Ingresando..." : "Ingresa"}
           </button>
+          <a
+            href="/auth-pass-change"
+            className="text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+          >
+            Olvidó su Contraseña?
+          </a>
         </div>
       </form>
     </div>
