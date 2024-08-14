@@ -15,8 +15,17 @@ export const useAuth = () => {
       setIsLoading(false);
       return;
     }
-
     try {
+      const storedUserData = localStorage.getItem("userData");
+      if (!storedUserData) {
+        setIsAuthenticated(false);
+
+        await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth-logout`, {
+          method: "POST",
+        });
+        return;
+      }
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth-validate`,
         {
