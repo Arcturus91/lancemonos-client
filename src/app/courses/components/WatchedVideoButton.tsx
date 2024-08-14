@@ -65,6 +65,53 @@ const WatchedVideoButton: React.FC<WatchedVideoProps> = ({ videoKey }) => {
     }
   }, [userData, videoKey, setUserData]);
 
+  const unregisterVideoWatched = useCallback(async () => {
+    if (!userData) return;
+
+    setButtonStatus("loading");
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/delete-video-watch`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ videoKey }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to register video");
+      }
+
+      const unregisterVideoResponse = await response.json();
+      if (unregisterVideoResponse["$metadata"]?.httpStatusCode === 200) {
+        const updatedUserData: UserData = {
+          ...userData,
+          videosWatched: userData.videosWatched.filter(
+            (item) => item !== videoKey
+          ),
+        };
+        setUserData(updatedUserData);
+        setButtonStatus("idle");
+      } else {
+        throw new Error("Unexpected response from server");
+      }
+    } catch (error) {
+      console.error("Error registering video:", error);
+      setButtonStatus("error");
+    }
+  }, [userData, videoKey, setUserData]);
+
+  const selectWatchVideoAction = () => {
+    if (buttonStatus === "idle") {
+      registerWatchedVideo();
+    } else if (buttonStatus === "completed") {
+      unregisterVideoWatched();
+    }
+  };
   const buttonText = useMemo(() => {
     switch (buttonStatus) {
       case "idle":
@@ -80,10 +127,10 @@ const WatchedVideoButton: React.FC<WatchedVideoProps> = ({ videoKey }) => {
 
   return (
     <button
-      onClick={registerWatchedVideo}
-      disabled={
-        !userData || buttonStatus === "loading" || buttonStatus === "completed"
-      }
+      onClick={() => {
+        selectWatchVideoAction();
+      }}
+      disabled={!userData || buttonStatus === "loading"}
       className={`px-4 py-2 text-sm font-medium text-white rounded ${
         buttonStatus === "completed"
           ? "bg-green-500"
