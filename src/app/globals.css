@@ -7,11 +7,11 @@ body {
 }
 
 .container-programa {
-  @apply flex h-screen;
+  @apply flex h-[calc(100vh-100px)];
 }
 
 .container-landing {
-  @apply mx-auto p-6 bg-gray-100 min-h-screen flex flex-col items-center justify-center;
+  @apply mx-auto p-6 bg-gray-100 h-[calc(100vh-100px)] flex flex-col items-center justify-center;
 }
 
 h1 {
@@ -19,7 +19,7 @@ h1 {
 }
 
 .sidebar {
-  @apply w-1/4 bg-white shadow-md p-4;
+  @apply w-1/4 bg-white shadow-md p-4 h-[calc(100vh-100px)] overflow-hidden;
 }
 
 .main-content {

@@ -66,7 +66,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
   );
 
   return (
-    <div className="cursor-pointer bg-gray-200 p-2 rounded-md">
+    <div className="cursor-pointer bg-gray-200 p-2 rounded-md h-full overflow-y-auto pb-16">
       {CONTENT_SECTIONS.map((category) => (
         <Section
           key={category}

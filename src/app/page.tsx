@@ -1,15 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useAuth } from "./hooks/useAuth";
 
 const LandingPage: React.FC = () => {
-  const [isSessionAuthenticated, setIsSessionAuthenticated] = useState<
-    boolean | null
-  >(null);
-
-  useEffect(() => {
-    const sessionAuth = sessionStorage.getItem("sessionAuthenticated");
-    setIsSessionAuthenticated(sessionAuth === "true");
-  }, []);
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="container-landing mx-auto p-6 min-h-screen flex flex-col items-center justify-center">
@@ -29,7 +23,7 @@ const LandingPage: React.FC = () => {
         >
           Ir al Programa
         </a>
-        {!isSessionAuthenticated && (
+        {!isAuthenticated && (
           <a
             href="/auth"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline"

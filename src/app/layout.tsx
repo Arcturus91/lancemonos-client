@@ -24,7 +24,8 @@ export default function RootLayout({
         <AuthProvider>
           <UserProvider>
             <Navbar />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow overflow-hidden">{children}</main>
+            <Footer />
           </UserProvider>
         </AuthProvider>
       </body>

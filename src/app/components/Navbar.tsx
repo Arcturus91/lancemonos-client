@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="bg-black text-white">
       <div className="container-nav mx-auto px-4 py-2 flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 mx-2">
           <div className="text-2xl font-bold">
             <a href="/" className="text-white">
               Lancémonos Nomás
