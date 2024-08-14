@@ -1,6 +1,10 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 
-const VideoUpload: React.FC = () => {
+interface VideoUploadProps {
+  getVideoUploadKey: (videoKey: string) => void;
+}
+
+const VideoUpload: React.FC<VideoUploadProps> = ({ getVideoUploadKey }) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -14,6 +18,7 @@ const VideoUpload: React.FC = () => {
     }
     if (selectedFile) {
       setFile(selectedFile);
+      getVideoUploadKey(selectedFile.name);
     }
   };
 
@@ -51,7 +56,9 @@ const VideoUpload: React.FC = () => {
       });
 
       if (uploadResponse.ok) {
-        alert("Subida de video completada");
+        alert(
+          "Subida de video completada\nRevisa las palabras principales de tu video en al menos 5 minutos\nSi sale un error, prueba luego de 5 minutos más.\nSino, contáctame"
+        );
       } else {
         throw new Error("S3 Upload Error");
       }

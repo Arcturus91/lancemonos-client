@@ -1,11 +1,19 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const VideoSearchKeyphrases: React.FC = () => {
-  const [videoName, setVideoName] = useState<string>(
-    "diez-errores-mensajes-texto"
-  );
+interface VideoSearchKeyphrasesProps {
+  videoKey: string;
+}
+
+const VideoSearchKeyphrases: React.FC<VideoSearchKeyphrasesProps> = ({
+  videoKey,
+}) => {
+  const [videoName, setVideoName] = useState<string>(videoKey);
   const router = useRouter();
+
+  useEffect(() => {
+    setVideoName(videoKey);
+  }, [videoKey]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -32,20 +32,24 @@ const VideoKeyphrases = () => {
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
-
       const data = await response.json();
 
       if (data.error) {
         throw new Error(data.error);
       }
-      console.log("video keyphrases", data);
       setKeyPhrases(data.keyphrases);
       setEditedKeyPhrases(data.keyphrases);
     } catch (error) {
-      console.error("Error fetching keyphrases:", error);
-      setError("Failed to fetch keyphrases. Please try again later.");
+      if (error instanceof Error) {
+        setError(`${error.message}\nIntenta con otro título de video`);
+      } else {
+        setError("Failed to fetch keyphrases. Please try again later.");
+      }
+
+      setTimeout(() => router.push("/courses"), 5000);
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +84,8 @@ const VideoKeyphrases = () => {
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
 
       const { algoliaResponse, s3Response } = await response.json();
@@ -100,8 +105,11 @@ const VideoKeyphrases = () => {
         }, 2000);
       }
     } catch (error) {
-      console.error("Error saving keyphrases:", error);
-      setError("Failed to save keyphrases. Please try again later.");
+      if (error instanceof Error) {
+        setError(`${error.message}\nIntenta con otro título de video`);
+      } else {
+        setError("Failed to fetch keyphrases. Please try again later.");
+      }
     } finally {
       setIsLoading(false);
     }
