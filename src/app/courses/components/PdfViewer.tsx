@@ -13,7 +13,6 @@ interface PdfViewerProps {
 }
 const maxWidth = 1000;
 const PdfViewer: React.FC<PdfViewerProps> = ({ pdfData }) => {
-  console.log("pdfviewered", pdfData);
   const url = pdfData.videoUrl;
   const { videoName } = pdfData;
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -42,7 +41,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfData }) => {
   }
 
   return (
-    <div className=".PdfViewer__container">
+    <div className=".PdfViewer__container overflow-y-auto h-full">
       <h1 className="mb-4 text-3xl font-bold text-gray-800">{videoName}</h1>
       <div className="flex flex-col sm:flex-row items-center justify-between mt-4 w-full max-w-2xl">
         <p className="text-center text-sm sm:text-base mb-2 sm:mb-0">
