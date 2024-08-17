@@ -39,7 +39,7 @@ const PasswordChangePage: React.FC = () => {
     }
     setIsLoading(true);
     setError(null);
-    console.log("password change", { email, password, newPassword });
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/password-change`,

@@ -40,4 +40,5 @@ export const videoTitleFullList = {
   "Construir una Rutina de Hábitos": "construir-rutina-habitos",
   "Construir atracción a través de mensajes": "construir-atraccion-apps",
   "10 Errores en mensajes de texto": "diez-errores-mensajes-texto",
+  "Energía hacia arriba y hacia abajo": "energia-hacia-arriba-hacia-abajo",
 };

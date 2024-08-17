@@ -61,7 +61,7 @@ export async function POST(request: Request) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-    console.log("auth login", body);
+
     const { user } = body;
     const videosWatched = normalizeVideosWatched(user.videosWatched);
     const refactoredUserData = { ...user, videosWatched };
