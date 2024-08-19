@@ -212,3 +212,33 @@ input[type='reset'] {
   margin-bottom: 5px;
   color: gray;
 }
+
+
+.tailwind-wrapper h1 {
+  @apply text-3xl font-bold text-center mb-6 text-gray-800;
+}
+
+.tailwind-wrapper h2 {
+  @apply text-2xl font-bold mb-4 text-gray-800;
+}
+
+.tailwind-wrapper h3 {
+  @apply text-xl font-bold mb-4 text-gray-800;
+}
+
+.tailwind-wrapper p {
+  @apply mb-4 text-gray-700 leading-relaxed;
+}
+
+.tailwind-wrapper ol {
+  @apply list-decimal pl-6 mb-4 space-y-2;
+}
+
+.tailwind-wrapper li {
+  @apply text-gray-700;
+}
+
+.tailwind-wrapper div { 
+  @apply list-decimal pl-5 max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md h-full overflow-y-auto pb-16;
+
+}

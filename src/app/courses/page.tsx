@@ -10,6 +10,7 @@ import { VideoContent } from "../types";
 import WelcomeContent from "./htmlContent/WelcomeContent";
 import WatchedVideoButton from "./components/WatchedVideoButton";
 import Spinner from "../components/LoadingSpinner";
+import S3VideoHtmlContent from "./htmlContent/S3VideoHtmlContent";
 const PdfViewer = React.lazy(() => import("./components/PdfViewer"));
 
 const FallBack: React.FC = () => <Spinner size="large" />;
@@ -96,13 +97,18 @@ const LanzateProgramPage: React.FC = () => {
         </div>
       );
 
-    if (!selectedItem) return <WelcomeContent />;
+    if (!selectedItem) {
+      return <WelcomeContent />;
+    }
 
     return (
       <>
         <WatchedVideoButton videoKey={selectedItem.videoKey as string} />
         {contentType === "video" ? (
-          <VideoPlayer videoData={selectedItem} />
+          <>
+            <VideoPlayer videoData={selectedItem} />
+            <S3VideoHtmlContent />
+          </>
         ) : (
           <React.Suspense
             fallback={
@@ -133,7 +139,7 @@ const LanzateProgramPage: React.FC = () => {
             <div>No content available</div>
           )}
         </div>
-        <div className="main-content ml-4">
+        <div className="main-content ml-4 overflow-y-auto pb-16">
           {isLoading ? <Spinner size="large" /> : renderContent}
         </div>
       </div>
