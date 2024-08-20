@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import AlgoliaSearchComponent from "../courses/components/AlgoliaSearchComponent";
 import { useAuthContext } from "../contexts/AuthContext";
@@ -18,6 +18,8 @@ const Navbar: React.FC = () => {
   const userProgress = Math.ceil(
     100 * (videosWatchedAmount / totalContentAmount)
   );
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -47,52 +49,77 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="bg-black text-white">
-      <div className="container-nav mx-auto px-4 py-2 flex items-center justify-between">
-        <div className="flex items-center space-x-4 mx-2">
-          <div className="text-2xl font-bold">
-            <a href="/" className="text-white">
-              Lancémonos Nomás
-            </a>
-          </div>
-          <a href="/" className="text-white hover:text-gray-400">
-            Inicio
-          </a>
-          <a href="/courses" className="text-white hover:text-gray-400">
-            Programa
-          </a>
-        </div>
-        <div className="flex items-center space-x-4">
-          {isLoading ? (
-            <Spinner size="medium" />
-          ) : isAuthenticated ? (
-            <>
-              <p className="text-white">{userData?.email}</p>
-              <p className="text-white">Progreso: {userProgress}%</p>
-              <button
-                onClick={handleLogout}
-                className="text-white hover:text-gray-400"
-              >
-                Log Out
-              </button>
-              {userData?.role === "admin" ? (
-                <a
-                  href="/video-upload"
-                  className="text-white hover:text-gray-400"
-                >
-                  Video Upload
-                </a>
-              ) : null}
-            </>
-          ) : (
-            <a href="/auth" className="text-white hover:text-gray-400">
-              Log In
-            </a>
-          )}
-          {path === "/courses" && (
-            <div className="p-4 text-black">
-              <AlgoliaSearchComponent />
+      <div className="container-nav mx-auto px-4 py-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4 mx-2">
+            <div className="text-2xl font-bold">
+              <a href="/" className="text-white">
+                Lancémonos Nomás
+              </a>
             </div>
-          )}
+            <button
+              className="md:hidden text-white"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? "✕" : "☰"}
+            </button>
+          </div>
+          <div
+            className={`md:flex items-center space-x-4 ${
+              isMenuOpen
+                ? "flex flex-col absolute top-16 left-0 right-0 bg-black p-4"
+                : "hidden"
+            }`}
+          >
+            <a
+              href="/"
+              className="text-white hover:text-gray-400 block md:inline-block py-2 md:py-0"
+            >
+              Inicio
+            </a>
+            <a
+              href="/courses"
+              className="text-white hover:text-gray-400 block md:inline-block py-2 md:py-0"
+            >
+              Programa
+            </a>
+            {isLoading ? (
+              <Spinner size="medium" />
+            ) : isAuthenticated ? (
+              <>
+                <p className="text-white py-2 md:py-0">{userData?.email}</p>
+                <p className="text-white py-2 md:py-0">
+                  Progreso: {userProgress}%
+                </p>
+                <button
+                  onClick={handleLogout}
+                  className="text-white hover:text-gray-400 py-2 md:py-0"
+                >
+                  Log Out
+                </button>
+                {userData?.role === "admin" ? (
+                  <a
+                    href="/video-upload"
+                    className="text-white hover:text-gray-400 block md:inline-block py-2 md:py-0"
+                  >
+                    Video Upload
+                  </a>
+                ) : null}
+              </>
+            ) : (
+              <a
+                href="/auth"
+                className="text-white hover:text-gray-400 block md:inline-block py-2 md:py-0"
+              >
+                Log In
+              </a>
+            )}
+            {path === "/courses" && (
+              <div className="p-4 text-black">
+                <AlgoliaSearchComponent />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>
