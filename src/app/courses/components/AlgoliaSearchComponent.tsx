@@ -122,15 +122,21 @@ const AlgoliaSearchComponent = () => {
   };
 
   return (
-    <div className="relative w-64" ref={newRef}>
+    <div className="relative w-full md:w-64" ref={newRef}>
       <input
         className="w-full p-2 border border-gray-300 rounded"
         type="text"
         value={input}
         onChange={onChange}
+        placeholder="Buscar contenido..."
       />
       {showSuggestions && (
-        <SuggestionsListComponent suggestions={suggestions} onClick={onClick} />
+        <div className="absolute z-10 w-full bg-white border border-gray-300 rounded mt-1 max-h-60 overflow-y-auto">
+          <SuggestionsListComponent
+            suggestions={suggestions}
+            onClick={onClick}
+          />
+        </div>
       )}
     </div>
   );

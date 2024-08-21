@@ -120,7 +120,7 @@ const LanzateProgramPage: React.FC = () => {
 
   return (
     <React.Suspense fallback={<FallBack />}>
-      <div className="container-programa flex">
+      <div className="container-programa">
         <div className="sidebar">
           {isLoading ? (
             <Spinner size="large" />
@@ -133,7 +133,7 @@ const LanzateProgramPage: React.FC = () => {
             <div>No content available</div>
           )}
         </div>
-        <div className="main-content ml-4">
+        <div className="main-content">
           {isLoading ? <Spinner size="large" /> : renderContent}
         </div>
       </div>

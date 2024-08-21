@@ -1,6 +1,6 @@
 "use client";
 import { VideoContent } from "@/app/types";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 type ContentListProps = {
   handleSelectItem: (selectedVideoData: VideoContent) => void;
@@ -32,11 +32,32 @@ const CONTENT_SECTIONS = [
   "10. Sesiones de Mentalidad",
 ];
 
+const useResponsiveLayout = () => {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 400);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  const toggleExpand = () => setIsExpanded(!isExpanded);
+
+  return { isSmallScreen, isExpanded, toggleExpand };
+};
+
 const CollapsibleContentList: React.FC<ContentListProps> = ({
   handleSelectItem,
   allContentData,
 }) => {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+  const { isSmallScreen, isExpanded, toggleExpand } = useResponsiveLayout();
 
   const contentList = CONTENT_SECTIONS.reduce((acc, section) => {
     const sectionKey = section.split(". ")[1];
@@ -58,15 +79,41 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
       );
       if (contentItem) {
         handleSelectItem(contentItem);
+        if (isSmallScreen) {
+          toggleExpand();
+        }
       } else {
         console.error(`Video content not found for: ${videoName}`);
       }
     },
-    [allContentData, handleSelectItem]
+    [allContentData, handleSelectItem, isSmallScreen, toggleExpand]
   );
 
+  if (isSmallScreen && !isExpanded) {
+    return (
+      <button
+        onClick={toggleExpand}
+        className="fixed bottom-4 right-4 bg-blue-500 text-white p-2 rounded-full shadow-lg z-50"
+      >
+        Show Content
+      </button>
+    );
+  }
+
   return (
-    <div className="cursor-pointer bg-gray-200 p-2 rounded-md h-full overflow-y-auto pb-16">
+    <div
+      className={`collapsible-content-list ${
+        isSmallScreen && isExpanded ? "expanded" : ""
+      }`}
+    >
+      {isSmallScreen && isExpanded && (
+        <button
+          onClick={toggleExpand}
+          className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full"
+        >
+          Close
+        </button>
+      )}
       {CONTENT_SECTIONS.map((category) => (
         <Section
           key={category}

@@ -6,10 +6,8 @@ const LandingPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="container-landing mx-auto p-6 min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-5xl font-bold text-gray-900 mb-6">
-        Bienvenido a Lancémonos Nomás
-      </h1>
+    <div className="container-landing">
+      <h1>Bienvenido a Lancémonos Nomás</h1>
       <p className="text-xl text-gray-700 mb-6 text-center max-w-2xl">
         {`El sistema comprobado para volver a tener citas después de una ruptura o
         separación.`}

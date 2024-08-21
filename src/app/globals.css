@@ -7,7 +7,7 @@ body {
 }
 
 .container-programa {
-  @apply flex h-[calc(100vh-100px)];
+  @apply flex flex-col md:flex-row h-[calc(100vh-100px)];
 }
 
 .container-landing {
@@ -19,11 +19,15 @@ h1 {
 }
 
 .sidebar {
-  @apply w-1/4 bg-white shadow-md p-4 h-[calc(100vh-100px)] overflow-hidden;
+  @apply w-full md:w-1/4 bg-white shadow-md p-4 h-auto md:h-[calc(100vh-100px)] overflow-y-auto;
 }
 
 .main-content {
-  @apply flex-grow p-6;
+  @apply w-full md:flex-grow p-4 md:p-6 overflow-y-auto;
+}
+
+.collapsible-content-list {
+  @apply bg-gray-200 p-2 rounded-md h-full overflow-y-auto pb-16;
 }
 
 
@@ -76,139 +80,4 @@ footer .container {
 
 footer .text-center {
   @apply mt-4 text-sm;
-}
-.upload-video {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-.upload-video h1 {
-  text-align: center;
-  font-size: 3rem;
-  padding-bottom: 1.5rem;
-  width: 100%;
-  font-weight: 600;
-}
-
-.upload-video button,
-input[type='submit'],
-input[type='reset'] {
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-}
-
-.upload-video input[type='file']::file-selector-button {
-  background-color: #fff;
-  border: 1px solid #000000;
-  padding: 0.625rem;
-  margin-right: 0.5rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-}
-
-.upload-video button {
-  border-radius: 4rem;
-  background-color: #000000;
-  color: #ffffff;
-  padding: 1rem 1rem;
-  transition: 0.1s ease-in-out;
-}
-
-.upload-video button:hover {
-  background-color: #ffffff;
-  color: #000000;
-  outline: 1px solid #000000;
-}
-
-.upload-video input {
-  margin-bottom: 1rem;
-}
-
-.upload-video form {
-  display: flex;
-  flex-direction: column;
-}
-.search-video-keyphrase {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.search-video-keyphrase input {
-  background-color: rgb(255, 255, 255);
-  border: 1px solid #000000;
-  padding: 1rem; /* Increased padding */
-  margin-bottom: 1rem;
-  border-radius: 0.5rem;
-  font-size: 1.25rem; /* Increased font size */
-  width: 100%; /* Full width */
-  max-width: 600px; /* Max width to prevent it from getting too wide */
-}
-
-.search-video-keyphrase button {
-  border-radius: 4rem;
-  background-color: #000000;
-  color: #ffffff;
-  padding: 1rem 1rem;
-  transition: 0.1s ease-in-out;
-}
-
-.search-video-keyphrase button:hover {
-  background-color: #ffffff;
-  color: #000000;
-  outline: 1px solid #000000;
-}
-
-.PdfViewer__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px 0;
-  padding: 10px;
-}
-
-.PdfViewer__container__document {
-  width: 100%;
-  max-width: calc(100% - 2em);
-  margin: 1em 0;
-}
-
-.PdfViewer__container__document .react-pdf__Document {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.PdfViewer__container__document .react-pdf__Page {
-  margin: 1em 0;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-}
-
-.PdfViewer__container__document .react-pdf__message {
-  padding: 20px;
-  color: white;
-}
-
-.welcomeList {
-  list-style-type: decimal;
-  padding-left: 20px;
-}
-
-.welcomeList li {
-  display: list-item;
-  margin-bottom: 5px;
-  color: gray;
 }
