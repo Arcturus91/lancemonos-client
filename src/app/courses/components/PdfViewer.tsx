@@ -1,5 +1,6 @@
 "use Client";
 import useResizeObserver from "@/app/hooks/useResizeObserver";
+import { useResponsiveLayout } from "@/app/hooks/useResposiveLayout";
 import { VideoContent } from "@/app/types";
 import React, { useState, useEffect, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -11,17 +12,18 @@ const resizeObserverOptions = {};
 interface PdfViewerProps {
   pdfData: Partial<VideoContent>;
 }
-const maxWidth = 1000;
 const PdfViewer: React.FC<PdfViewerProps> = ({ pdfData }) => {
   const url = pdfData.videoUrl;
   const { videoName } = pdfData;
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
+  const { isSmallScreen } = useResponsiveLayout();
 
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>();
 
+  const maxWidth = isSmallScreen ? 800 : 1000;
   const onResize = useCallback<ResizeObserverCallback>((entries) => {
     const [entry] = entries;
 

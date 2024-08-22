@@ -1,4 +1,5 @@
 "use client";
+import { useResponsiveLayout } from "@/app/hooks/useResposiveLayout";
 import { VideoContent } from "@/app/types";
 import { useState, useCallback, useEffect } from "react";
 
@@ -31,29 +32,6 @@ const CONTENT_SECTIONS = [
   "9. Sesiones de Juegos de Roles",
   "10. Sesiones de Mentalidad",
 ];
-
-const useResponsiveLayout = () => {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsSmallScreen(
-        (window.innerWidth < 400 && window.innerHeight > 400) ||
-          (window.innerWidth > 400 && window.innerHeight < 400)
-      );
-    };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-
-    return () => window.removeEventListener("resize", checkScreenSize);
-  }, []);
-
-  const toggleExpand = () => setIsExpanded(!isExpanded);
-
-  return { isSmallScreen, isExpanded, toggleExpand };
-};
 
 const CollapsibleContentList: React.FC<ContentListProps> = ({
   handleSelectItem,
