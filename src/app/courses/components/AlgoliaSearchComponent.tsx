@@ -22,6 +22,7 @@ const AlgoliaSearchComponent: React.FC<AlgoliaSearchProps> = ({
   const [input, setInput] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [availableToResearch, setAvailableToResearch] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const newRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -55,16 +56,19 @@ const AlgoliaSearchComponent: React.FC<AlgoliaSearchProps> = ({
     async (query: string) => {
       if (!availableToResearch || query.length < 3) {
         setSuggestions([]);
+        setIsLoading(false);
         return;
       }
 
       if (query.length <= 7) {
         checkTitle(query);
+        setIsLoading(false);
         return;
       }
 
       try {
         setShowSuggestions(true);
+        setIsLoading(true);
 
         const algoliaResponse = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/algolia-search?query=${query}`
@@ -82,6 +86,9 @@ const AlgoliaSearchComponent: React.FC<AlgoliaSearchProps> = ({
         setSuggestions(arraySuggestions);
       } catch (error) {
         console.error(error);
+        setSuggestions([]);
+      } finally {
+        setIsLoading(false);
       }
     },
     [availableToResearch, checkTitle]
@@ -142,6 +149,7 @@ const AlgoliaSearchComponent: React.FC<AlgoliaSearchProps> = ({
           <SuggestionsListComponent
             suggestions={suggestions}
             onClick={onClick}
+            isLoading={isLoading}
           />
         </div>
       )}

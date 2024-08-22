@@ -1,14 +1,17 @@
 "use client";
 
-import React, { useState, ChangeEvent, MouseEvent } from "react";
+import React, { useState } from "react";
+
 interface SuggestionListProps {
   suggestions: string[];
   onClick: (index: number, suggestion: string) => void;
+  isLoading: boolean;
 }
 
 const SuggestionsListComponent: React.FC<SuggestionListProps> = ({
   suggestions,
   onClick,
+  isLoading,
 }) => {
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(0);
 
@@ -16,6 +19,14 @@ const SuggestionsListComponent: React.FC<SuggestionListProps> = ({
     setActiveSuggestionIndex(index);
     onClick(index, suggestion);
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-full p-2 bg-white border border-gray-300 rounded shadow-lg">
+        <em>Buscando...</em>
+      </div>
+    );
+  }
 
   return suggestions.length ? (
     <ul className="w-full bg-white border border-gray-300 rounded shadow-lg md:max-h-[60vh] md:overflow-y-auto">
@@ -39,4 +50,5 @@ const SuggestionsListComponent: React.FC<SuggestionListProps> = ({
     </div>
   );
 };
+
 export default SuggestionsListComponent;
