@@ -6,7 +6,7 @@ const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID as string;
 const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
 const ALGOLIA_WRITE_API_KEY = process.env.ALGOLIA_WRITE_API_KEY as string;
 const AWS_BUCKET_NAME_KEYPHRASES = process.env.AWS_BUCKET_NAME_KEYPHRASES;
-const AWS_REGION = "sa-east-1";
+const AWS_REGION = process.env.AWS_REGION;
 
 const s3Client = new S3Client({ region: AWS_REGION });
 

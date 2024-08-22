@@ -1,9 +1,9 @@
 import { VideoContent } from "@/app/types";
 import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
 
-const REGION = "sa-east-1";
+const REGION = process.env.AWS_REGION;
 const client = new DynamoDBClient({ region: REGION });
-const courseContentTable = "CourseContent";
+const courseContentTable = process.env.CONTENT_TABLE;
 
 export async function GET(): Promise<Response> {
   const params = {
