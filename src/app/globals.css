@@ -49,6 +49,21 @@ nav {
   @apply mx-auto px-4 py-2 overflow-y-auto;
 }
 
+@media (min-width: 768px) {
+  .container-nav {
+    overflow-y: visible;
+  }
+
+  .suggestions-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+}
+
 .text-content h1 {
   @apply text-3xl font-bold mb-4 flex justify-center;
 }

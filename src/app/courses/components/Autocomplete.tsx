@@ -18,7 +18,7 @@ const SuggestionsListComponent: React.FC<SuggestionListProps> = ({
   };
 
   return suggestions.length ? (
-    <ul className="suggestions-container w-full bg-white border border-gray-300 rounded shadow-lg">
+    <ul className="w-full bg-white border border-gray-300 rounded shadow-lg md:max-h-[60vh] md:overflow-y-auto">
       {suggestions.map((suggestion, index) => {
         let className =
           index === activeSuggestionIndex ? "p-2 bg-gray-100" : "p-2";

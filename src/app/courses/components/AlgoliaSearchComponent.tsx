@@ -138,7 +138,7 @@ const AlgoliaSearchComponent: React.FC<AlgoliaSearchProps> = ({
         placeholder="Buscar contenido..."
       />
       {showSuggestions && (
-        <div className="absolute z-50 w-full bg-white border border-gray-300 rounded mt-1 max-h-60 overflow-y-auto">
+        <div className="absolute z-50 w-full bg-white border border-gray-300 rounded mt-1 md:max-h-60 md:overflow-y-auto">
           <SuggestionsListComponent
             suggestions={suggestions}
             onClick={onClick}

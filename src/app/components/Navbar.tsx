@@ -120,7 +120,7 @@ const Navbar: React.FC = () => {
               </a>
             )}
             {path === "/courses" && (
-              <div className="p-4 text-black w-full md:w-auto">
+              <div className="p-4 text-black w-full md:w-auto md:relative">
                 <AlgoliaSearchComponent
                   handleVideoSelection={handleVideoSelection}
                 />
