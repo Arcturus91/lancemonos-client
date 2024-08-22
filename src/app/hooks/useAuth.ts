@@ -35,6 +35,7 @@ export const useAuth = () => {
       );
       const data = await response.json();
       console.log("useAuth data", data);
+      if (!data.isAuthenticated) localStorage.removeItem("userData");
       setIsAuthenticated(data.isAuthenticated);
       sessionStorage.setItem(
         "sessionAuthenticated",
