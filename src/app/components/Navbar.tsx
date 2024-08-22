@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
   }, [userData, isAuthenticated]);
 
   return (
-    <nav className="bg-black text-white">
+    <nav className="bg-black text-white relative z-50">
       <div className="container-nav">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4 mx-2">
@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
           <div
             className={`md:flex items-center space-x-4 ${
               isMenuOpen
-                ? "flex flex-col absolute top-16 left-0 right-0 bg-black p-4 max-h-[calc(100vh-4rem)] overflow-y-auto"
+                ? "flex flex-col fixed top-16 left-0 right-0 bg-black p-4 max-h-[calc(100vh-4rem)] overflow-y-auto z-50"
                 : "hidden"
             }`}
           >

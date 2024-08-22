@@ -86,3 +86,11 @@ footer .text-center {
   max-height: 60vh;
   overflow-y: auto;
 }
+
+.z-base {
+  z-index: 0;
+}
+
+.z-navbar {
+  z-index: 50;
+}

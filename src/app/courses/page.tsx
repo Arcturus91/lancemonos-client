@@ -99,8 +99,10 @@ const LanzateProgramPage: React.FC = () => {
     if (!selectedItem) return <WelcomeContent />;
 
     return (
-      <>
-        <WatchedVideoButton videoKey={selectedItem.videoKey as string} />
+      <div className="flex flex-col">
+        <div className="mb-4">
+          <WatchedVideoButton videoKey={selectedItem.videoKey as string} />
+        </div>
         {contentType === "video" ? (
           <VideoPlayer videoData={selectedItem} />
         ) : (
@@ -114,13 +116,13 @@ const LanzateProgramPage: React.FC = () => {
             <PdfViewer pdfData={selectedItem} />
           </React.Suspense>
         )}
-      </>
+      </div>
     );
   }, [isLoading, error, allContentData, selectedItem, contentType]);
 
   return (
     <React.Suspense fallback={<FallBack />}>
-      <div className="container-programa">
+      <div className="container-programa relative z-0">
         <div className="sidebar">
           {isLoading ? (
             <Spinner size="large" />

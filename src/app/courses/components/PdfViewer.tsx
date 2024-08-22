@@ -41,9 +41,11 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfData }) => {
   }
 
   return (
-    <div className=".PdfViewer__container overflow-y-auto h-full">
-      <h1 className="mb-4 text-3xl font-bold text-gray-800">{videoName}</h1>
-      <div className="flex flex-col sm:flex-row items-center justify-between mt-4 w-full max-w-2xl">
+    <div className="PdfViewer__container overflow-y-auto h-full px-4 py-8">
+      <h1 className="mb-4 text-2xl sm:text-3xl font-bold text-gray-800 text-center">
+        {videoName}
+      </h1>
+      <div className="flex flex-col sm:flex-row items-center justify-between mt-4 w-full max-w-2xl mx-auto">
         <p className="text-center text-sm sm:text-base mb-2 sm:mb-0">
           Page {pageNumber} of {numPages}
         </p>
@@ -65,7 +67,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfData }) => {
         </div>
       </div>
       {isLoaded && (
-        <div className="PdfViewer__container__document">
+        <div className="PdfViewer__container__document mt-4">
           <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
             <Page
               pageNumber={pageNumber}
