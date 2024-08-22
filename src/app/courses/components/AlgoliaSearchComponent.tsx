@@ -11,7 +11,13 @@ import SuggestionsListComponent from "./Autocomplete";
 import { useRouter } from "next/navigation";
 import { videoTitleFullList } from "../videoTitleFullList";
 
-const AlgoliaSearchComponent = () => {
+interface AlgoliaSearchProps {
+  handleVideoSelection: () => void;
+}
+
+const AlgoliaSearchComponent: React.FC<AlgoliaSearchProps> = ({
+  handleVideoSelection,
+}) => {
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -119,6 +125,7 @@ const AlgoliaSearchComponent = () => {
     setInput(suggestion);
     setShowSuggestions(false);
     setAvailableToResearch(false);
+    handleVideoSelection();
   };
 
   return (
@@ -131,7 +138,7 @@ const AlgoliaSearchComponent = () => {
         placeholder="Buscar contenido..."
       />
       {showSuggestions && (
-        <div className="absolute z-10 w-full bg-white border border-gray-300 rounded mt-1 max-h-60 overflow-y-auto">
+        <div className="absolute z-50 w-full bg-white border border-gray-300 rounded mt-1 max-h-60 overflow-y-auto">
           <SuggestionsListComponent
             suggestions={suggestions}
             onClick={onClick}

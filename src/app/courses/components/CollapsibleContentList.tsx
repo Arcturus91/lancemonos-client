@@ -93,7 +93,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
     return (
       <button
         onClick={toggleExpand}
-        className="fixed bottom-4 right-4 bg-blue-500 text-white p-2 rounded-full shadow-lg z-50"
+        className="fixed bottom-10 right-4 bg-blue-500 text-white p-2 rounded-full shadow-lg z-50"
       >
         Show Content
       </button>

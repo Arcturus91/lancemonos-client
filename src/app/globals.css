@@ -46,7 +46,7 @@ nav {
 }
 
 .container-nav {
-  @apply mx-auto px-4 py-2;
+  @apply mx-auto px-4 py-2 overflow-y-auto;
 }
 
 .text-content h1 {
@@ -80,4 +80,9 @@ footer .container {
 
 footer .text-center {
   @apply mt-4 text-sm;
+}
+
+.suggestions-container {
+  max-height: 60vh;
+  overflow-y: auto;
 }

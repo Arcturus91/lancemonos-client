@@ -7,6 +7,8 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { useUser } from "../contexts/UserContext";
 import { videoTitleFullList } from "../courses/videoTitleFullList";
 import Spinner from "./LoadingSpinner";
+import MenuIcon from "@mui/icons-material/Menu";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 
 const Navbar: React.FC = () => {
   const path = usePathname();
@@ -42,8 +44,11 @@ const Navbar: React.FC = () => {
     }
   };
 
+  const handleVideoSelection = () => {
+    setIsMenuOpen(false);
+  };
+
   useEffect(() => {
-    // This will run whenever userData changes
     console.log("userData and isAuth in Navbar:", userData, isAuthenticated);
   }, [userData, isAuthenticated]);
 
@@ -61,13 +66,13 @@ const Navbar: React.FC = () => {
               className="md:hidden text-white"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? "✕" : "☰"}
+              {isMenuOpen ? <MenuOpenIcon /> : <MenuIcon />}
             </button>
           </div>
           <div
             className={`md:flex items-center space-x-4 ${
               isMenuOpen
-                ? "flex flex-col absolute top-16 left-0 right-0 bg-black p-4"
+                ? "flex flex-col absolute top-16 left-0 right-0 bg-black p-4 max-h-[calc(100vh-4rem)] overflow-y-auto"
                 : "hidden"
             }`}
           >
@@ -115,8 +120,10 @@ const Navbar: React.FC = () => {
               </a>
             )}
             {path === "/courses" && (
-              <div className="p-4 text-black">
-                <AlgoliaSearchComponent />
+              <div className="p-4 text-black w-full md:w-auto">
+                <AlgoliaSearchComponent
+                  handleVideoSelection={handleVideoSelection}
+                />
               </div>
             )}
           </div>

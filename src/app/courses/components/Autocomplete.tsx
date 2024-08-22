@@ -18,7 +18,7 @@ const SuggestionsListComponent: React.FC<SuggestionListProps> = ({
   };
 
   return suggestions.length ? (
-    <ul className="absolute z-10 left-0 right-0 mt-1 max-h-60 overflow-auto bg-white border border-gray-300 rounded shadow-lg">
+    <ul className="suggestions-container w-full bg-white border border-gray-300 rounded shadow-lg">
       {suggestions.map((suggestion, index) => {
         let className =
           index === activeSuggestionIndex ? "p-2 bg-gray-100" : "p-2";
@@ -34,7 +34,7 @@ const SuggestionsListComponent: React.FC<SuggestionListProps> = ({
       })}
     </ul>
   ) : (
-    <div className="absolute left-0 right-0 mt-1 p-2 bg-white border border-gray-300 rounded shadow-lg">
+    <div className="w-full p-2 bg-white border border-gray-300 rounded shadow-lg">
       <em>Porfavor, escribe de nuevo</em>
     </div>
   );
