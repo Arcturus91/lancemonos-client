@@ -35,7 +35,7 @@ const VideoSearchKeyphrases: React.FC<VideoSearchKeyphrasesProps> = ({
         Tipea el nombre exacto con el que subiste el video
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4 w-full">
-        <div className="relative">
+        <div>
           <input
             id="videoName"
             value={videoName}
