@@ -2,6 +2,8 @@
 import { useResponsiveLayout } from "@/app/hooks/useResposiveLayout";
 import { VideoContent } from "@/app/types";
 import { useState, useCallback, useEffect } from "react";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 type ContentListProps = {
   handleSelectItem: (selectedVideoData: VideoContent) => void;
@@ -129,7 +131,7 @@ const Section: React.FC<SectionProps> = ({
       className="flex justify-between items-center w-full py-2 text-left text-lg font-medium text-gray-700 hover:text-gray-900"
       onClick={() => toggleSection(category)}
     >
-      {category} {isOpen ? "-" : "+"}
+      {category} {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
     </button>
     {isOpen && (
       <ul className="pl-4 mt-2 space-y-1">

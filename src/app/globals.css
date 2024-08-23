@@ -19,7 +19,7 @@ h1 {
 }
 
 .sidebar {
-  @apply w-full md:w-1/4 bg-white shadow-md p-4 h-auto md:h-[calc(100vh-100px)] overflow-y-auto;
+  @apply w-full md:w-1/3 bg-white shadow-md p-4 h-auto md:h-[calc(100vh-100px)] overflow-y-auto;
 }
 
 .main-content {
