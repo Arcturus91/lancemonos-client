@@ -55,14 +55,14 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfData }) => {
           <button
             disabled={pageNumber <= 1}
             onClick={() => setPageNumber(pageNumber - 1)}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded disabled:bg-gray-400"
+            className="px-4 py-2 text-sm font-medium text-white bg-gray-500 rounded disabled:bg-gray-400"
           >
             Previous
           </button>
           <button
             disabled={numPages !== null && pageNumber >= numPages}
             onClick={() => setPageNumber(pageNumber + 1)}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded disabled:bg-gray-400"
+            className="px-4 py-2 text-sm font-medium text-white bg-gray-500 rounded disabled:bg-gray-400"
           >
             Next
           </button>

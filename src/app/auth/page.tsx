@@ -120,14 +120,14 @@ const LoginPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="lancemonos-button"
               disabled={isLoading}
             >
               {isLoading ? "Ingresando..." : "Ingresa"}
             </button>
             <a
               href="/auth-pass-change"
-              className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+              className="inline-block align-baseline font-bold text-sm text-gray-600 hover:text-black"
             >
               Cambiar contraseña?
             </a>

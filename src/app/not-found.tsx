@@ -5,10 +5,7 @@ export default function NotFound() {
       <p className="text-gray-600 mb-4">
         Lo sentimos, la página que buscas no existe.
       </p>
-      <a
-        href="/"
-        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-      >
+      <a href="/" className="lancemonos-button">
         Volver al inicio
       </a>
     </div>

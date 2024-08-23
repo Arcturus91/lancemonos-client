@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
   }, [userData, isAuthenticated]);
 
   return (
-    <nav className="bg-black text-white relative z-50">
+    <nav className="bg-gray-800 text-white relative z-50">
       <div className="container-nav">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4 mx-2">

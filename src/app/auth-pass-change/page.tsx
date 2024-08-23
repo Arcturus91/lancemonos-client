@@ -164,15 +164,12 @@ const PasswordChangePage: React.FC = () => {
           />
         </div>
         <div className="flex items-center justify-between">
-          <a
-            href="/"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
+          <a href="/" className="lancemonos-button">
             Inicio
           </a>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="lancemonos-button"
             disabled={isLoading}
           >
             {isLoading ? <Spinner /> : "Cambia"}

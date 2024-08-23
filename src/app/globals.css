@@ -11,11 +11,11 @@ body {
 }
 
 .container-landing {
-  @apply mx-auto p-6 bg-gray-100 h-[calc(100vh-100px)] flex flex-col items-center justify-center;
+  @apply mx-auto p-6 bg-gray-100 h-auto flex flex-col items-center justify-center;
 }
 
 h1 {
-  @apply text-5xl font-bold text-gray-900 mb-6;
+  @apply text-5xl font-bold text-gray-900 m-16;
 }
 
 .sidebar {
@@ -47,13 +47,11 @@ input[type="password"] {
   @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
 }
 
-button[type="submit"] {
-  @apply bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50;
-}
+
 
 
 nav {
-  @apply bg-black text-white font-sans text-base font-semibold;
+  @apply bg-gray-800 text-white font-sans text-base font-semibold fixed top-0 left-0 right-0 z-50;
 }
 
 .container-nav {
@@ -123,4 +121,8 @@ footer .text-center {
 
 .z-navbar {
   z-index: 50;
+}
+
+.lancemonos-button {
+ @apply mx-2 px-4 py-2 text-lg font-semibold text-[#1e2124] bg-white border-2 border-[#1e2124] rounded-md transition-all duration-300 ease-in-out hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#1e2124] focus:ring-opacity-50 active:bg-gray-200 flex items-center justify-center;
 }

@@ -76,7 +76,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
     return (
       <button
         onClick={toggleExpand}
-        className="fixed bottom-10 right-4 bg-blue-500 text-white p-2 rounded-full shadow-lg z-50"
+        className="fixed bottom-10 right-4 bg-gray-600 text-white p-2 rounded-full shadow-lg z-50"
       >
         Show Content
       </button>
@@ -84,11 +84,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
   }
 
   return (
-    <div
-      className={`collapsible-content-list ${
-        isSmallScreen && isExpanded ? "expanded" : ""
-      }`}
-    >
+    <div className="collapsible-content-list bg-gray-200 p-4">
       {isSmallScreen && isExpanded && (
         <button
           onClick={toggleExpand}

@@ -1,14 +1,17 @@
 import { VideoContent } from "@/app/types";
 import React from "react";
+import WatchedVideoButton from "./WatchedVideoButton";
 
 const VideoPlayer: React.FC<any> = ({ videoData }) => {
-  const { videoUrl, videoName } = videoData;
+  const { videoUrl, videoName, videoKey } = videoData;
   return (
-    <div className="mt-4 flex flex-col items-center justify-center px-4 py-8 m-4 bg-gray-100 h-full relative z-0">
-      {/* Title */}
-      <h1 className="mb-4 text-2xl sm:text-3xl font-bold text-gray-800 text-center">
-        {videoName}
-      </h1>
+    <div className="flex flex-col items-center justify-center px-4 py-8 bg-gray-100 h-full w-full">
+      <div className="flex justify-between items-center w-full max-w-4xl mb-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+          {videoName}
+        </h1>
+        <WatchedVideoButton videoKey={videoKey} />
+      </div>
 
       {/* Video */}
       <div className="w-full max-w-2xl mb-6 bg-white shadow-md aspect-video">

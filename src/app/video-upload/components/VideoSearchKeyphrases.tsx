@@ -46,10 +46,7 @@ const VideoSearchKeyphrases: React.FC<VideoSearchKeyphrasesProps> = ({
           />
         </div>
         <div className="flex flex-col items-center justify-center">
-          <button
-            type="submit"
-            className=" py-2 px-4 bg-black text-white rounded-lg hover:bg-white hover:text-black border border-black"
-          >
+          <button type="submit" className="lancemonos-button">
             Buscar
           </button>
         </div>

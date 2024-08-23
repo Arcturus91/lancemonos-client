@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+
 import { AuthProvider } from "./contexts/AuthContext";
 import { UserProvider } from "./contexts/UserContext";
 
@@ -25,7 +25,6 @@ export default function RootLayout({
           <UserProvider>
             <Navbar />
             <main className="flex-grow overflow-hidden">{children}</main>
-            <Footer />
           </UserProvider>
         </AuthProvider>
       </body>
