@@ -126,7 +126,7 @@ const Section: React.FC<SectionProps> = ({
   items,
   selectVideo,
 }) => (
-  <div className="text-lg font-bold py-3">
+  <div className="text-lg  py-3">
     <button
       className="flex justify-between items-center w-full py-2 text-left text-lg font-medium text-gray-700 hover:text-gray-900"
       onClick={() => toggleSection(category)}
@@ -134,13 +134,9 @@ const Section: React.FC<SectionProps> = ({
       {category} {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
     </button>
     {isOpen && (
-      <ul className="pl-4 mt-2 space-y-1">
+      <ul>
         {items.map((item, index) => (
-          <li
-            className="text-sm ms-2 py-1"
-            key={index}
-            onClick={() => selectVideo(item)}
-          >
+          <li key={index} onClick={() => selectVideo(item)}>
             {item}
           </li>
         ))}

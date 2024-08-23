@@ -27,9 +27,16 @@ h1 {
 }
 
 .collapsible-content-list {
-  @apply bg-gray-200 p-2 rounded-md h-full overflow-y-auto pb-16;
+  @apply bg-gray-200 p-2 rounded-md h-full overflow-y-auto pb-16 font-sans;
 }
 
+.collapsible-content-list ul {
+  @apply list-none pl-4 mt-2 space-y-1;
+}
+
+.collapsible-content-list li {
+  @apply ms-2 py-1 cursor-pointer hover:text-gray-700 text-base;
+}
 
 input[type="email"],
 input[type="password"] {
@@ -42,7 +49,7 @@ button[type="submit"] {
 
 
 nav {
-  @apply bg-black text-white;
+  @apply bg-black text-white font-sans;
 }
 
 .container-nav {
@@ -94,7 +101,7 @@ footer .container {
 }
 
 footer .text-center {
-  @apply mt-4 text-sm;
+  @apply mt-4 text-base;
 }
 
 .suggestions-container {
