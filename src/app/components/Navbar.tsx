@@ -77,12 +77,6 @@ const Navbar: React.FC = () => {
             }`}
           >
             <a
-              href="/"
-              className="text-white hover:text-gray-400 block md:inline-block py-2 md:py-0"
-            >
-              Inicio
-            </a>
-            <a
               href="/courses"
               className="text-white hover:text-gray-400 block md:inline-block py-2 md:py-0"
             >

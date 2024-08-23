@@ -8,9 +8,9 @@ export const useResponsiveLayout = () => {
   useEffect(() => {
     const checkScreenSize = () => {
       setIsSmallScreen(
-        (window.innerWidth < 400 && window.innerHeight > 400) ||
-          (window.innerWidth > 400 && window.innerHeight < 400) ||
-          (window.innerWidth < 400 && window.innerHeight < 400)
+        (window.innerWidth < 431 && window.innerHeight > 400) ||
+          (window.innerWidth > 431 && window.innerHeight < 400) ||
+          (window.innerWidth < 431 && window.innerHeight < 400)
       );
     };
 

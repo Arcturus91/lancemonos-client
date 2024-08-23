@@ -35,7 +35,11 @@ h1 {
 }
 
 .collapsible-content-list li {
-  @apply ms-2 py-1 cursor-pointer hover:text-gray-700 text-base;
+  @apply text-base ms-2 py-2 px-3 cursor-pointer rounded-md transition-colors duration-200 ease-in-out;
+}
+
+.collapsible-content-list li:hover {
+  @apply bg-gray-300;
 }
 
 input[type="email"],
@@ -49,7 +53,7 @@ button[type="submit"] {
 
 
 nav {
-  @apply bg-black text-white font-sans;
+  @apply bg-black text-white font-sans text-base;
 }
 
 .container-nav {

@@ -25,12 +25,6 @@ const Footer: React.FC = () => {
           <div className="space-x-6 text-sm md:text-base font-medium">
             <a
               className="text-white hover:text-gray-300 transition duration-300 ease-in-out border-b-2 border-transparent hover:border-gray-300 pb-1"
-              href="/"
-            >
-              Inicio
-            </a>
-            <a
-              className="text-white hover:text-gray-300 transition duration-300 ease-in-out border-b-2 border-transparent hover:border-gray-300 pb-1"
               href="/courses"
             >
               Programa
