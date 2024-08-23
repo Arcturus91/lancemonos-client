@@ -2,6 +2,12 @@
 import { useUser } from "@/app/contexts/UserContext";
 import { UserData } from "@/app/types";
 import { useEffect, useState, useCallback, useMemo } from "react";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import ErrorIcon from "@mui/icons-material/Error";
+import Tooltip from "@mui/material/Tooltip";
+import { Fade } from "@mui/material";
 
 interface WatchedVideoProps {
   videoKey: string;
@@ -115,34 +121,48 @@ const WatchedVideoButton: React.FC<WatchedVideoProps> = ({ videoKey }) => {
   const buttonText = useMemo(() => {
     switch (buttonStatus) {
       case "idle":
-        return "Completar lección";
+        return <CheckCircleOutlineIcon color="action" fontSize="large" />;
       case "loading":
-        return "Loading...";
+        return <HourglassBottomIcon color="disabled" fontSize="large" />;
       case "error":
-        return "Error - Intentar de nuevo";
+        return <ErrorIcon color="warning" fontSize="large" />;
       case "completed":
-        return "Completado🔥";
+        return <CheckCircleIcon color="success" fontSize="large" />;
+    }
+  }, [buttonStatus]);
+
+  const buttonTooltip = useMemo(() => {
+    switch (buttonStatus) {
+      case "idle":
+        return "Marcar como completado";
+      case "completed":
+        return "Marcar como incompleto";
+      default:
+        return "";
     }
   }, [buttonStatus]);
 
   return (
-    <button
-      onClick={() => {
-        selectWatchVideoAction();
+    <Tooltip
+      title={buttonTooltip}
+      placement="left"
+      arrow
+      TransitionComponent={Fade}
+      TransitionProps={{ timeout: 600 }}
+      sx={{
+        "& .MuiTooltip-tooltip": {
+          fontSize: "20px",
+        },
       }}
-      disabled={!userData || buttonStatus === "loading"}
-      className={`px-4 py-2 text-sm font-medium text-white rounded ${
-        buttonStatus === "completed"
-          ? "bg-green-500"
-          : buttonStatus === "error"
-          ? "bg-red-500"
-          : buttonStatus === "loading"
-          ? "bg-gray-400"
-          : "bg-blue-500"
-      }`}
     >
-      {buttonText}
-    </button>
+      <button
+        onClick={selectWatchVideoAction}
+        disabled={!userData || buttonStatus === "loading"}
+        className="p-2 rounded-full hover:bg-gray-300 transition-colors"
+      >
+        {buttonText}
+      </button>
+    </Tooltip>
   );
 };
 

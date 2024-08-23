@@ -53,7 +53,7 @@ button[type="submit"] {
 
 
 nav {
-  @apply bg-black text-white font-sans text-base;
+  @apply bg-black text-white font-sans text-base font-semibold;
 }
 
 .container-nav {
@@ -73,6 +73,10 @@ nav {
     max-height: 60vh;
     overflow-y: auto;
   }
+}
+
+.MuiTooltip-tooltip {
+  font-size: 16px !important;
 }
 
 .text-content h1 {

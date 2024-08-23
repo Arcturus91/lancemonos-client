@@ -100,7 +100,7 @@ const LanzateProgramPage: React.FC = () => {
 
     return (
       <div className="flex flex-col">
-        <div className="mb-4">
+        <div className="flex justify-end mb-4">
           <WatchedVideoButton videoKey={selectedItem.videoKey as string} />
         </div>
         {contentType === "video" ? (
