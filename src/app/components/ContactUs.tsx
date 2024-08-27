@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const ContactUs: React.FC = () => {
   const openWhatsApp = () => {
-    window.open("https://wa.me/your_whatsapp_number", "_blank");
+    window.open("https://wa.link/vr6hz4", "_blank");
   };
 
   return (
