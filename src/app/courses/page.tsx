@@ -10,6 +10,7 @@ import { VideoContent } from "../types";
 import WelcomeContent from "./htmlContent/WelcomeContent";
 import WatchedVideoButton from "./components/WatchedVideoButton";
 import Spinner from "../components/LoadingSpinner";
+import SummaryContent from "./htmlContent/S3VideoHtmlContent";
 const PdfViewer = React.lazy(() => import("./components/PdfViewer"));
 
 const FallBack: React.FC = () => <Spinner size="large" />;
@@ -101,7 +102,12 @@ const LanzateProgramPage: React.FC = () => {
     return (
       <div className="flex flex-col">
         {contentType === "video" ? (
-          <VideoPlayer videoData={selectedItem} />
+          <>
+            <VideoPlayer videoData={selectedItem} />
+            {selectedItem.videoKey === "siete-reglas-mentoria" && (
+              <SummaryContent />
+            )}
+          </>
         ) : (
           <React.Suspense
             fallback={

@@ -4,7 +4,7 @@ const SummaryContent: React.FC = () => (
       Resumen
     </h1>
     <p className="mb-4 text-gray-700 leading-relaxed">
-      El texto aborda técnicas de interacción y seducción, destacando la
+      El video aborda técnicas de interacción y seducción, destacando la
       importancia de tomar acción y aplicar los conceptos enseñados. Se
       presentan cinco marcos de interacción, cada uno enfocado en vencer ciertos
       miedos y creencias limitantes.
@@ -42,7 +42,7 @@ const SummaryContent: React.FC = () => (
     </p>
     <h3 className="text-xl font-bold mb-4 text-gray-800">Ejemplo Práctico</h3>
     <p className="text-gray-700 leading-relaxed">
-      El texto también incluye ejemplos prácticos, como el caso de Lucas, que
+      El video también incluye ejemplos prácticos, como el caso de Lucas, que
       demuestran cómo aplicar estos marcos en situaciones reales para generar
       atracción y avanzar en la relación.
     </p>

@@ -3,6 +3,7 @@ import React from "react";
 import WatchedVideoButton from "./WatchedVideoButton";
 
 const VideoPlayer: React.FC<any> = ({ videoData }) => {
+  console.log(videoData);
   const { videoUrl, videoName, videoKey } = videoData;
   return (
     <div className="flex flex-col items-center justify-center px-4 py-8 bg-gray-100 h-full w-full">
