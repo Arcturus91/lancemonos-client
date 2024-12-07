@@ -1,7 +1,7 @@
 "use client";
 import { useResponsiveLayout } from "@/app/hooks/useResposiveLayout";
 import { CourseItem } from "@/app/types";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
@@ -10,14 +10,18 @@ type ContentListProps = {
   allContentData: CourseItem[];
 };
 
-// Helper function to build tree structure
-const buildTreeStructure = (items: CourseItem[]) => {
-  const itemMap = new Map<string, CourseItem & { children?: CourseItem[] }>();
-  const rootItems: (CourseItem & { children?: CourseItem[] })[] = [];
+type TreeItem = CourseItem & {
+  children?: TreeItem[];
+};
 
-  // First pass: Create all items with potential children array
+// Helper function to build tree structure with recursive sorting
+const buildTreeStructure = (items: CourseItem[]): TreeItem[] => {
+  const itemMap = new Map<string, TreeItem>();
+  const rootItems: TreeItem[] = [];
+
+  // First pass: Create all items
   items.forEach((item) => {
-    itemMap.set(item.contentId, { ...item, children: [] });
+    itemMap.set(item.contentId, { ...item });
   });
 
   // Second pass: Build tree structure
@@ -34,32 +38,65 @@ const buildTreeStructure = (items: CourseItem[]) => {
     }
   });
 
-  // Sort root items and children by orderIndex
-  rootItems.sort((a, b) => a.orderIndex - b.orderIndex);
-  rootItems.forEach((item) => {
-    if (item.children) {
-      item.children.sort((a, b) => a.orderIndex - b.orderIndex);
-    }
-  });
+  // Recursive sorting function
+  const sortTreeItems = (items: TreeItem[]) => {
+    items.sort((a, b) => {
+      // Convert string orderIndex to number if necessary
+      const aIndex =
+        typeof a.orderIndex === "string"
+          ? parseInt(a.orderIndex)
+          : a.orderIndex;
+      const bIndex =
+        typeof b.orderIndex === "string"
+          ? parseInt(b.orderIndex)
+          : b.orderIndex;
+      return aIndex - bIndex;
+    });
 
-  return rootItems;
+    items.forEach((item) => {
+      if (item.children?.length) {
+        sortTreeItems(item.children);
+      }
+    });
+
+    return items;
+  };
+
+  return sortTreeItems(rootItems);
 };
 
 const CollapsibleContentList: React.FC<ContentListProps> = ({
   handleSelectItem,
   allContentData,
 }) => {
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+  // Using a more complex state structure to track nested open states
+  const [openSections, setOpenSections] = useState<Set<string>>(new Set());
   const { isSmallScreen, isExpanded, toggleExpand } = useResponsiveLayout();
 
   const treeStructure = buildTreeStructure(allContentData);
 
-  const toggleSection = useCallback((contentId: string) => {
-    setOpenSections((prev) => ({
-      ...prev,
-      [contentId]: !prev[contentId],
-    }));
-  }, []);
+  const toggleSection = useCallback(
+    (contentId: string, parentIds: string[]) => {
+      setOpenSections((prev) => {
+        const newSet = new Set(prev);
+        if (newSet.has(contentId)) {
+          // Close this section and all its children
+          newSet.delete(contentId);
+          allContentData.forEach((item) => {
+            if (item.parentId === contentId) {
+              newSet.delete(item.contentId);
+            }
+          });
+        } else {
+          // Open this section and all its parent sections
+          newSet.add(contentId);
+          parentIds.forEach((id) => newSet.add(id));
+        }
+        return newSet;
+      });
+    },
+    [allContentData]
+  );
 
   const onSelectItem = useCallback(
     (item: CourseItem) => {
@@ -73,6 +110,7 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
     [handleSelectItem, isSmallScreen, toggleExpand]
   );
 
+  // Mobile view controls
   if (isSmallScreen && !isExpanded) {
     return (
       <button
@@ -98,10 +136,12 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
         <Section
           key={section.contentId}
           item={section}
-          isOpen={openSections[section.contentId]}
+          isOpen={openSections.has(section.contentId)}
           toggleSection={toggleSection}
           selectItem={onSelectItem}
           level={0}
+          parentIds={[]}
+          openSections={openSections}
         />
       ))}
     </div>
@@ -109,11 +149,13 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
 };
 
 type SectionProps = {
-  item: CourseItem & { children?: CourseItem[] };
+  item: TreeItem;
   isOpen: boolean;
-  toggleSection: (contentId: string) => void;
+  toggleSection: (contentId: string, parentIds: string[]) => void;
   selectItem: (item: CourseItem) => void;
   level: number;
+  parentIds: string[];
+  openSections: Set<string>;
 };
 
 const Section: React.FC<SectionProps> = ({
@@ -122,9 +164,18 @@ const Section: React.FC<SectionProps> = ({
   toggleSection,
   selectItem,
   level,
+  parentIds,
+  openSections,
 }) => {
   const hasChildren = item.children && item.children.length > 0;
   const paddingLeft = `${level * 1}rem`;
+  const currentPath = [...parentIds, item.contentId];
+
+  // Determine if this section should be visible based on parent states
+  const isVisible =
+    level === 0 || parentIds.every((id) => openSections.has(id));
+
+  if (!isVisible) return null;
 
   return (
     <div className="py-2" style={{ paddingLeft }}>
@@ -133,32 +184,46 @@ const Section: React.FC<SectionProps> = ({
           ${
             item.type === "video"
               ? "cursor-pointer hover:text-blue-600"
-              : "text-gray-700 hover:text-gray-900"
+              : "text-gray-700 hover:text-gray-900 cursor-pointer"
           }`}
         onClick={() => {
           if (hasChildren) {
-            toggleSection(item.contentId);
+            toggleSection(item.contentId, parentIds);
           }
           selectItem(item);
         }}
       >
-        <span>{item.title}</span>
-        {hasChildren && (
-          <span>
-            {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        <div className="flex items-center justify-between w-full">
+          <span className={`${item.type === "video" ? "text-base" : ""}`}>
+            {!item.parentId ? `${item.orderIndex}. ${item.title}` : item.title}
           </span>
-        )}
+          {hasChildren && (
+            <span className="text-gray-500">
+              {isOpen ? (
+                <KeyboardArrowUpIcon className="h-5 w-5" />
+              ) : (
+                <KeyboardArrowDownIcon className="h-5 w-5" />
+              )}
+            </span>
+          )}
+        </div>
       </div>
-      {isOpen && hasChildren && (
-        <div className="ml-4">
+      {hasChildren && (
+        <div
+          className={`ml-3 transition-all duration-200 ${
+            isOpen ? "block" : "hidden"
+          }`}
+        >
           {item.children?.map((child) => (
             <Section
               key={child.contentId}
               item={child}
-              isOpen={false}
+              isOpen={openSections.has(child.contentId)}
               toggleSection={toggleSection}
               selectItem={selectItem}
               level={level + 1}
+              parentIds={currentPath}
+              openSections={openSections}
             />
           ))}
         </div>
