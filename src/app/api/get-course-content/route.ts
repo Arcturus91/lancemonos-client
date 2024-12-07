@@ -1,12 +1,17 @@
-import { VideoContent } from "@/app/types";
-import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+import { VideoContent, CourseItem } from "@/app/types";
+import {
+  DynamoDBClient,
+  ScanCommand,
+  ScanCommandInput,
+} from "@aws-sdk/client-dynamodb";
+import { unmarshall } from "@aws-sdk/util-dynamodb";
 
 const REGION = process.env.AWS_REGION;
 const client = new DynamoDBClient({ region: REGION });
 const courseContentTable = process.env.CONTENT_TABLE;
 
 export async function GET(): Promise<Response> {
-  const params = {
+  const params: ScanCommandInput = {
     TableName: courseContentTable,
   };
 
@@ -16,18 +21,15 @@ export async function GET(): Promise<Response> {
 
     if (!response?.Items) throw new Error("items undefined");
 
-    const normalizedData: VideoContent[] = response.Items.map((item: any) => {
-      return {
-        videoUrl: item.videoUrl.S,
-        videoKey: item.videoKey.S,
-        videoName: item.videoName.S,
-        videoSection: item.videoSection.S,
-        sectionOrder: item.sectionOrder.N,
-      };
-    });
+    if (!response?.Items) throw new Error("items undefined");
 
-    //console.log("success scanning db table", normalizedData);
-    return new Response(JSON.stringify(normalizedData));
+    // Unmarshall the items
+    const allCourseTree = response.Items.map((item) =>
+      unmarshall(item)
+    ) as CourseItem[];
+
+    console.log("unmarshalled items:", allCourseTree);
+    return new Response(JSON.stringify(allCourseTree));
   } catch (error) {
     console.error("There is an error getting content!: ", error);
     return new Response(JSON.stringify({ error }), {

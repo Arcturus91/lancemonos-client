@@ -6,9 +6,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import VideoPlayer from "./components/VideoPlayer";
 import CollapsibleContentList from "./components/CollapsibleContentList";
 import { useAuthContext } from "../contexts/AuthContext";
-import { VideoContent } from "../types";
+import { CourseItem } from "../types";
 import WelcomeContent from "./htmlContent/WelcomeContent";
-import WatchedVideoButton from "./components/WatchedVideoButton";
 import Spinner from "../components/LoadingSpinner";
 const PdfViewer = React.lazy(() => import("./components/PdfViewer"));
 
@@ -16,10 +15,8 @@ const FallBack: React.FC = () => <Spinner size="large" />;
 
 const LanzateProgramPage: React.FC = () => {
   const [contentType, setContentType] = useState<"video" | "text">("video");
-  const [selectedItem, setSelectedItem] =
-    useState<Partial<VideoContent> | null>(null);
-
-  const [allContentData, setAllContentData] = useState<VideoContent[] | null>(
+  const [selectedItem, setSelectedItem] = useState<CourseItem | null>(null);
+  const [allContentData, setAllContentData] = useState<CourseItem[] | null>(
     null
   );
   const [isLoading, setIsLoading] = useState(true);
@@ -50,9 +47,9 @@ const LanzateProgramPage: React.FC = () => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        const data = await response.json();
-        localStorage.setItem("courseContent", JSON.stringify(data));
-        setAllContentData(data);
+        const courseData: CourseItem[] = await response.json();
+        localStorage.setItem("courseContent", JSON.stringify(courseData));
+        setAllContentData(courseData);
       } catch (error) {
         console.error("Error fetching course content:", error);
         setError("Failed to fetch course content");
@@ -66,23 +63,28 @@ const LanzateProgramPage: React.FC = () => {
 
   useEffect(() => {
     checkAuth();
-    const item = searchParams.get("item");
-    if (item && typeof item === "string") {
-      if (!allContentData) return router.push("/courses");
-      const { videoUrl, videoName, videoKey } = allContentData?.find(
-        (videoItem: VideoContent) => videoItem.videoKey === item
-      ) as VideoContent;
-      setSelectedItem({ videoUrl, videoName, videoKey });
-    } else if (!item) {
+    const itemId = searchParams.get("item");
+    if (itemId && allContentData) {
+      const foundItem = allContentData.find(
+        (item) => item.contentId === itemId && item.type === "video"
+      );
+      if (foundItem) {
+        setSelectedItem(foundItem);
+        setContentType(foundItem.videoUrl?.includes("pdf") ? "text" : "video");
+      } else {
+        router.push("/courses");
+      }
+    } else if (!itemId) {
       setSelectedItem(null);
     }
   }, [pathname, searchParams, allContentData]);
 
-  const handleSelectItem = (selectedVideoData: VideoContent) => {
-    const { videoUrl, videoKey, videoName } = selectedVideoData;
-    setSelectedItem({ videoUrl, videoName, videoKey });
-    router.push(`courses/?item=${videoKey}`);
-    setContentType(videoUrl.includes("pdf") ? "text" : "video");
+  const handleSelectItem = (item: CourseItem) => {
+    if (item.type !== "video") return;
+
+    setSelectedItem(item);
+    router.push(`courses/?item=${item.contentId}`);
+    setContentType(item.videoUrl?.includes("pdf") ? "text" : "video");
   };
 
   const renderContent = useMemo(() => {

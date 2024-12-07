@@ -1,39 +1,49 @@
 "use client";
 import { useResponsiveLayout } from "@/app/hooks/useResposiveLayout";
-import { VideoContent } from "@/app/types";
-import { useState, useCallback, useEffect } from "react";
+import { CourseItem } from "@/app/types";
+import { useState, useCallback } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 type ContentListProps = {
-  handleSelectItem: (selectedVideoData: VideoContent) => void;
-  allContentData: VideoContent[];
+  handleSelectItem: (selectedItem: CourseItem) => void;
+  allContentData: CourseItem[];
 };
 
-const sortContentData = (a: VideoContent, b: VideoContent) =>
-  parseInt(a.sectionOrder) - parseInt(b.sectionOrder);
+// Helper function to build tree structure
+const buildTreeStructure = (items: CourseItem[]) => {
+  const itemMap = new Map<string, CourseItem & { children?: CourseItem[] }>();
+  const rootItems: (CourseItem & { children?: CourseItem[] })[] = [];
 
-const filterContentData = (
-  allVideoContent: VideoContent[],
-  section: string
-): string[] =>
-  allVideoContent
-    .filter((item: VideoContent) => item.videoSection === section)
-    .sort(sortContentData)
-    .map((item: VideoContent) => item.videoName);
+  // First pass: Create all items with potential children array
+  items.forEach((item) => {
+    itemMap.set(item.contentId, { ...item, children: [] });
+  });
 
-const CONTENT_SECTIONS = [
-  "1. Introducción",
-  "2. El Marco",
-  "3. Sistema N.O.M.A.S.",
-  "4. Círculos Sociales",
-  "5. Citas",
-  "6. Chats y Apps de Citas",
-  "7. Relaciones",
-  "8. Sesiones de Análisis de Interacciones",
-  "9. Sesiones de Juegos de Roles",
-  "10. Sesiones de Mentalidad",
-];
+  // Second pass: Build tree structure
+  items.forEach((item) => {
+    const treeItem = itemMap.get(item.contentId)!;
+    if (item.parentId === null) {
+      rootItems.push(treeItem);
+    } else {
+      const parent = itemMap.get(item.parentId);
+      if (parent) {
+        parent.children = parent.children || [];
+        parent.children.push(treeItem);
+      }
+    }
+  });
+
+  // Sort root items and children by orderIndex
+  rootItems.sort((a, b) => a.orderIndex - b.orderIndex);
+  rootItems.forEach((item) => {
+    if (item.children) {
+      item.children.sort((a, b) => a.orderIndex - b.orderIndex);
+    }
+  });
+
+  return rootItems;
+};
 
 const CollapsibleContentList: React.FC<ContentListProps> = ({
   handleSelectItem,
@@ -42,34 +52,25 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
   const { isSmallScreen, isExpanded, toggleExpand } = useResponsiveLayout();
 
-  const contentList = CONTENT_SECTIONS.reduce((acc, section) => {
-    const sectionKey = section.split(". ")[1];
-    acc[section] = filterContentData(allContentData, sectionKey);
-    return acc;
-  }, {} as Record<string, string[]>);
+  const treeStructure = buildTreeStructure(allContentData);
 
-  const toggleSection = useCallback((key: string) => {
-    setOpenSections((prevState) => ({
-      ...prevState,
-      [key]: !prevState[key],
+  const toggleSection = useCallback((contentId: string) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [contentId]: !prev[contentId],
     }));
   }, []);
 
-  const selectVideo = useCallback(
-    (videoName: string) => {
-      const contentItem = allContentData.find(
-        (item: VideoContent) => item.videoName === videoName
-      );
-      if (contentItem) {
-        handleSelectItem(contentItem);
+  const onSelectItem = useCallback(
+    (item: CourseItem) => {
+      if (item.type === "video") {
+        handleSelectItem(item);
         if (isSmallScreen) {
           toggleExpand();
         }
-      } else {
-        console.error(`Video content not found for: ${videoName}`);
       }
     },
-    [allContentData, handleSelectItem, isSmallScreen, toggleExpand]
+    [handleSelectItem, isSmallScreen, toggleExpand]
   );
 
   if (isSmallScreen && !isExpanded) {
@@ -93,14 +94,14 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
           Close
         </button>
       )}
-      {CONTENT_SECTIONS.map((category) => (
+      {treeStructure.map((section) => (
         <Section
-          key={category}
-          category={category}
-          isOpen={openSections[category]}
+          key={section.contentId}
+          item={section}
+          isOpen={openSections[section.contentId]}
           toggleSection={toggleSection}
-          items={contentList[category]}
-          selectVideo={selectVideo}
+          selectItem={onSelectItem}
+          level={0}
         />
       ))}
     </div>
@@ -108,37 +109,62 @@ const CollapsibleContentList: React.FC<ContentListProps> = ({
 };
 
 type SectionProps = {
-  category: string;
+  item: CourseItem & { children?: CourseItem[] };
   isOpen: boolean;
-  toggleSection: (key: string) => void;
-  items: string[];
-  selectVideo: (videoName: string) => void;
+  toggleSection: (contentId: string) => void;
+  selectItem: (item: CourseItem) => void;
+  level: number;
 };
 
 const Section: React.FC<SectionProps> = ({
-  category,
+  item,
   isOpen,
   toggleSection,
-  items,
-  selectVideo,
-}) => (
-  <div className="text-lg  py-3">
-    <button
-      className="flex justify-between items-center w-full py-2 text-left text-lg font-medium text-gray-700 hover:text-gray-900"
-      onClick={() => toggleSection(category)}
-    >
-      {category} {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-    </button>
-    {isOpen && (
-      <ul>
-        {items.map((item, index) => (
-          <li key={index} onClick={() => selectVideo(item)}>
-            {item}
-          </li>
-        ))}
-      </ul>
-    )}
-  </div>
-);
+  selectItem,
+  level,
+}) => {
+  const hasChildren = item.children && item.children.length > 0;
+  const paddingLeft = `${level * 1}rem`;
+
+  return (
+    <div className="py-2" style={{ paddingLeft }}>
+      <div
+        className={`flex justify-between items-center w-full py-2 text-left text-lg font-medium 
+          ${
+            item.type === "video"
+              ? "cursor-pointer hover:text-blue-600"
+              : "text-gray-700 hover:text-gray-900"
+          }`}
+        onClick={() => {
+          if (hasChildren) {
+            toggleSection(item.contentId);
+          }
+          selectItem(item);
+        }}
+      >
+        <span>{item.title}</span>
+        {hasChildren && (
+          <span>
+            {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </span>
+        )}
+      </div>
+      {isOpen && hasChildren && (
+        <div className="ml-4">
+          {item.children?.map((child) => (
+            <Section
+              key={child.contentId}
+              item={child}
+              isOpen={false}
+              toggleSection={toggleSection}
+              selectItem={selectItem}
+              level={level + 1}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default CollapsibleContentList;

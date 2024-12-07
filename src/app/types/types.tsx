@@ -24,3 +24,15 @@ export type UserData = {
   role: string;
   videosWatched: string[];
 };
+
+export interface CourseItem {
+  contentType: string;
+  contentId: string;
+  type: "section" | "video";
+  title: string;
+  parentId: string | null;
+  orderIndex: number;
+  videoKey?: string;
+  createdAt: string;
+  videoUrl?: string;
+}
